@@ -1,0 +1,141 @@
+/*
+ * Persistence Builder (pbuilder)
+ * Copyright (C) 2013..  Saul Correas Subias 
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * 
+ */
+#ifndef PBUILDER_H
+#define	PBUILDER_H
+
+#include <map>
+#include <log4cxx/logger.h>
+
+namespace pbuilder {
+
+    /* *************************************************************************
+     * Unit configured in pbuilder.xml
+     */
+    struct Unit {
+    public:
+        std::string name;
+        std::string url;
+        std::string ns;
+
+        Unit() : name(""), url(""), ns("") {
+        };
+
+    };
+
+    /* *************************************************************************
+     * Database column 
+     */
+    struct Column {
+    public:
+        std::string name;
+        int position;
+        bool nullable;
+        std::string type;
+        long charMaxLength;
+        long numericPrecision;
+        long numericScale;
+        std::string comment;
+
+        Column() : name(""), position(0), nullable(false), type("")
+        , charMaxLength(0L), numericPrecision(0L), numericScale(0L)
+        , comment("") {
+        };
+    };
+
+    /* *************************************************************************
+     * Database table
+     */
+    struct Table {
+    public:
+        std::string name;
+        std::map<std::string, Column * > * columns;
+
+        Table(const std::string & pname) : name(pname) {
+            columns = new std::map<std::string, Column *>();
+        }
+
+        ~Table() {
+            std::map<std::string, Column *>::iterator it;
+            for (it = columns->begin(); it != columns->end(); ++it) {
+                delete (*it).second;
+            }
+            delete columns;
+        }
+
+    };
+
+    /* *************************************************************************
+     * Database model
+     */
+    struct Model {
+    public:
+        std::string name;
+        std::map<std::string, Table * > * tables;
+
+        Model() {
+            tables = new std::map<std::string, Table *>();
+        }
+
+        ~Model() {
+            std::map<std::string, Table *>::iterator it;
+            for (it = tables->begin(); it != tables->end(); ++it) {
+                delete (*it).second;
+            }
+            delete tables;
+        }
+
+    };
+
+    /* *************************************************************************
+     * 
+     */
+    class PersistenceBuilder {
+    private:
+        static log4cxx::LoggerPtr logger;
+
+        std::string configFile;
+        std::string table;
+
+        void analyze(void);
+        void checkConfiguration(void);
+        void evaluateParameters(int argc, char ** argv);
+        void render(void);
+
+    public:
+        Unit * unit;
+        Model * model;
+
+        int main(int argc, char ** argv);
+
+        PersistenceBuilder() {
+            unit = new Unit();
+            model = new Model();
+        }
+
+        ~PersistenceBuilder() {
+            delete unit;
+            delete model;
+        }
+
+    };
+
+}
+
+#endif	/* PBUILDER_H */
+
