@@ -24,9 +24,6 @@
 
 namespace pbuilder {
 
-    /* *************************************************************************
-     * Unit configured in pbuilder.xml
-     */
     struct Unit {
     public:
         std::string name;
@@ -38,9 +35,6 @@ namespace pbuilder {
 
     };
 
-    /* *************************************************************************
-     * Database column 
-     */
     struct Column {
     public:
         std::string name;
@@ -58,9 +52,6 @@ namespace pbuilder {
         };
     };
 
-    /* *************************************************************************
-     * Database table
-     */
     struct Table {
     public:
         std::string name;
@@ -80,9 +71,6 @@ namespace pbuilder {
 
     };
 
-    /* *************************************************************************
-     * Database model
-     */
     struct Model {
     public:
         std::string name;
@@ -102,9 +90,6 @@ namespace pbuilder {
 
     };
 
-    /* *************************************************************************
-     * 
-     */
     class PersistenceBuilder {
     private:
         static log4cxx::LoggerPtr logger;
