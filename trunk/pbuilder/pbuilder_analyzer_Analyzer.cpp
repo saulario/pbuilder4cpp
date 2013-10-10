@@ -25,9 +25,6 @@ using namespace pbuilder::analyzer;
 
 log4cxx::LoggerPtr Analyzer::logger = log4cxx::Logger::getLogger("pbuilder::analyzer::Analyzer");
 
-/* *****************************************************************************
- *
- */
 Analyzer::Analyzer(pbuilder::PersistenceBuilder * pb) : pbuilder(pb), implementation(0) {
     LOG4CXX_TRACE(logger, "Analyzer -----> begin");
     
@@ -52,9 +49,6 @@ Analyzer::Analyzer(pbuilder::PersistenceBuilder * pb) : pbuilder(pb), implementa
     LOG4CXX_TRACE(logger, "Analyzer <----- end");
 }
 
-/* *****************************************************************************
- *
- */
 void Analyzer::analyze(void) {
     LOG4CXX_TRACE(logger, "analyze -----> begin");
     implementation->analyze();

@@ -36,20 +36,12 @@
 
 using namespace pbuilder;
 
-/*
- *  static initialization
- */
-
 log4cxx::LoggerPtr PersistenceBuilder::logger = log4cxx::Logger::getLogger("pbuilder::PersistenceBuilder");
 
-/* *****************************************************************************
- * 
- */
 int PersistenceBuilder::main(int argc, char** argv) {
 
     int rv = EXIT_SUCCESS;
 
-    // checks for first execution & log configuration
     checkConfiguration();
     std::string home(getenv("HOME"));
     log4cxx::PropertyConfigurator::configure(home + "/.pbuilder/etc/log4cxx.properties");
@@ -69,9 +61,6 @@ int PersistenceBuilder::main(int argc, char** argv) {
     return rv;
 }
 
-/* *****************************************************************************
- * Analyze database catalog
- */
 void PersistenceBuilder::analyze(void) {
     LOG4CXX_TRACE(logger, "analyze -----> begin");
     pbuilder::analyzer::Analyzer analyzer(this);
@@ -79,9 +68,6 @@ void PersistenceBuilder::analyze(void) {
     LOG4CXX_TRACE(logger, "analyze <----- end");
 }
 
-/* *****************************************************************************
- * Checks for configuration directory and files
- */
 void PersistenceBuilder::checkConfiguration(void) {
 
     std::string pbDir(getenv("HOME"));
@@ -91,7 +77,6 @@ void PersistenceBuilder::checkConfiguration(void) {
 
     struct stat sb;
 
-    // configuration directory
     if (stat(pbDir.c_str(), &sb) == -1) {
         std::cerr << "Creating pbuilder directory structure" << std::endl;
         mkdir(pbDir.c_str(), 0755);
@@ -147,9 +132,6 @@ void PersistenceBuilder::checkConfiguration(void) {
     configFile = f;
 }
 
-/* *****************************************************************************
- * evaluate command line parameters. Units must be configured in pbuilder.xml
- */
 void PersistenceBuilder::evaluateParameters(int argc, char** argv) {
     LOG4CXX_TRACE(logger, "evaluateParameters -----> begin");
 
@@ -171,12 +153,11 @@ void PersistenceBuilder::evaluateParameters(int argc, char** argv) {
     std::string punit = vm["unit"].as<std::string>();
     model->name = punit;
 
-    if (!vm.count("table")) {
-        throw std::runtime_error("Parameter table undefined");
+    table = "%";
+    if (vm.count("table")) {
+        table = vm["table"].as<std::string>();
     }
-    table = vm["table"].as<std::string>();
 
-    // load configuration file and check for unit configuration
     boost::property_tree::ptree pt;
     boost::property_tree::read_xml(configFile, pt);
     std::map<std::string, Unit *>unitMap;
@@ -217,9 +198,6 @@ void PersistenceBuilder::evaluateParameters(int argc, char** argv) {
     LOG4CXX_TRACE(logger, "evaluateParameters <----- end");
 }
 
-/* *****************************************************************************
- * Render C++ code
- */
 void PersistenceBuilder::render(void) {
     LOG4CXX_TRACE(logger, "render -----> begin");
     LOG4CXX_TRACE(logger, "render <----- end");

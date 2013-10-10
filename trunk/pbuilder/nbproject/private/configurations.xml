@@ -30,8 +30,9 @@
           <runcommandpicklistitem>"${OUTPUT_PATH}" --unit pepito --table all</runcommandpicklistitem>
           <runcommandpicklistitem>"${OUTPUT_PATH}" --unit test --table all</runcommandpicklistitem>
           <runcommandpicklistitem>"${OUTPUT_PATH}" --unit comet --table all</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" --unit comet --table %</runcommandpicklistitem>
         </runcommandpicklist>
-        <runcommand>"${OUTPUT_PATH}" --unit comet --table all</runcommand>
+        <runcommand>"${OUTPUT_PATH}" --unit comet --table %</runcommand>
         <rundir></rundir>
         <buildfirst>true</buildfirst>
         <terminal-type>0</terminal-type>

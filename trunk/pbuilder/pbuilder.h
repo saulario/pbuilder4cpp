@@ -19,8 +19,10 @@
 #ifndef PBUILDER_H
 #define	PBUILDER_H
 
-#include <map>
+#include <list>
 #include <log4cxx/logger.h>
+#include <map>
+#include <unordered_map>
 
 namespace pbuilder {
 
@@ -56,9 +58,11 @@ namespace pbuilder {
     public:
         std::string name;
         std::map<std::string, Column * > * columns;
+        std::list<std::string> * pkColumns;
 
         Table(const std::string & pname) : name(pname) {
             columns = new std::map<std::string, Column *>();
+            pkColumns = new std::list<std::string>();
         }
 
         ~Table() {
@@ -67,6 +71,7 @@ namespace pbuilder {
                 delete (*it).second;
             }
             delete columns;
+            delete pkColumns;
         }
 
     };
@@ -95,7 +100,6 @@ namespace pbuilder {
         static log4cxx::LoggerPtr logger;
 
         std::string configFile;
-        std::string table;
 
         void analyze(void);
         void checkConfiguration(void);
@@ -105,6 +109,7 @@ namespace pbuilder {
     public:
         Unit * unit;
         Model * model;
+        std::string table;
 
         int main(int argc, char ** argv);
 

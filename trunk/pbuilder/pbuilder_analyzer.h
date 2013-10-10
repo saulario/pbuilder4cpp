@@ -25,17 +25,11 @@
 namespace pbuilder {
     namespace analyzer {
 
-        /* *********************************************************************
-         *
-         */
         class AbstractAnalyzer {
         public:
             virtual void analyze(void) = 0;
         };
 
-        /* *********************************************************************
-         *
-         */
         class Analyzer {
         public:
             Analyzer(pbuilder::PersistenceBuilder * pbuilder);
@@ -47,18 +41,12 @@ namespace pbuilder {
             AbstractAnalyzer * implementation;
         };
 
-        /* *********************************************************************
-         *
-         */
         class TNTDBAnalyzer {
         protected:
             tntdb::Connection connection;
 
         };
 
-        /* *********************************************************************
-         *
-         */
         class MysqlAnalyzer : public AbstractAnalyzer, public TNTDBAnalyzer {
         public:
 
@@ -71,9 +59,6 @@ namespace pbuilder {
             pbuilder::PersistenceBuilder * pbuilder;
         };
 
-        /* *********************************************************************
-         *
-         */
 //        class OracleAnalyzer : public AbstractAnalyzer {
 //        public:
 //
@@ -87,9 +72,6 @@ namespace pbuilder {
 //            pbuilder::PersistenceBuilder pbuilder;
 //        };
 
-        /* *********************************************************************
-         *
-         */
 //        class PostgresqlAnalyzer : public AbstractAnalyzer {
 //        public:
 //
@@ -103,9 +85,6 @@ namespace pbuilder {
 //            pbuilder::PersistenceBuilder pbuilder;
 //        };
 
-        /* *********************************************************************
-         * 
-         */
 //        class SqliteAnalyzer : public AbstractAnalyzer {
 //        public:
 //
