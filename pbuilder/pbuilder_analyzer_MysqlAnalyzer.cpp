@@ -21,14 +21,9 @@
 
 #include "pbuilder_analyzer.h"
 
-
 using namespace pbuilder::analyzer;
 
 log4cxx::LoggerPtr MysqlAnalyzer::logger = log4cxx::Logger::getLogger("pbuilder::analyzer::MysqlAnalyzer");
-
-/* *****************************************************************************
- * 
- */
 
 void MysqlAnalyzer::analyze(void) {
     LOG4CXX_TRACE(logger, "analyze -----> begin");
@@ -36,8 +31,10 @@ void MysqlAnalyzer::analyze(void) {
     connection = tntdb::connect(pbuilder->unit->url);
 
     tntdb::Result tables = connection.prepare("SELECT * FROM TABLES WHERE "
-            "     TABLE_SCHEMA = :schema").
+            "     TABLE_SCHEMA = :schema"
+            " AND TABLE_NAME LIKE :table").
             setString("schema", pbuilder->unit->name).
+            setString("table", pbuilder->table).
             select()
             ;
 
@@ -56,6 +53,12 @@ void MysqlAnalyzer::analyze(void) {
                 setString("table", t->name).
                 select()
                 ;
+        for (tntdb::Row column : columns) {
+            pbuilder::Column * c = new pbuilder::Column();
+            c->name = column.getString("COLUMN_NAME");
+            t->columns->insert(
+                    std::pair<std::string, pbuilder::Column*>(c->name, c));
+        }
 
         tntdb::Result pkColumns = connection.prepare("SELECT * FROM KEY_COLUMN_USAGE WHERE "
                 "     TABLE_SCHEMA = :schema "
@@ -66,7 +69,10 @@ void MysqlAnalyzer::analyze(void) {
                 setString("table", t->name).
                 setString("name", "PRIMARY").
                 select()
-                ;        
+                ;
+        for (tntdb::Row columns : pkColumns) {
+            
+        }
 
         //        for (tntdb::Row column : columns) {
         //            std::string name = column.getString("COLUMN_NAME");
@@ -78,6 +84,12 @@ void MysqlAnalyzer::analyze(void) {
 
     }
 
+    pbuilder::Table * toc = pbuilder->model->tables->find("toc")->second;
+    std::map<std::string, pbuilder::Column *>::iterator it;
+    for (it = toc->columns->begin(); it != toc->columns->end(); ++it) {
+        Column * c = (*it).second;
+        std::cerr << c->name << std::endl;
+    }
 
 
 
