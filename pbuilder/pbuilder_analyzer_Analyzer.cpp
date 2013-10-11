@@ -28,12 +28,12 @@ log4cxx::LoggerPtr Analyzer::logger = log4cxx::Logger::getLogger("pbuilder::anal
 Analyzer::Analyzer(pbuilder::PersistenceBuilder * pb) : pbuilder(pb), implementation(0) {
     LOG4CXX_TRACE(logger, "Analyzer -----> begin");
     
-    std::string::size_type n = pbuilder->unit->url.find(":");
+    std::string::size_type n = pbuilder->unit.url.find(":");
     if (n == std::string::npos) {
         throw std::runtime_error("Invalid url");
     }
     
-    std::string driver = pbuilder->unit->url.substr(0, n);
+    std::string driver = pbuilder->unit.url.substr(0, n);
     if (driver.compare("mysql") == 0) {
         implementation = static_cast<AbstractAnalyzer *> (new MysqlAnalyzer(pbuilder));
 //    } else if (driver.compare("postgresql")) {

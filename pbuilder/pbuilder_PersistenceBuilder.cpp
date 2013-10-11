@@ -151,7 +151,7 @@ void PersistenceBuilder::evaluateParameters(int argc, char** argv) {
         throw std::runtime_error("Parameter unit undefined");
     }
     std::string punit = vm["unit"].as<std::string>();
-    model->name = punit;
+    model.name = punit;
 
     table = "%";
     if (vm.count("table")) {
@@ -190,9 +190,9 @@ void PersistenceBuilder::evaluateParameters(int argc, char** argv) {
         throw std::runtime_error("Unconfigured unit");
     }
     Unit * ptr = unitMap.find(punit)->second;
-    unit->name = ptr->name;
-    unit->url = ptr->url;
-    unit->ns = ptr->ns;
+    unit.name = ptr->name;
+    unit.url = ptr->url;
+    unit.ns = ptr->ns;
     for (std::pair<std::string, Unit*> pair : unitMap) delete pair.second;
 
     LOG4CXX_TRACE(logger, "evaluateParameters <----- end");
