@@ -28,36 +28,31 @@ log4cxx::LoggerPtr MysqlAnalyzer::logger = log4cxx::Logger::getLogger("pbuilder:
 void MysqlAnalyzer::analyze(void) {
     LOG4CXX_TRACE(logger, "analyze -----> begin");
 
-    connection = tntdb::connect(pbuilder->unit->url);
+    connection = tntdb::connect(pbuilder->unit.url);
 
     tntdb::Result tables = connection.prepare("SELECT * FROM TABLES WHERE "
             "     TABLE_SCHEMA = :schema"
             " AND TABLE_NAME LIKE :table").
-            setString("schema", pbuilder->unit->name).
+            setString("schema", pbuilder->unit.name).
             setString("table", pbuilder->table).
             select()
             ;
 
-    for (tntdb::Row table : tables) {
-        pbuilder::Table * t = new pbuilder::Table(table.getString("TABLE_NAME"));
-        pbuilder->model->tables->insert(
-                std::pair<std::string, pbuilder::Table *>(t->name, t));
-
-        std::cerr << t->name << std::endl;
+    for (tntdb::Row row : tables) {
+        pbuilder::Table table(row.getString("TABLE_NAME"));
 
         tntdb::Result columns = connection.prepare("SELECT * FROM COLUMNS WHERE "
                 "     TABLE_SCHEMA = :schema "
                 " AND TABLE_NAME = :table"
                 " ORDER BY ORDINAL_POSITION").
-                setString("schema", pbuilder->unit->name).
-                setString("table", t->name).
+                setString("schema", pbuilder->unit.name).
+                setString("table", table.name).
                 select()
                 ;
-        for (tntdb::Row column : columns) {
-            pbuilder::Column * c = new pbuilder::Column();
-            c->name = column.getString("COLUMN_NAME");
-            t->columns->insert(
-                    std::pair<std::string, pbuilder::Column*>(c->name, c));
+        for (tntdb::Row row1 : columns) {
+            pbuilder::Column column;
+            column.name = row1.getString("COLUMN_NAME");
+            table.columns.insert(std::pair<std::string, pbuilder::Column>(column.name, column));
         }
 
         tntdb::Result pkColumns = connection.prepare("SELECT * FROM KEY_COLUMN_USAGE WHERE "
@@ -65,13 +60,13 @@ void MysqlAnalyzer::analyze(void) {
                 " AND TABLE_NAME = :table "
                 " AND CONSTRAINT_NAME = :name "
                 " ORDER BY ORDINAL_POSITION").
-                setString("schema", pbuilder->unit->name).
-                setString("table", t->name).
+                setString("schema", pbuilder->unit.name).
+                setString("table", table.name).
                 setString("name", "PRIMARY").
                 select()
                 ;
-        for (tntdb::Row columns : pkColumns) {
-            
+        for (tntdb::Row row1 : pkColumns) {
+            table.pkColumns.push_back(row1.getString("COLUMN_NAME"));
         }
 
         //        for (tntdb::Row column : columns) {
@@ -81,17 +76,24 @@ void MysqlAnalyzer::analyze(void) {
         //                    std::pair<std::string, pbuilder::Column>(name, c));
         //        }
 
+        pbuilder->model.tables.insert(std::pair<std::string, pbuilder::Table>(table.name, table));
 
     }
 
-    pbuilder::Table * toc = pbuilder->model->tables->find("toc")->second;
-    std::map<std::string, pbuilder::Column *>::iterator it;
-    for (it = toc->columns->begin(); it != toc->columns->end(); ++it) {
-        Column * c = (*it).second;
-        std::cerr << c->name << std::endl;
+    for (std::pair<std::string, pbuilder::Table> p : pbuilder->model.tables) {
+        pbuilder::Table table = p.second;
+        if (table.name.compare("toc") == 0) {
+            std::cerr << table.name << std::endl;
+            for (std::pair<std::string, pbuilder::Column> p1 : table.columns) {
+                pbuilder::Column column = p1.second;
+                std::cerr << column.name << std::endl;
+            }
+            std::cerr << " ahora la clave" << std::endl;
+            for (std::string column : table.pkColumns) {
+                std::cerr << column << std::endl;
+            }
+        }
     }
-
-
 
 
     connection.close();

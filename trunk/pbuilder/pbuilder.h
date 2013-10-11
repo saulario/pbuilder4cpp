@@ -22,7 +22,6 @@
 #include <list>
 #include <log4cxx/logger.h>
 #include <map>
-#include <unordered_map>
 
 namespace pbuilder {
 
@@ -57,21 +56,10 @@ namespace pbuilder {
     struct Table {
     public:
         std::string name;
-        std::map<std::string, Column * > * columns;
-        std::list<std::string> * pkColumns;
+        std::map<std::string, Column> columns;
+        std::list<std::string> pkColumns;
 
         Table(const std::string & pname) : name(pname) {
-            columns = new std::map<std::string, Column *>();
-            pkColumns = new std::list<std::string>();
-        }
-
-        ~Table() {
-            std::map<std::string, Column *>::iterator it;
-            for (it = columns->begin(); it != columns->end(); ++it) {
-                delete (*it).second;
-            }
-            delete columns;
-            delete pkColumns;
         }
 
     };
@@ -79,20 +67,10 @@ namespace pbuilder {
     struct Model {
     public:
         std::string name;
-        std::map<std::string, Table * > * tables;
+        std::map<std::string, Table> tables;
 
-        Model() {
-            tables = new std::map<std::string, Table *>();
+        Model() : name("") {
         }
-
-        ~Model() {
-            std::map<std::string, Table *>::iterator it;
-            for (it = tables->begin(); it != tables->end(); ++it) {
-                delete (*it).second;
-            }
-            delete tables;
-        }
-
     };
 
     class PersistenceBuilder {
@@ -107,25 +85,16 @@ namespace pbuilder {
         void render(void);
 
     public:
-        Unit * unit;
-        Model * model;
+        Unit unit;
+        Model model;
         std::string table;
 
+        PersistenceBuilder() : table(""), configFile("") {
+        }
         int main(int argc, char ** argv);
-
-        PersistenceBuilder() {
-            unit = new Unit();
-            model = new Model();
-        }
-
-        ~PersistenceBuilder() {
-            delete unit;
-            delete model;
-        }
 
     };
 
 }
 
 #endif	/* PBUILDER_H */
-
