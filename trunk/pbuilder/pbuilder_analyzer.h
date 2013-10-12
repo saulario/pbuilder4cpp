@@ -32,12 +32,12 @@ namespace pbuilder {
 
         class Analyzer {
         public:
-            Analyzer(pbuilder::PersistenceBuilder * pbuilder);
+            Analyzer(pbuilder::PersistenceBuilder & pbuilder);
             void analyze(void);
 
         private:
             static log4cxx::LoggerPtr logger;
-            pbuilder::PersistenceBuilder * pbuilder;
+            pbuilder::PersistenceBuilder pbuilder;
             AbstractAnalyzer * implementation;
         };
 
@@ -50,13 +50,13 @@ namespace pbuilder {
         class MysqlAnalyzer : public AbstractAnalyzer, public TNTDBAnalyzer {
         public:
 
-            MysqlAnalyzer(pbuilder::PersistenceBuilder * p) : pbuilder(p) {
+            MysqlAnalyzer(pbuilder::PersistenceBuilder & p) : pbuilder(p) {
             };
             void analyze(void);
 
         private:
             static log4cxx::LoggerPtr logger;
-            pbuilder::PersistenceBuilder * pbuilder;
+            pbuilder::PersistenceBuilder & pbuilder;
         };
 
 //        class OracleAnalyzer : public AbstractAnalyzer {

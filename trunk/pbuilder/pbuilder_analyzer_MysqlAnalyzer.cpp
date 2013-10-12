@@ -28,13 +28,13 @@ log4cxx::LoggerPtr MysqlAnalyzer::logger = log4cxx::Logger::getLogger("pbuilder:
 void MysqlAnalyzer::analyze(void) {
     LOG4CXX_TRACE(logger, "analyze -----> begin");
 
-    connection = tntdb::connect(pbuilder->unit.url);
+    connection = tntdb::connect(pbuilder.unit.url);
 
     tntdb::Result tables = connection.prepare("SELECT * FROM TABLES WHERE "
             "     TABLE_SCHEMA = :schema"
             " AND TABLE_NAME LIKE :table").
-            setString("schema", pbuilder->unit.name).
-            setString("table", pbuilder->table).
+            setString("schema", pbuilder.unit.name).
+            setString("table", pbuilder.table).
             select()
             ;
 
@@ -45,7 +45,7 @@ void MysqlAnalyzer::analyze(void) {
                 "     TABLE_SCHEMA = :schema "
                 " AND TABLE_NAME = :table"
                 " ORDER BY ORDINAL_POSITION").
-                setString("schema", pbuilder->unit.name).
+                setString("schema", pbuilder.unit.name).
                 setString("table", table.name).
                 select()
                 ;
@@ -60,7 +60,7 @@ void MysqlAnalyzer::analyze(void) {
                 " AND TABLE_NAME = :table "
                 " AND CONSTRAINT_NAME = :name "
                 " ORDER BY ORDINAL_POSITION").
-                setString("schema", pbuilder->unit.name).
+                setString("schema", pbuilder.unit.name).
                 setString("table", table.name).
                 setString("name", "PRIMARY").
                 select()
@@ -76,11 +76,11 @@ void MysqlAnalyzer::analyze(void) {
         //                    std::pair<std::string, pbuilder::Column>(name, c));
         //        }
 
-        pbuilder->model.tables.insert(std::pair<std::string, pbuilder::Table>(table.name, table));
+        pbuilder.model.tables.insert(std::pair<std::string, pbuilder::Table>(table.name, table));
 
     }
 
-    for (std::pair<std::string, pbuilder::Table> p : pbuilder->model.tables) {
+    for (std::pair<std::string, pbuilder::Table> p : pbuilder.model.tables) {
         pbuilder::Table table = p.second;
         if (table.name.compare("toc") == 0) {
             std::cerr << table.name << std::endl;

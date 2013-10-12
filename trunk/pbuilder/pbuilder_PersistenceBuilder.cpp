@@ -63,7 +63,7 @@ int PersistenceBuilder::main(int argc, char** argv) {
 
 void PersistenceBuilder::analyze(void) {
     LOG4CXX_TRACE(logger, "analyze -----> begin");
-    pbuilder::analyzer::Analyzer analyzer(this);
+    pbuilder::analyzer::Analyzer analyzer(*this);
     analyzer.analyze();
     LOG4CXX_TRACE(logger, "analyze <----- end");
 }
