@@ -56,8 +56,8 @@ namespace pbuilder {
     struct Table {
     public:
         std::string name;
-        std::map<std::string, Column> columns;
-        std::list<std::string> pkColumns;
+        std::list<Column> columns;
+        std::list<Column> pkColumns;
 
         Table(const std::string & pname) : name(pname) {
         }
