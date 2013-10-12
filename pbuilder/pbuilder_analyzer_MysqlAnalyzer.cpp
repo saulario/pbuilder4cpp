@@ -32,7 +32,8 @@ void MysqlAnalyzer::analyze(void) {
 
     tntdb::Result tables = connection.prepare("SELECT * FROM TABLES WHERE "
             "     TABLE_SCHEMA = :schema"
-            " AND TABLE_NAME LIKE :table").
+            " AND TABLE_NAME LIKE :table"
+            " ORDER BY TABLE_NAME").
             setString("schema", pbuilder.unit.name).
             setString("table", pbuilder.table).
             select()
@@ -52,49 +53,32 @@ void MysqlAnalyzer::analyze(void) {
         for (tntdb::Row row1 : columns) {
             pbuilder::Column column;
             column.name = row1.getString("COLUMN_NAME");
-            table.columns.insert(std::pair<std::string, pbuilder::Column>(column.name, column));
+            table.columns.push_back(column);
         }
 
-        tntdb::Result pkColumns = connection.prepare("SELECT * FROM KEY_COLUMN_USAGE WHERE "
-                "     TABLE_SCHEMA = :schema "
-                " AND TABLE_NAME = :table "
-                " AND CONSTRAINT_NAME = :name "
-                " ORDER BY ORDINAL_POSITION").
+        tntdb::Result pkColumns = connection.prepare(
+                "SELECT KCU.ORDINAL_POSITION, COL.* "
+                " FROM COLUMNS COL, KEY_COLUMN_USAGE KCU  WHERE "
+                "     COL.TABLE_SCHEMA = :schema "
+                " AND COL.TABLE_NAME = :table "
+                " AND KCU.CONSTRAINT_NAME = :name "
+                " AND KCU.TABLE_SCHEMA = COL.TABLE_SCHEMA "
+                " AND KCU.TABLE_NAME = COL.TABLE_NAME "
+                " AND KCU.COLUMN_NAME = COL.COLUMN_NAME "
+                " ORDER BY KCU.ORDINAL_POSITION").
                 setString("schema", pbuilder.unit.name).
                 setString("table", table.name).
                 setString("name", "PRIMARY").
                 select()
                 ;
         for (tntdb::Row row1 : pkColumns) {
-            table.pkColumns.push_back(row1.getString("COLUMN_NAME"));
+            pbuilder::Column column;
+            column.name = row1.getString("COLUMN_NAME");
+            table.pkColumns.push_back(column);
         }
-
-        //        for (tntdb::Row column : columns) {
-        //            std::string name = column.getString("COLUMN_NAME");
-        //            pbuilder::Column c;
-        //            t.columns.insert(
-        //                    std::pair<std::string, pbuilder::Column>(name, c));
-        //        }
 
         pbuilder.model.tables.insert(std::pair<std::string, pbuilder::Table>(table.name, table));
-
     }
-
-    for (std::pair<std::string, pbuilder::Table> p : pbuilder.model.tables) {
-        pbuilder::Table table = p.second;
-        if (table.name.compare("toc") == 0) {
-            std::cerr << table.name << std::endl;
-            for (std::pair<std::string, pbuilder::Column> p1 : table.columns) {
-                pbuilder::Column column = p1.second;
-                std::cerr << column.name << std::endl;
-            }
-            std::cerr << " ahora la clave" << std::endl;
-            for (std::string column : table.pkColumns) {
-                std::cerr << column << std::endl;
-            }
-        }
-    }
-
 
     connection.close();
 
