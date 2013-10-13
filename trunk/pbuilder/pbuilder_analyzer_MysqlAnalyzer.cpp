@@ -18,6 +18,7 @@
  */
 #include <tntdb/connect.h>
 #include <tntdb/result.h>
+#include <tntdb/error.h>
 
 #include "pbuilder_analyzer.h"
 
@@ -53,6 +54,26 @@ void MysqlAnalyzer::analyze(void) {
         for (tntdb::Row row1 : columns) {
             pbuilder::Column column;
             column.name = row1.getString("COLUMN_NAME");
+            column.position = row1.getUnsigned64("ORDINAL_POSITION");
+            column.nullable = (row1.getString("IS_NULLABLE").compare("YES") == 0);
+            column.type = row1.getString("DATA_TYPE");
+            try {
+                column.charMaxLength = row1.getUnsigned64("CHARACTER_MAXIMUM_LENGTH");
+            } catch (tntdb::NullValue) {
+            }
+            try {
+                column.numericPrecision = row1.getUnsigned64("NUMERIC_PRECISION");
+            } catch (tntdb::NullValue) {
+            }
+            try {
+                column.numericScale = row1.getUnsigned64("NUMERIC_SCALE");
+            } catch (tntdb::NullValue) {
+            }
+            try {
+                column.defaultValue = row1.getString("COLUMN_DEFAULT");
+            } catch (tntdb::NullValue) {
+            }
+            column.comment = row1.getString("COLUMN_COMMENT");
             table.columns.push_back(column);
         }
 
@@ -74,6 +95,26 @@ void MysqlAnalyzer::analyze(void) {
         for (tntdb::Row row1 : pkColumns) {
             pbuilder::Column column;
             column.name = row1.getString("COLUMN_NAME");
+            column.position = row1.getUnsigned64("ORDINAL_POSITION");
+            column.nullable = (row1.getString("IS_NULLABLE").compare("YES") == 0);
+            column.type = row1.getString("DATA_TYPE");
+            try {
+                column.charMaxLength = row1.getUnsigned64("CHARACTER_MAXIMUM_LENGTH");
+            } catch (tntdb::NullValue) {
+            }
+            try {
+                column.numericPrecision = row1.getUnsigned64("NUMERIC_PRECISION");
+            } catch (tntdb::NullValue) {
+            }
+            try {
+                column.numericScale = row1.getUnsigned64("NUMERIC_SCALE");
+            } catch (tntdb::NullValue) {
+            }
+            try {
+                column.defaultValue = row1.getString("COLUMN_DEFAULT");
+            } catch (tntdb::NullValue) {
+            }
+            column.comment = row1.getString("COLUMN_COMMENT");
             table.pkColumns.push_back(column);
         }
 

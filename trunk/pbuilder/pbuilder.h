@@ -19,6 +19,7 @@
 #ifndef PBUILDER_H
 #define	PBUILDER_H
 
+#include <iostream>
 #include <list>
 #include <log4cxx/logger.h>
 #include <map>
@@ -45,11 +46,12 @@ namespace pbuilder {
         long charMaxLength;
         long numericPrecision;
         long numericScale;
+        std::string defaultValue;
         std::string comment;
 
         Column() : name(""), position(0), nullable(false), type("")
         , charMaxLength(0L), numericPrecision(0L), numericScale(0L)
-        , comment("") {
+        , defaultValue(""), comment("") {
         };
     };
 
@@ -61,7 +63,7 @@ namespace pbuilder {
 
         Table(const std::string & pname) : name(pname) {
         }
-
+        
     };
 
     struct Model {
