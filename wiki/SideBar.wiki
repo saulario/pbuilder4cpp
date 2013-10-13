@@ -1,1 +1,6 @@
-void SideBar
+
+ * Overwiew
+  * Analyzer
+  * Render
+ * Getting started
+ * Configuration
