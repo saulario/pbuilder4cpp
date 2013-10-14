@@ -28,6 +28,9 @@ namespace pbuilder {
         class AbstractAnalyzer {
         public:
             virtual void analyze(void) = 0;
+
+        private:
+            virtual pbuilder::MODEL_TYPE getModelType(const std::string &) = 0;
         };
 
         class Analyzer {
@@ -57,46 +60,10 @@ namespace pbuilder {
         private:
             static log4cxx::LoggerPtr logger;
             pbuilder::PersistenceBuilder & pbuilder;
+
+            pbuilder::MODEL_TYPE getModelType(const std::string & ptype);
         };
 
-//        class OracleAnalyzer : public AbstractAnalyzer {
-//        public:
-//
-//            OracleAnalyzer(const pbuilder::PersistenceBuilder &) : pbuilder(pbuilder) {
-//            };
-//
-//            void analyze(pbuilder::Model & model) {
-//            };
-//
-//        private:
-//            pbuilder::PersistenceBuilder pbuilder;
-//        };
-
-//        class PostgresqlAnalyzer : public AbstractAnalyzer {
-//        public:
-//
-//            PostgresqlAnalyzer(const pbuilder::PersistenceBuilder &) : pbuilder(pbuilder) {
-//            };
-//
-//            void analyze(pbuilder::Model & model) {
-//            };
-//
-//        private:
-//            pbuilder::PersistenceBuilder pbuilder;
-//        };
-
-//        class SqliteAnalyzer : public AbstractAnalyzer {
-//        public:
-//
-//            SqliteAnalyzer(const pbuilder::PersistenceBuilder &) : pbuilder(pbuilder) {
-//            };
-//
-//            void analyze(pbuilder::Model & model) {
-//            };
-//
-//        private:
-//            pbuilder::PersistenceBuilder pbuilder;
-//        };
 
     }
 }
