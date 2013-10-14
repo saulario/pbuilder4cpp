@@ -56,7 +56,8 @@ void MysqlAnalyzer::analyze(void) {
             column.name = row1.getString("COLUMN_NAME");
             column.position = row1.getUnsigned64("ORDINAL_POSITION");
             column.nullable = (row1.getString("IS_NULLABLE").compare("YES") == 0);
-            column.type = row1.getString("DATA_TYPE");
+            column.schemaType = row1.getString("DATA_TYPE");
+            column.type = getModelType(column.schemaType);
             try {
                 column.charMaxLength = row1.getUnsigned64("CHARACTER_MAXIMUM_LENGTH");
             } catch (tntdb::NullValue) {
@@ -97,7 +98,8 @@ void MysqlAnalyzer::analyze(void) {
             column.name = row1.getString("COLUMN_NAME");
             column.position = row1.getUnsigned64("ORDINAL_POSITION");
             column.nullable = (row1.getString("IS_NULLABLE").compare("YES") == 0);
-            column.type = row1.getString("DATA_TYPE");
+            column.schemaType = row1.getString("DATA_TYPE");
+            column.type = getModelType(column.schemaType);
             try {
                 column.charMaxLength = row1.getUnsigned64("CHARACTER_MAXIMUM_LENGTH");
             } catch (tntdb::NullValue) {
@@ -124,4 +126,41 @@ void MysqlAnalyzer::analyze(void) {
     connection.close();
 
     LOG4CXX_TRACE(logger, "analyze <----- end");
+}
+
+pbuilder::MODEL_TYPE MysqlAnalyzer::getModelType(const std::string & ptype) {
+
+    if (ptype.compare("smallint") == 0) {
+        return SMALLINT;
+    } else if (ptype.compare("int") == 0) {
+        return INTEGER;
+    } else if (ptype.compare("bigint") == 0) {
+        return BIGINT;
+    } else if (ptype.compare("decimal") == 0) {
+        return DOUBLE;
+    } else if (ptype.compare("char") == 0) {
+        return STRING;
+    } else if (ptype.compare("varchar") == 0) {
+        return STRING;
+    } else if (ptype.compare("text") == 0) {
+        return STRING;
+    } else if (ptype.compare("longtext") == 0) {
+        return STRING;
+    } else if (ptype.compare("date") == 0) {
+        return DATE;
+    } else if (ptype.compare("time") == 0) {
+        return TIME;
+    } else if (ptype.compare("datetime") == 0) {
+        return DATETIME;
+    } else if (ptype.compare("timestamp") == 0) {
+        return TIMESTAMP;
+    } else if (ptype.compare("longblob") == 0) {
+        return BLOB;
+    } else if (ptype.compare("point") == 0) {
+        return POINT;
+    } else if (ptype.compare("polygon") == 0) {
+        return POLYGON;
+    }
+
+    return STRING;
 }

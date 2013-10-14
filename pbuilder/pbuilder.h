@@ -26,6 +26,27 @@
 
 namespace pbuilder {
 
+    enum MODEL_TYPE {
+        SMALLINT,
+        INTEGER,
+        BIGINT,
+        FLOAT,
+        DOUBLE,
+        STRING,
+        CLOB,
+        DATE,
+        TIME,
+        DATETIME,
+        TIMESTAMP,
+        BIT,
+        BLOB,
+        POINT,
+        LINE,
+        BOX,
+        POLYGON,
+        CIRCLE
+    };
+
     struct Unit {
     public:
         std::string name;
@@ -42,15 +63,16 @@ namespace pbuilder {
         std::string name;
         int position;
         bool nullable;
-        std::string type;
+        std::string schemaType;
+        MODEL_TYPE type;
         long charMaxLength;
         long numericPrecision;
         long numericScale;
         std::string defaultValue;
         std::string comment;
 
-        Column() : name(""), position(0), nullable(false), type("")
-        , charMaxLength(0L), numericPrecision(0L), numericScale(0L)
+        Column() : name(""), position(0), nullable(false), schemaType("")
+        , type(STRING), charMaxLength(0L), numericPrecision(0L), numericScale(0L)
         , defaultValue(""), comment("") {
         };
     };
@@ -63,7 +85,7 @@ namespace pbuilder {
 
         Table(const std::string & pname) : name(pname) {
         }
-        
+
     };
 
     struct Model {
