@@ -21,6 +21,9 @@
       <itemPath>pbuilder_analyzer_OracleAnalyzer.cpp</itemPath>
       <itemPath>pbuilder_analyzer_PostgresqlAnalyzer.cpp</itemPath>
       <itemPath>pbuilder_analyzer_SqliteAnalyzer.cpp</itemPath>
+      <itemPath>pbuilder_render.h</itemPath>
+      <itemPath>pbuilder_render_Render.cpp</itemPath>
+      <itemPath>pbuilder_render_TNTDBRender.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
                    displayName="Test Files"
@@ -87,6 +90,12 @@
             tool="1"
             flavor2="0">
       </item>
+      <item path="pbuilder_render.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="pbuilder_render_Render.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="pbuilder_render_TNTDBRender.cpp" ex="false" tool="1" flavor2="0">
+      </item>
     </conf>
     <conf name="Release" type="1">
       <toolsSet>
@@ -138,6 +147,12 @@
             ex="false"
             tool="1"
             flavor2="0">
+      </item>
+      <item path="pbuilder_render.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="pbuilder_render_Render.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="pbuilder_render_TNTDBRender.cpp" ex="false" tool="1" flavor2="0">
       </item>
     </conf>
   </confs>

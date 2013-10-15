@@ -33,6 +33,7 @@
 
 #include "pbuilder.h"
 #include "pbuilder_analyzer.h"
+#include "pbuilder_render.h"
 
 using namespace pbuilder;
 
@@ -200,5 +201,7 @@ void PersistenceBuilder::evaluateParameters(int argc, char** argv) {
 
 void PersistenceBuilder::render(void) {
     LOG4CXX_TRACE(logger, "render -----> begin");
+    pbuilder::render::Render render(*this);
+    render.render();
     LOG4CXX_TRACE(logger, "render <----- end");
 }

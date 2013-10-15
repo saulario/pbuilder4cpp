@@ -41,7 +41,9 @@ OBJECTFILES= \
 	${OBJECTDIR}/pbuilder_analyzer_MysqlAnalyzer.o \
 	${OBJECTDIR}/pbuilder_analyzer_OracleAnalyzer.o \
 	${OBJECTDIR}/pbuilder_analyzer_PostgresqlAnalyzer.o \
-	${OBJECTDIR}/pbuilder_analyzer_SqliteAnalyzer.o
+	${OBJECTDIR}/pbuilder_analyzer_SqliteAnalyzer.o \
+	${OBJECTDIR}/pbuilder_render_Render.o \
+	${OBJECTDIR}/pbuilder_render_TNTDBRender.o
 
 
 # C Compiler Flags
@@ -102,6 +104,16 @@ ${OBJECTDIR}/pbuilder_analyzer_SqliteAnalyzer.o: pbuilder_analyzer_SqliteAnalyze
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/pbuilder_analyzer_SqliteAnalyzer.o pbuilder_analyzer_SqliteAnalyzer.cpp
+
+${OBJECTDIR}/pbuilder_render_Render.o: pbuilder_render_Render.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/pbuilder_render_Render.o pbuilder_render_Render.cpp
+
+${OBJECTDIR}/pbuilder_render_TNTDBRender.o: pbuilder_render_TNTDBRender.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/pbuilder_render_TNTDBRender.o pbuilder_render_TNTDBRender.cpp
 
 # Subprojects
 .build-subprojects:
