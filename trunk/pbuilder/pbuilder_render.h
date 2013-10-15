@@ -16,58 +16,47 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * 
  */
-#ifndef PBUILDER_ANALYZER_H
-#define	PBUILDER_ANALYZER_H
+#ifndef PBUILDER_RENDER_H
+#define	PBUILDER_RENDER_H
 
-#include <tntdb/connection.h>
 #include "pbuilder.h"
 
+
 namespace pbuilder {
-    namespace analyzer {
+    namespace render {
 
-        class AbstractAnalyzer {
+        class AbstractRender {
         public:
-            virtual void analyze(void) = 0;
+            virtual void render(void) = 0;
 
-        private:
-            virtual pbuilder::MODEL_TYPE getModelType(const std::string &) = 0;
         };
 
-        class Analyzer {
+        class Render {
         public:
-            Analyzer(pbuilder::PersistenceBuilder & pbuilder);
-            ~Analyzer(void);
-            void analyze(void);
+            Render(pbuilder::PersistenceBuilder & pbuilder);
+            ~Render();
+            void render(void);
 
         private:
             static log4cxx::LoggerPtr logger;
             pbuilder::PersistenceBuilder pbuilder;
-            AbstractAnalyzer * implementation;
+            AbstractRender * implementation;
         };
 
-        class TNTDBAnalyzer {
-        protected:
-            tntdb::Connection connection;
-
-        };
-
-        class MysqlAnalyzer : public AbstractAnalyzer, public TNTDBAnalyzer {
+        class TNTDBRender : public AbstractRender {
         public:
 
-            MysqlAnalyzer(pbuilder::PersistenceBuilder & p) : pbuilder(p) {
+            TNTDBRender(pbuilder::PersistenceBuilder & p) : pbuilder(p) {
             };
-            void analyze(void);
+            void render(void);
 
         private:
             static log4cxx::LoggerPtr logger;
             pbuilder::PersistenceBuilder & pbuilder;
-
-            pbuilder::MODEL_TYPE getModelType(const std::string & ptype);
         };
-
 
     }
 }
 
-#endif	/* PBUILDER_ANALYZER_H */
+#endif	/* PBUILDER_RENDER_H */
 
