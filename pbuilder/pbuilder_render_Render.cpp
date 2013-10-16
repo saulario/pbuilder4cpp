@@ -36,6 +36,28 @@ Render::~Render() {
 
 void Render::render(void) {
     LOG4CXX_TRACE(logger, "render -----> begin");
-//    implementation->render();
+    
+    for (std::pair<std::string, pbuilder::Table> p : pbuilder.model.tables) {
+        std::cerr << p.second.name << std::endl;
+    }
+    
+    std::string basename(getenv("HOME"));
+    basename += "/" + pbuilder.unit.ns;
+    
+    files[0].open(basename + "_entity.h", std::ios::trunc);
+    files[1].open(basename + "_entity.cpp", std::ios::trunc);    
+    files[2].open(basename + "_dao.h", std::ios::trunc);
+    files[3].open(basename + "_dao.cpp", std::ios::trunc);    
+    
+    implementation->renderEntityHeader(files[0]);
+    implementation->renderEntityCode(files[1]);
+    implementation->renderDAOHeader(files[2]);
+    implementation->renderDAOCode(files[3]);
+    
+    files[3].close();
+    files[2].close();
+    files[1].close();
+    files[0].close();
+    
     LOG4CXX_TRACE(logger, "render <----- end");
 }
