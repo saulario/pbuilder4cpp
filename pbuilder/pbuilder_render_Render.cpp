@@ -22,7 +22,7 @@ using namespace pbuilder::render;
 
 log4cxx::LoggerPtr Render::logger = log4cxx::Logger::getLogger("pbuilder::render::Render");
 
-Render::Render(pbuilder::PersistenceBuilder & pb) : pbuilder(pb), implementation(0) {
+Render::Render(pbuilder::PersistenceBuilder * pb) : pbuilder(pb), implementation(0) {
     LOG4CXX_TRACE(logger, "Render -----> begin");
     implementation = static_cast<AbstractRender *> (new TNTDBRender(pbuilder));
     LOG4CXX_TRACE(logger, "Render <----- end");
@@ -37,12 +37,12 @@ Render::~Render() {
 void Render::render(void) {
     LOG4CXX_TRACE(logger, "render -----> begin");
     
-    for (std::pair<std::string, pbuilder::Table> p : pbuilder.model.tables) {
+    for (std::pair<std::string, pbuilder::Table> p : pbuilder->model.tables) {
         std::cerr << p.second.name << std::endl;
     }
     
     std::string basename(getenv("HOME"));
-    basename += "/" + pbuilder.unit.ns;
+    basename += "/" + pbuilder->unit.ns;
     
     files[0].open(basename + "_entity.h", std::ios::trunc);
     files[1].open(basename + "_entity.cpp", std::ios::trunc);    

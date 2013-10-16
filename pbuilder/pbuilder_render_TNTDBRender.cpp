@@ -29,10 +29,10 @@ void TNTDBRender::renderEntityHeader(std::ofstream& file) {
     LOG4CXX_TRACE(logger, "renderEntityHeader -----> begin");
     
     file 
-            << "namespace " << pbuilder.unit.ns << " {" << std::endl
+            << "namespace " << pbuilder->unit.ns << " {" << std::endl
             << std::string(2, ' ') << "namespace entity {" << std::endl;
     
-    for (std::pair<std::string, pbuilder::Table> p : pbuilder.model.tables) {
+    for (std::pair<std::string, pbuilder::Table> p : pbuilder->model.tables) {
         renderEntityHeaderTable(file, p.second);
     }
     

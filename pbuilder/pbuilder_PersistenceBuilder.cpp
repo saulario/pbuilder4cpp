@@ -51,11 +51,6 @@ int PersistenceBuilder::main(int argc, char** argv) {
     try {
         evaluateParameters(argc, argv);
         analyze();
-        
-        for (std::pair<std::string, pbuilder::Table> p : model.tables) {
-            std::cerr << p.second.name << std::endl;
-        }
-        
         render();
     } catch (std::exception &e) {
         LOG4CXX_ERROR(logger, "*** exception report ***");
@@ -69,7 +64,7 @@ int PersistenceBuilder::main(int argc, char** argv) {
 
 void PersistenceBuilder::analyze(void) {
     LOG4CXX_TRACE(logger, "analyze -----> begin");
-    pbuilder::analyzer::Analyzer analyzer(*this);
+    pbuilder::analyzer::Analyzer analyzer(this);
     analyzer.analyze();
     LOG4CXX_TRACE(logger, "analyze <----- end");
 }
@@ -206,7 +201,7 @@ void PersistenceBuilder::evaluateParameters(int argc, char** argv) {
 
 void PersistenceBuilder::render(void) {
     LOG4CXX_TRACE(logger, "render -----> begin");
-    pbuilder::render::Render render(*this);
+    pbuilder::render::Render render(this);
     render.render();
     LOG4CXX_TRACE(logger, "render <----- end");
 }

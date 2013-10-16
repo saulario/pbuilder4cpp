@@ -29,14 +29,14 @@ log4cxx::LoggerPtr MysqlAnalyzer::logger = log4cxx::Logger::getLogger("pbuilder:
 void MysqlAnalyzer::analyze(void) {
     LOG4CXX_TRACE(logger, "analyze -----> begin");
 
-    connection = tntdb::connect(pbuilder.unit.url);
+    connection = tntdb::connect(pbuilder->unit.url);
 
     tntdb::Result tables = connection.prepare("SELECT * FROM TABLES WHERE "
             "     TABLE_SCHEMA = :schema"
             " AND TABLE_NAME LIKE :table"
             " ORDER BY TABLE_NAME").
-            setString("schema", pbuilder.unit.name).
-            setString("table", pbuilder.table).
+            setString("schema", pbuilder->unit.name).
+            setString("table", pbuilder->table).
             select()
             ;
 
@@ -47,7 +47,7 @@ void MysqlAnalyzer::analyze(void) {
                 "     TABLE_SCHEMA = :schema "
                 " AND TABLE_NAME = :table"
                 " ORDER BY ORDINAL_POSITION").
-                setString("schema", pbuilder.unit.name).
+                setString("schema", pbuilder->unit.name).
                 setString("table", table.name).
                 select()
                 ;
@@ -88,7 +88,7 @@ void MysqlAnalyzer::analyze(void) {
                 " AND KCU.TABLE_NAME = COL.TABLE_NAME "
                 " AND KCU.COLUMN_NAME = COL.COLUMN_NAME "
                 " ORDER BY KCU.ORDINAL_POSITION").
-                setString("schema", pbuilder.unit.name).
+                setString("schema", pbuilder->unit.name).
                 setString("table", table.name).
                 setString("name", "PRIMARY").
                 select()
@@ -120,7 +120,7 @@ void MysqlAnalyzer::analyze(void) {
             table.pkColumns.push_back(column);
         }
 
-        pbuilder.model.tables.insert(std::pair<std::string, pbuilder::Table>(table.name, table));
+        pbuilder->model.tables.insert(std::pair<std::string, pbuilder::Table>(table.name, table));
     }
     
     connection.close();
