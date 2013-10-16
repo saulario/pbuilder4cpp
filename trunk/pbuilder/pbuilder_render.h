@@ -36,20 +36,20 @@ namespace pbuilder {
 
         class Render {
         public:
-            Render(pbuilder::PersistenceBuilder & pbuilder);
+            Render(pbuilder::PersistenceBuilder * pbuilder);
             ~Render();
             void render(void);
             std::ofstream files[4];
 
         private:
             static log4cxx::LoggerPtr logger;
-            pbuilder::PersistenceBuilder pbuilder;
+            pbuilder::PersistenceBuilder * pbuilder;
             AbstractRender * implementation;
         };
 
         class TNTDBRender : public AbstractRender {
         public:
-            TNTDBRender(pbuilder::PersistenceBuilder & p) : pbuilder(p) {
+            TNTDBRender(pbuilder::PersistenceBuilder * p) : pbuilder(p) {
             };
             void renderEntityHeader(std::ofstream & file);
             void renderEntityCode(std::ofstream & file);
@@ -58,7 +58,7 @@ namespace pbuilder {
 
         private:
             static log4cxx::LoggerPtr logger;
-            pbuilder::PersistenceBuilder & pbuilder;
+            pbuilder::PersistenceBuilder * pbuilder;
             
             void renderEntityHeaderTable(std::ofstream & file, pbuilder::Table & table);
         };
