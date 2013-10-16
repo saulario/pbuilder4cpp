@@ -51,6 +51,11 @@ int PersistenceBuilder::main(int argc, char** argv) {
     try {
         evaluateParameters(argc, argv);
         analyze();
+        
+        for (std::pair<std::string, pbuilder::Table> p : model.tables) {
+            std::cerr << p.second.name << std::endl;
+        }
+        
         render();
     } catch (std::exception &e) {
         LOG4CXX_ERROR(logger, "*** exception report ***");

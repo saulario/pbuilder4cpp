@@ -19,6 +19,7 @@
 #ifndef PBUILDER_RENDER_H
 #define	PBUILDER_RENDER_H
 
+#include <fstream>
 #include "pbuilder.h"
 
 
@@ -27,8 +28,10 @@ namespace pbuilder {
 
         class AbstractRender {
         public:
-            virtual void render(void) = 0;
-
+            virtual void renderEntityHeader(std::ofstream & file) = 0;
+            virtual void renderEntityCode(std::ofstream & file) = 0;
+            virtual void renderDAOHeader(std::ofstream & file) = 0;
+            virtual void renderDAOCode(std::ofstream & file) = 0;
         };
 
         class Render {
@@ -36,6 +39,7 @@ namespace pbuilder {
             Render(pbuilder::PersistenceBuilder & pbuilder);
             ~Render();
             void render(void);
+            std::ofstream files[4];
 
         private:
             static log4cxx::LoggerPtr logger;
@@ -45,14 +49,18 @@ namespace pbuilder {
 
         class TNTDBRender : public AbstractRender {
         public:
-
             TNTDBRender(pbuilder::PersistenceBuilder & p) : pbuilder(p) {
             };
-            void render(void);
+            void renderEntityHeader(std::ofstream & file);
+            void renderEntityCode(std::ofstream & file);
+            void renderDAOHeader(std::ofstream & file);
+            void renderDAOCode(std::ofstream & file);
 
         private:
             static log4cxx::LoggerPtr logger;
             pbuilder::PersistenceBuilder & pbuilder;
+            
+            void renderEntityHeaderTable(std::ofstream & file, pbuilder::Table & table);
         };
 
     }

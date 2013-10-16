@@ -122,7 +122,7 @@ void MysqlAnalyzer::analyze(void) {
 
         pbuilder.model.tables.insert(std::pair<std::string, pbuilder::Table>(table.name, table));
     }
-
+    
     connection.close();
 
     LOG4CXX_TRACE(logger, "analyze <----- end");
