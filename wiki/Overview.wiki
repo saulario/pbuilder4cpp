@@ -1,3 +1,11 @@
 #summary Persistence Builder for C++ overview
 
-= What is `pbuilder` =
+= About `pbuilder` =
+
+== What is `pbuilder` ==
+
+`pbuilder` is an Database Access Layer creator, and builds for your table structs (entities) and artifacts (DAO's) to perform CRUD operations.
+
+== What is not `pbuilder` ==
+
+`pbuilder` is not an ORM such as Hibernate or OpenJPA in Java.
