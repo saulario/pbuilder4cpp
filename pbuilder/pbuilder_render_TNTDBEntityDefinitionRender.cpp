@@ -16,4 +16,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * 
  */
+#include "pbuilder.h"
+#include "pbuilder_render.h"
+
+using namespace pbuilder::render;
+
+log4cxx::LoggerPtr TNTDBEntityDefinitionRender::logger =
+        log4cxx::Logger::getLogger("pbuilder::render::TNTDBEntityDefinitionRender");
 

@@ -17,3 +17,10 @@
  * 
  */
 
+#include "pbuilder.h"
+#include "pbuilder_render.h"
+
+using namespace pbuilder::render;
+
+log4cxx::LoggerPtr TNTDBArtifactDeclarationRender::logger =
+        log4cxx::Logger::getLogger("pbuilder::render::TNTDBArtifactDeclarationRender");
