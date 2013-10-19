@@ -43,6 +43,10 @@ OBJECTFILES= \
 	${OBJECTDIR}/pbuilder_analyzer_PostgresqlAnalyzer.o \
 	${OBJECTDIR}/pbuilder_analyzer_SqliteAnalyzer.o \
 	${OBJECTDIR}/pbuilder_render_Render.o \
+	${OBJECTDIR}/pbuilder_render_TNTDBArtifactDeclarationRender.o \
+	${OBJECTDIR}/pbuilder_render_TNTDBArtifactDefinitionRender.o \
+	${OBJECTDIR}/pbuilder_render_TNTDBEntityDeclarationRender.o \
+	${OBJECTDIR}/pbuilder_render_TNTDBEntityDefinitionRender.o \
 	${OBJECTDIR}/pbuilder_render_TNTDBRender.o
 
 
@@ -109,6 +113,26 @@ ${OBJECTDIR}/pbuilder_render_Render.o: pbuilder_render_Render.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -g --std=c++0x -MMD -MP -MF $@.d -o ${OBJECTDIR}/pbuilder_render_Render.o pbuilder_render_Render.cpp
+
+${OBJECTDIR}/pbuilder_render_TNTDBArtifactDeclarationRender.o: pbuilder_render_TNTDBArtifactDeclarationRender.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g --std=c++0x -MMD -MP -MF $@.d -o ${OBJECTDIR}/pbuilder_render_TNTDBArtifactDeclarationRender.o pbuilder_render_TNTDBArtifactDeclarationRender.cpp
+
+${OBJECTDIR}/pbuilder_render_TNTDBArtifactDefinitionRender.o: pbuilder_render_TNTDBArtifactDefinitionRender.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g --std=c++0x -MMD -MP -MF $@.d -o ${OBJECTDIR}/pbuilder_render_TNTDBArtifactDefinitionRender.o pbuilder_render_TNTDBArtifactDefinitionRender.cpp
+
+${OBJECTDIR}/pbuilder_render_TNTDBEntityDeclarationRender.o: pbuilder_render_TNTDBEntityDeclarationRender.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g --std=c++0x -MMD -MP -MF $@.d -o ${OBJECTDIR}/pbuilder_render_TNTDBEntityDeclarationRender.o pbuilder_render_TNTDBEntityDeclarationRender.cpp
+
+${OBJECTDIR}/pbuilder_render_TNTDBEntityDefinitionRender.o: pbuilder_render_TNTDBEntityDefinitionRender.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g --std=c++0x -MMD -MP -MF $@.d -o ${OBJECTDIR}/pbuilder_render_TNTDBEntityDefinitionRender.o pbuilder_render_TNTDBEntityDefinitionRender.cpp
 
 ${OBJECTDIR}/pbuilder_render_TNTDBRender.o: pbuilder_render_TNTDBRender.cpp 
 	${MKDIR} -p ${OBJECTDIR}

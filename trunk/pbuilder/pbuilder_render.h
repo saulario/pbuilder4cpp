@@ -36,7 +36,7 @@ namespace pbuilder {
 
         class Render {
         public:
-            Render(pbuilder::PersistenceBuilder * pbuilder);
+            Render(pbuilder::PersistenceBuilder * pbuilder_);
             ~Render();
             void render(void);
             std::ofstream files[4];
@@ -49,7 +49,8 @@ namespace pbuilder {
 
         class TNTDBRender : public AbstractRender {
         public:
-            TNTDBRender(pbuilder::PersistenceBuilder * p) : pbuilder(p) {
+
+            TNTDBRender(pbuilder::PersistenceBuilder * pbuilder_) : pbuilder(pbuilder_) {
             };
             void renderEntityHeader(std::ofstream & file);
             void renderEntityCode(std::ofstream & file);
@@ -59,8 +60,48 @@ namespace pbuilder {
         private:
             static log4cxx::LoggerPtr logger;
             pbuilder::PersistenceBuilder * pbuilder;
-            
+
             void renderEntityHeaderTable(std::ofstream & file, pbuilder::Table & table);
+        };
+
+        class TNTDBArtifactDeclarationRender {
+        public:
+
+            TNTDBArtifactDeclarationRender(TNTDBRender * render_) : render(render_) {
+            };
+        private:
+            static log4cxx::LoggerPtr logger;
+            TNTDBRender * render;
+        };
+
+        class TNTDBArtifactDefinitionRender {
+        public:
+
+            TNTDBArtifactDefinitionRender(TNTDBRender * render_) : render(render_) {
+            };
+        private:
+            static log4cxx::LoggerPtr logger;
+            TNTDBRender * render;
+        };
+
+        class TNTDBEntityDeclarationRender {
+        public:
+
+            TNTDBEntityDeclarationRender(TNTDBRender * render_) : render(render_) {
+            };
+        private:
+            static log4cxx::LoggerPtr logger;
+            TNTDBRender * render;
+        };
+
+        class TNTDBEntityDefinitionRender {
+        public:
+
+            TNTDBEntityDefinitionRender(TNTDBRender * render_) : render(render_) {
+            };
+        private:
+            static log4cxx::LoggerPtr logger;
+            TNTDBRender * render;
         };
 
     }

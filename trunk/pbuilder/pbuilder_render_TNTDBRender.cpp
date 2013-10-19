@@ -27,32 +27,32 @@ log4cxx::LoggerPtr TNTDBRender::logger = log4cxx::Logger::getLogger("pbuilder::r
 
 void TNTDBRender::renderEntityHeader(std::ofstream& file) {
     LOG4CXX_TRACE(logger, "renderEntityHeader -----> begin");
-    
-    file 
+    file
             << "namespace " << pbuilder->unit.ns << " {" << std::endl
             << std::string(2, ' ') << "namespace entity {" << std::endl;
-    
     for (std::pair<std::string, pbuilder::Table> p : pbuilder->model.tables) {
         renderEntityHeaderTable(file, p.second);
     }
-    
     file
-//            << std::string(2, ' ') << "}" << std::endl
+            << std::string(2, ' ') << "}" << std::endl
             << "}" << std::endl;
-
     LOG4CXX_TRACE(logger, "renderEntityHeader <----- end");
 }
 
 void TNTDBRender::renderEntityHeaderTable(std::ofstream& file, pbuilder::Table & table) {
-
-    file 
-            << std::string(4, ' ') << "struct " << table.name  << " {" << std::endl;
-    
-
-    file 
-            << std::string(4, ' ') << " }" << std::endl;
-    
- }
+    file
+            << std::string(4, ' ') << "struct " << table.name << " {" << std::endl
+            << std::string(4, ' ') << "public:" << std::endl;
+    for (pbuilder::Column column : table.columns) {
+        file
+                << std::string(6, ' ') << column.name << " ;" << std::endl
+                ;
+    }
+    file
+            << std::string(4, ' ') << "private:" << std::endl;
+    file
+            << std::string(4, ' ') << "}" << std::endl;
+}
 
 void TNTDBRender::renderEntityCode(std::ofstream& file) {
     LOG4CXX_TRACE(logger, "renderEntityCode -----> begin");
