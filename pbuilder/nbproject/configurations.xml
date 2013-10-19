@@ -23,6 +23,10 @@
       <itemPath>pbuilder_analyzer_SqliteAnalyzer.cpp</itemPath>
       <itemPath>pbuilder_render.h</itemPath>
       <itemPath>pbuilder_render_Render.cpp</itemPath>
+      <itemPath>pbuilder_render_TNTDBArtifactDeclarationRender.cpp</itemPath>
+      <itemPath>pbuilder_render_TNTDBArtifactDefinitionRender.cpp</itemPath>
+      <itemPath>pbuilder_render_TNTDBEntityDeclarationRender.cpp</itemPath>
+      <itemPath>pbuilder_render_TNTDBEntityDefinitionRender.cpp</itemPath>
       <itemPath>pbuilder_render_TNTDBRender.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
@@ -94,6 +98,26 @@
       </item>
       <item path="pbuilder_render_Render.cpp" ex="false" tool="1" flavor2="0">
       </item>
+      <item path="pbuilder_render_TNTDBArtifactDeclarationRender.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="pbuilder_render_TNTDBArtifactDefinitionRender.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="pbuilder_render_TNTDBEntityDeclarationRender.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="pbuilder_render_TNTDBEntityDefinitionRender.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
       <item path="pbuilder_render_TNTDBRender.cpp" ex="false" tool="1" flavor2="0">
       </item>
     </conf>
@@ -151,6 +175,26 @@
       <item path="pbuilder_render.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="pbuilder_render_Render.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="pbuilder_render_TNTDBArtifactDeclarationRender.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="pbuilder_render_TNTDBArtifactDefinitionRender.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="pbuilder_render_TNTDBEntityDeclarationRender.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="pbuilder_render_TNTDBEntityDefinitionRender.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
       </item>
       <item path="pbuilder_render_TNTDBRender.cpp" ex="false" tool="1" flavor2="0">
       </item>

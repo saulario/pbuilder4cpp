@@ -22,7 +22,7 @@ using namespace pbuilder::render;
 
 log4cxx::LoggerPtr Render::logger = log4cxx::Logger::getLogger("pbuilder::render::Render");
 
-Render::Render(pbuilder::PersistenceBuilder * pb) : pbuilder(pb), implementation(0) {
+Render::Render(pbuilder::PersistenceBuilder * pbuilder_) : pbuilder(pbuilder_), implementation(0) {
     LOG4CXX_TRACE(logger, "Render -----> begin");
     implementation = static_cast<AbstractRender *> (new TNTDBRender(pbuilder));
     LOG4CXX_TRACE(logger, "Render <----- end");
