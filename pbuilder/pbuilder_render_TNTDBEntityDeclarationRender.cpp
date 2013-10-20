@@ -72,6 +72,7 @@ void TNTDBEntityDeclarationRender::privateBlock(const pbuilder::Table & table) {
 void TNTDBEntityDeclarationRender::privateMember(const pbuilder::Column & column) {
     LOG4CXX_TRACE(logger, "privateMembers -----> begin");
     if (!column.nullable) {
+        LOG4CXX_TRACE(logger, "privateMembers <----- exiting");
         return;
     }
     render->parent->files[0]
@@ -92,6 +93,7 @@ void TNTDBEntityDeclarationRender::publicBlock(const pbuilder::Table & table) {
 void TNTDBEntityDeclarationRender::publicMember(const pbuilder::Column & column) {
     LOG4CXX_TRACE(logger, "publicMembers -----> begin");
     if (column.nullable) {
+        LOG4CXX_TRACE(logger, "publicMembers <----- exiting");
         return;
     }
     render->parent->files[0]
