@@ -25,49 +25,88 @@ using namespace pbuilder::render;
 
 log4cxx::LoggerPtr TNTDBRender::logger = log4cxx::Logger::getLogger("pbuilder::render::TNTDBRender");
 
-void TNTDBRender::renderEntityHeader(std::ofstream& file) {
-    LOG4CXX_TRACE(logger, "renderEntityHeader -----> begin");
-    file
-            << "namespace " << pbuilder->unit.ns << " {" << std::endl
-            << std::string(2, ' ') << "namespace entity {" << std::endl;
-    for (std::pair<std::string, pbuilder::Table> p : pbuilder->model.tables) {
-        renderEntityHeaderTable(file, p.second);
+std::string TNTDBRender::asText(const pbuilder::Column & column_) {
+    LOG4CXX_TRACE(logger, "asText -----> begin");
+    std::string value = "";
+    switch (column_.type) {
+        case SMALLINT:
+            value = "short";
+            break;
+        case INTEGER:
+            value = "int";
+            break;
+        case BIGINT:
+            value = "long";
+            break;
+        case FLOAT:
+            value = "float";
+            break;
+        case DOUBLE:
+            value = "double";
+            break;
+        default:
+            value = "std::string";
     }
-    file
-            << std::string(2, ' ') << "}" << std::endl
-            << "}" << std::endl;
-    LOG4CXX_TRACE(logger, "renderEntityHeader <----- end");
+    LOG4CXX_TRACE(logger, "asText <----- end");
+    return value;
 }
 
-void TNTDBRender::renderEntityHeaderTable(std::ofstream& file, pbuilder::Table & table) {
-    file
-            << std::string(4, ' ') << "struct " << table.name << " {" << std::endl
-            << std::string(4, ' ') << "public:" << std::endl;
-    for (pbuilder::Column column : table.columns) {
-        file
-                << std::string(6, ' ') << column.name << " ;" << std::endl
-                ;
-    }
-    file
-            << std::string(4, ' ') << "private:" << std::endl;
-    file
-            << std::string(4, ' ') << "}" << std::endl;
+void TNTDBRender::notify(void) {
+    LOG4CXX_TRACE(logger, "doRender -----> begin");    
+
+    TNTDBArtifactDeclarationRender adec(this);
+    TNTDBArtifactDefinitionRender adef(this);
+    TNTDBEntityDeclarationRender edec(this);
+    TNTDBEntityDefinitionRender edef(this);
+    
+    edec.notify();
+    
+    LOG4CXX_TRACE(logger, "doRender <----- end");    
 }
 
-void TNTDBRender::renderEntityCode(std::ofstream& file) {
-    LOG4CXX_TRACE(logger, "renderEntityCode -----> begin");
+//void TNTDBRender::renderEntityHeader(std::ofstream& file) {
+//    LOG4CXX_TRACE(logger, "renderEntityHeader -----> begin");
+//    file
+//            << "namespace " << pbuilder->unit.ns << " {" << std::endl
+//            << std::string(2, ' ') << "namespace entity {" << std::endl;
+//    for (std::pair<std::string, pbuilder::Table> p : pbuilder->model.tables) {
+//        renderEntityHeaderTable(file, p.second);
+//    }
+//    file
+//            << std::string(2, ' ') << "}" << std::endl
+//            << "}" << std::endl;
+//    LOG4CXX_TRACE(logger, "renderEntityHeader <----- end");
+//}
 
-    LOG4CXX_TRACE(logger, "renderEntityCode <----- end");
-}
+//void TNTDBRender::renderEntityHeaderTable(std::ofstream& file, pbuilder::Table & table) {
+//    file
+//            << std::string(4, ' ') << "struct " << table.name << " {" << std::endl
+//            << std::string(4, ' ') << "public:" << std::endl;
+//    for (pbuilder::Column column : table.columns) {
+//        file
+//                << std::string(6, ' ') << column.name << " ;" << std::endl
+//                ;
+//    }
+//    file
+//            << std::string(4, ' ') << "private:" << std::endl;
+//    file
+//            << std::string(4, ' ') << "}" << std::endl;
+//}
 
-void TNTDBRender::renderDAOHeader(std::ofstream& file) {
-    LOG4CXX_TRACE(logger, "renderDAOHeader -----> begin");
+//void TNTDBRender::renderEntityCode(std::ofstream& file) {
+//    LOG4CXX_TRACE(logger, "renderEntityCode -----> begin");
+//
+//    LOG4CXX_TRACE(logger, "renderEntityCode <----- end");
+//}
 
-    LOG4CXX_TRACE(logger, "renderDAOHeader <----- end");
-}
+//void TNTDBRender::renderDAOHeader(std::ofstream& file) {
+//    LOG4CXX_TRACE(logger, "renderDAOHeader -----> begin");
+//
+//    LOG4CXX_TRACE(logger, "renderDAOHeader <----- end");
+//}
 
-void TNTDBRender::renderDAOCode(std::ofstream& file) {
-    LOG4CXX_TRACE(logger, "renderDAOCode -----> begin");
-
-    LOG4CXX_TRACE(logger, "renderDAOCode <----- end");
-}
+//void TNTDBRender::renderDAOCode(std::ofstream& file) {
+//    LOG4CXX_TRACE(logger, "renderDAOCode -----> begin");
+//
+//    LOG4CXX_TRACE(logger, "renderDAOCode <----- end");
+//}

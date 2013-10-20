@@ -22,16 +22,13 @@
 #include <fstream>
 #include "pbuilder.h"
 
-
 namespace pbuilder {
     namespace render {
 
         class AbstractRender {
         public:
-            virtual void renderEntityHeader(std::ofstream & file) = 0;
-            virtual void renderEntityCode(std::ofstream & file) = 0;
-            virtual void renderDAOHeader(std::ofstream & file) = 0;
-            virtual void renderDAOCode(std::ofstream & file) = 0;
+            virtual std::string asText(const pbuilder::Column & column_) = 0;
+            virtual void notify(void) = 0;
         };
 
         class Render {
@@ -40,28 +37,21 @@ namespace pbuilder {
             ~Render();
             void render(void);
             std::ofstream files[4];
-
+            pbuilder::PersistenceBuilder * pbuilder;
         private:
             static log4cxx::LoggerPtr logger;
-            pbuilder::PersistenceBuilder * pbuilder;
             AbstractRender * implementation;
         };
 
         class TNTDBRender : public AbstractRender {
         public:
-
-            TNTDBRender(pbuilder::PersistenceBuilder * pbuilder_) : pbuilder(pbuilder_) {
+            TNTDBRender(Render * parent_) : parent(parent_) {
             };
-            void renderEntityHeader(std::ofstream & file);
-            void renderEntityCode(std::ofstream & file);
-            void renderDAOHeader(std::ofstream & file);
-            void renderDAOCode(std::ofstream & file);
-
+            std::string asText(const pbuilder::Column & column_);
+            void notify(void);
+            Render * parent;
         private:
             static log4cxx::LoggerPtr logger;
-            pbuilder::PersistenceBuilder * pbuilder;
-
-            void renderEntityHeaderTable(std::ofstream & file, pbuilder::Table & table);
         };
 
         class TNTDBArtifactDeclarationRender {
@@ -69,6 +59,7 @@ namespace pbuilder {
 
             TNTDBArtifactDeclarationRender(TNTDBRender * render_) : render(render_) {
             };
+            void notify(void);
         private:
             static log4cxx::LoggerPtr logger;
             TNTDBRender * render;
@@ -79,6 +70,7 @@ namespace pbuilder {
 
             TNTDBArtifactDefinitionRender(TNTDBRender * render_) : render(render_) {
             };
+            void notify(void);
         private:
             static log4cxx::LoggerPtr logger;
             TNTDBRender * render;
@@ -86,12 +78,17 @@ namespace pbuilder {
 
         class TNTDBEntityDeclarationRender {
         public:
-
-            TNTDBEntityDeclarationRender(TNTDBRender * render_) : render(render_) {
-            };
+            TNTDBEntityDeclarationRender(TNTDBRender * render_);
+            ~TNTDBEntityDeclarationRender();
+            void notify(void);
         private:
             static log4cxx::LoggerPtr logger;
             TNTDBRender * render;
+            void table(const pbuilder::Table & table);
+            void privateBlock(const pbuilder::Table & table);
+            void privateMember(const pbuilder::Column & column);
+            void publicBlock(const pbuilder::Table & table);
+            void publicMember(const pbuilder::Column & column);
         };
 
         class TNTDBEntityDefinitionRender {
@@ -99,6 +96,7 @@ namespace pbuilder {
 
             TNTDBEntityDefinitionRender(TNTDBRender * render_) : render(render_) {
             };
+            //            void render(void);
         private:
             static log4cxx::LoggerPtr logger;
             TNTDBRender * render;
