@@ -24,7 +24,7 @@ log4cxx::LoggerPtr Render::logger = log4cxx::Logger::getLogger("pbuilder::render
 
 Render::Render(pbuilder::PersistenceBuilder * pbuilder_) : pbuilder(pbuilder_), implementation(0) {
     LOG4CXX_TRACE(logger, "Render -----> begin");
-    implementation = static_cast<AbstractRender *> (new TNTDBRender(pbuilder));
+    implementation = static_cast<AbstractRender *> (new TNTDBRender(this));
     LOG4CXX_TRACE(logger, "Render <----- end");
 }
 
@@ -36,28 +36,21 @@ Render::~Render() {
 
 void Render::render(void) {
     LOG4CXX_TRACE(logger, "render -----> begin");
-    
-    for (std::pair<std::string, pbuilder::Table> p : pbuilder->model.tables) {
-        std::cerr << p.second.name << std::endl;
-    }
-    
+
     std::string basename(getenv("HOME"));
     basename += "/" + pbuilder->unit.ns;
-    
+
     files[0].open(basename + "_entity.h", std::ios::trunc);
-    files[1].open(basename + "_entity.cpp", std::ios::trunc);    
+    files[1].open(basename + "_entity.cpp", std::ios::trunc);
     files[2].open(basename + "_dao.h", std::ios::trunc);
-    files[3].open(basename + "_dao.cpp", std::ios::trunc);    
-    
-    implementation->renderEntityHeader(files[0]);
-    implementation->renderEntityCode(files[1]);
-    implementation->renderDAOHeader(files[2]);
-    implementation->renderDAOCode(files[3]);
-    
+    files[3].open(basename + "_dao.cpp", std::ios::trunc);
+
+    implementation->notify();
+
     files[3].close();
     files[2].close();
     files[1].close();
     files[0].close();
-    
+
     LOG4CXX_TRACE(logger, "render <----- end");
 }
