@@ -16,6 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * 
  */
+#include <boost/algorithm/string.hpp>
 #include "pbuilder.h"
 #include "pbuilder_render.h"
 
@@ -27,6 +28,8 @@ log4cxx::LoggerPtr TNTDBEntityDeclarationRender::logger =
 TNTDBEntityDeclarationRender::TNTDBEntityDeclarationRender(TNTDBRender * render_) : render(render_) {
     LOG4CXX_TRACE(logger, "TNTDBEntityDeclarationRender -----> begin");
     render->parent->files[0]
+            << "#ifndef " << boost::algorithm::to_upper_copy(render_->parent->pbuilder->unit.name) << "_ENTITY_H" << std::endl
+            << "#define " << boost::algorithm::to_upper_copy(render_->parent->pbuilder->unit.name) << "_ENTITY_H" << std::endl
             << "namespace " << render->parent->pbuilder->unit.ns << " {" << std::endl
             << std::string(2, ' ') << "namespace entity {" << std::endl;
     LOG4CXX_TRACE(logger, "TNTDBEntityDeclarationRender <----- end");
@@ -36,7 +39,8 @@ TNTDBEntityDeclarationRender::~TNTDBEntityDeclarationRender() {
     LOG4CXX_TRACE(logger, "~TNTDBEntityDeclarationRender -----> begin");
     render->parent->files[0]
             << std::string(2, ' ') << "}" << std::endl
-            << "}" << std::endl;
+            << "}" << std::endl
+            << "#endif" << std::endl;
     LOG4CXX_TRACE(logger, "~TNTDBEntityDeclarationRender <----- end");
 }
 
