@@ -48,18 +48,18 @@ void TNTDBEntityDeclarationRender::notify(void) {
     LOG4CXX_TRACE(logger, "notify -----> begin");
     for (std::pair<std::string, pbuilder::Table> p : render->parent->pbuilder->model.tables) {
         table(p.second);
-    }    
+    }
     LOG4CXX_TRACE(logger, "notify <----- end");
 }
 
 void TNTDBEntityDeclarationRender::table(const pbuilder::Table & table_) {
     LOG4CXX_TRACE(logger, "table -----> begin");
     render->parent->files[0]
-            << std::string(4, ' ') << "struct " << table_.name << " {" << std::endl;
+            << std::string(4, ' ') << "struct " << pbuilder::render::Render::toUpper(table_.name) << " {" << std::endl;
     publicBlock(table_);
     privateBlock(table_);
     render->parent->files[0]
-            << std::string(4, ' ') << "}" << std::endl;    
+            << std::string(4, ' ') << "}" << std::endl;
     LOG4CXX_TRACE(logger, "table <----- end");
 }
 
@@ -80,7 +80,7 @@ void TNTDBEntityDeclarationRender::privateMember(const pbuilder::Column & column
         return;
     }
     render->parent->files[0]
-            << std::string(6, ' ') << (column_.isUnsigned ? "unsigned " : "") << render->asText(column_) 
+            << std::string(6, ' ') << (column_.isUnsigned ? "unsigned " : "") << render->asText(column_)
             << " * " << column_.name << ";" << std::endl;
     LOG4CXX_TRACE(logger, "privateMembers <----- end");
 }
@@ -92,6 +92,8 @@ void TNTDBEntityDeclarationRender::publicBlock(const pbuilder::Table & table_) {
     for (pbuilder::Column column : table_.columns) {
         publicMember(column);
     }
+    render->parent->files[0]
+            << std::endl;
     LOG4CXX_TRACE(logger, "publicBlock <----- end");
 }
 
@@ -102,7 +104,7 @@ void TNTDBEntityDeclarationRender::publicMember(const pbuilder::Column & column_
         return;
     }
     render->parent->files[0]
-            << std::string(6, ' ') << (column_.isUnsigned ? "unsigned " : "") << render->asText(column_) 
+            << std::string(6, ' ') << (column_.isUnsigned ? "unsigned " : "") << render->asText(column_)
             << " " << column_.name << ";" << std::endl;
     LOG4CXX_TRACE(logger, "publicMembers <----- end");
 }

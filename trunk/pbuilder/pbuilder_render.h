@@ -36,6 +36,7 @@ namespace pbuilder {
             Render(pbuilder::PersistenceBuilder * pbuilder_);
             ~Render();
             void render(void);
+            static std::string toUpper(const std::string & str_);
             std::ofstream files[4];
             pbuilder::PersistenceBuilder * pbuilder;
         private:
