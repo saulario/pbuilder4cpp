@@ -62,18 +62,19 @@ namespace pbuilder {
     public:
         std::string name;
         int position;
-        bool nullable;
+        bool isNullable;
         std::string schemaType;
         MODEL_TYPE type;
         long charMaxLength;
         long numericPrecision;
         long numericScale;
+        bool isUnsigned;
         std::string defaultValue;
         std::string comment;
 
-        Column() : name(""), position(0), nullable(false), schemaType("")
+        Column() : name(""), position(0), isNullable(false), schemaType("")
         , type(STRING), charMaxLength(0L), numericPrecision(0L), numericScale(0L)
-        , defaultValue(""), comment("") {
+        , isUnsigned(false), defaultValue(""), comment("") {
         };
     };
 

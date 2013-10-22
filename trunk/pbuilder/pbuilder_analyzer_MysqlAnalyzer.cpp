@@ -42,7 +42,7 @@ void MysqlAnalyzer::analyze(void) {
 
     for (tntdb::Row row : tables) {
         pbuilder::Table table(row.getString("TABLE_NAME"));
-
+        
         tntdb::Result columns = connection.prepare("SELECT * FROM COLUMNS WHERE "
                 "     TABLE_SCHEMA = :schema "
                 " AND TABLE_NAME = :table"
@@ -55,25 +55,27 @@ void MysqlAnalyzer::analyze(void) {
             pbuilder::Column column;
             column.name = row1.getString("COLUMN_NAME");
             column.position = row1.getUnsigned64("ORDINAL_POSITION");
-            column.nullable = (row1.getString("IS_NULLABLE").compare("YES") == 0);
+            column.isNullable = (row1.getString("IS_NULLABLE").compare("YES") == 0);
             column.schemaType = row1.getString("DATA_TYPE");
             column.type = getModelType(column.schemaType);
             try {
                 column.charMaxLength = row1.getUnsigned64("CHARACTER_MAXIMUM_LENGTH");
-            } catch (tntdb::NullValue) {
+            } catch (tntdb::NullValue nv) {
             }
             try {
                 column.numericPrecision = row1.getUnsigned64("NUMERIC_PRECISION");
-            } catch (tntdb::NullValue) {
+            } catch (tntdb::NullValue nv) {
             }
             try {
                 column.numericScale = row1.getUnsigned64("NUMERIC_SCALE");
-            } catch (tntdb::NullValue) {
+            } catch (tntdb::NullValue nv) {
             }
             try {
                 column.defaultValue = row1.getString("COLUMN_DEFAULT");
-            } catch (tntdb::NullValue) {
+            } catch (tntdb::NullValue nv) {
             }
+            std::string columnType = row1.getString("COLUMN_TYPE");
+            column.isUnsigned = (columnType.find("unsigned") != std::string::npos);            
             column.comment = row1.getString("COLUMN_COMMENT");
             table.columns.push_back(column);
         }
@@ -97,7 +99,7 @@ void MysqlAnalyzer::analyze(void) {
             pbuilder::Column column;
             column.name = row1.getString("COLUMN_NAME");
             column.position = row1.getUnsigned64("ORDINAL_POSITION");
-            column.nullable = (row1.getString("IS_NULLABLE").compare("YES") == 0);
+            column.isNullable = (row1.getString("IS_NULLABLE").compare("YES") == 0);
             column.schemaType = row1.getString("DATA_TYPE");
             column.type = getModelType(column.schemaType);
             try {
@@ -116,6 +118,8 @@ void MysqlAnalyzer::analyze(void) {
                 column.defaultValue = row1.getString("COLUMN_DEFAULT");
             } catch (tntdb::NullValue) {
             }
+            std::string columnType = row1.getString("COLUMN_TYPE");
+            column.isUnsigned = (columnType.find("unsigned") != std::string::npos);
             column.comment = row1.getString("COLUMN_COMMENT");
             table.pkColumns.push_back(column);
         }
