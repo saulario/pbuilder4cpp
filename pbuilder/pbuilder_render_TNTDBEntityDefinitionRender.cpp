@@ -24,3 +24,19 @@ using namespace pbuilder::render;
 log4cxx::LoggerPtr TNTDBEntityDefinitionRender::logger =
         log4cxx::Logger::getLogger("pbuilder::render::TNTDBEntityDefinitionRender");
 
+TNTDBEntityDefinitionRender::TNTDBEntityDefinitionRender(TNTDBRender * render_) : render(render_) {
+    LOG4CXX_TRACE(logger, "TNTDBEntityDefinitionRender -----> begin");
+    render->parent->files[1]
+            << "#include \"" 
+            << render_->parent->pbuilder->unit.ns << "_entity.h\"" << std::endl;
+    LOG4CXX_TRACE(logger, "TNTDBEntityDefinitionRender <----- end");
+}
+
+void TNTDBEntityDefinitionRender::notify(void) {
+    LOG4CXX_TRACE(logger, "notify -----> begin");
+    for (std::pair<std::string, pbuilder::Table> p : render->parent->pbuilder->model.tables) {
+//        table(p.second);
+//        tableId(p.second);
+    }
+    LOG4CXX_TRACE(logger, "notify <----- end");
+}

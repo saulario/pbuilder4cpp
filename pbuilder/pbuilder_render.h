@@ -98,10 +98,8 @@ namespace pbuilder {
 
         class TNTDBEntityDefinitionRender {
         public:
-
-            TNTDBEntityDefinitionRender(TNTDBRender * render_) : render(render_) {
-            };
-            //            void render(void);
+            TNTDBEntityDefinitionRender(TNTDBRender * render_);
+            void notify(void);
         private:
             static log4cxx::LoggerPtr logger;
             TNTDBRender * render;
