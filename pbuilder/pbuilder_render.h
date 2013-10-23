@@ -50,6 +50,7 @@ namespace pbuilder {
             TNTDBRender(Render * parent_) : parent(parent_) {
             };
             std::string asText(const pbuilder::Column & column_);
+            std::string defaultValue(const pbuilder::Column & column_);
             void notify(void);
             Render * parent;
         private:
@@ -104,7 +105,9 @@ namespace pbuilder {
             static log4cxx::LoggerPtr logger;
             TNTDBRender * render;
             void constructor(const pbuilder::Table & table_);
-            void destructor(const pbuilder::Table & table_);            
+            void destructor(const pbuilder::Table & table_);           
+            void privateMember(const pbuilder::Column & column_);
+            void publicMember(const pbuilder::Column & column_);            
         };
 
     }
