@@ -85,16 +85,16 @@ void TNTDBEntityDeclarationRender::privateBlock(const pbuilder::Table & table_) 
 }
 
 void TNTDBEntityDeclarationRender::privateMember(const pbuilder::Column & column_) {
-    LOG4CXX_TRACE(logger, "privateMembers -----> begin");
+    LOG4CXX_TRACE(logger, "privateMember -----> begin");
     if (!column_.isNullable) {
-        LOG4CXX_TRACE(logger, "privateMembers <----- exiting");
+        LOG4CXX_TRACE(logger, "privateMember <----- exiting");
         return;
     }
     render->parent->files[0]
             << std::string(6, ' ') << (column_.isUnsigned ? "unsigned " : "") << render->asText(column_)
             << " * " << column_.name << ";"
             << " // " << column_.comment << std::endl;
-    LOG4CXX_TRACE(logger, "privateMembers <----- end");
+    LOG4CXX_TRACE(logger, "privateMember <----- end");
 }
 
 void TNTDBEntityDeclarationRender::publicBlock(const pbuilder::Table & table_) {
@@ -110,16 +110,16 @@ void TNTDBEntityDeclarationRender::publicBlock(const pbuilder::Table & table_) {
 }
 
 void TNTDBEntityDeclarationRender::publicMember(const pbuilder::Column & column_) {
-    LOG4CXX_TRACE(logger, "publicMembers -----> begin");
+    LOG4CXX_TRACE(logger, "publicMember -----> begin");
     if (column_.isNullable) {
-        LOG4CXX_TRACE(logger, "publicMembers <----- exiting");
+        LOG4CXX_TRACE(logger, "publicMember <----- exiting");
         return;
     }
     render->parent->files[0]
             << std::string(6, ' ') << (column_.isUnsigned ? "unsigned " : "") << render->asText(column_)
             << " " << column_.name << ";"
             << " // " << column_.comment << std::endl;
-    LOG4CXX_TRACE(logger, "publicMembers <----- end");
+    LOG4CXX_TRACE(logger, "publicMember <----- end");
 }
 
 void TNTDBEntityDeclarationRender::table(const pbuilder::Table & table_) {

@@ -65,6 +65,46 @@ std::string TNTDBRender::asText(const pbuilder::Column & column_) {
     return value;
 }
 
+std::string TNTDBRender::defaultValue(const pbuilder::Column & column_) {
+    LOG4CXX_TRACE(logger, "defaultValue -----> begin");
+    std::string value = "";
+    switch (column_.type) {
+        case SMALLINT:
+            value = "0";
+            break;
+        case INTEGER:
+            value = "0";
+            break;
+        case BIGINT:
+            value = "0L";
+            break;
+        case FLOAT:
+            value = "0.0";
+            break;
+        case DOUBLE:
+            value = "0.0";
+            break;
+        case STRING:
+        case CLOB:            
+            value = "\"\"";
+            break;
+        case DATE:            
+            value = "tntdb::Date()";
+            break;
+        case TIME:            
+            value = "tntdb::Time()";
+            break;
+        case DATETIME:            
+        case TIMESTAMP:                        
+            value = "tntdb::Datetime()";
+            break;
+        default:
+            value = "\"\"";
+    }
+    LOG4CXX_TRACE(logger, "defaultValue <----- end");
+    return value;
+}
+
 void TNTDBRender::notify(void) {
     LOG4CXX_TRACE(logger, "doRender -----> begin");    
 
