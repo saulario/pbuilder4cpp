@@ -101,7 +101,7 @@ void PersistenceBuilder::checkConfiguration(void) {
         file
                 << "log4j.rootLogger=INFO, pbuilder, stdout\n"
                 << "log4j.appender.pbuilder=org.apache.log4j.RollingFileAppender\n"
-                << "log4j.appender.pbuilder.File=" << logDir << "/log/pbuilder.log\n"
+                << "log4j.appender.pbuilder.File=" << logDir << "/pbuilder.log\n"
                 << "log4j.appender.pbuilder.MaxFileSize=1024KB\n"
                 << "log4j.appender.pbuilder.MaxBackupIndex=10\n"
                 << "log4j.appender.pbuilder.layout=org.apache.log4j.PatternLayout\n"
