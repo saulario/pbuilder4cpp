@@ -103,6 +103,8 @@ namespace pbuilder {
         private:
             static log4cxx::LoggerPtr logger;
             TNTDBRender * render;
+            void constructor(const pbuilder::Table & table_);
+            void destructor(const pbuilder::Table & table_);            
         };
 
     }
