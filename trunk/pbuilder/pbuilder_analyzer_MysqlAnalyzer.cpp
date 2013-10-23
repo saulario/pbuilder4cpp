@@ -26,8 +26,8 @@ using namespace pbuilder::analyzer;
 
 log4cxx::LoggerPtr MysqlAnalyzer::logger = log4cxx::Logger::getLogger("pbuilder::analyzer::MysqlAnalyzer");
 
-void MysqlAnalyzer::analyze(void) {
-    LOG4CXX_TRACE(logger, "analyze -----> begin");
+void MysqlAnalyzer::notify(void) {
+    LOG4CXX_TRACE(logger, "notify -----> begin");
 
     connection = tntdb::connect(pbuilder->unit.url);
 
@@ -129,7 +129,7 @@ void MysqlAnalyzer::analyze(void) {
     
     connection.close();
 
-    LOG4CXX_TRACE(logger, "analyze <----- end");
+    LOG4CXX_TRACE(logger, "notify <----- end");
 }
 
 pbuilder::MODEL_TYPE MysqlAnalyzer::getModelType(const std::string & ptype) {

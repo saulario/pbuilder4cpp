@@ -57,6 +57,6 @@ Analyzer::~Analyzer() {
 
 void Analyzer::analyze(void) {
     LOG4CXX_TRACE(logger, "analyze -----> begin");
-    implementation->analyze();
+    implementation->notify();
     LOG4CXX_TRACE(logger, "analyze <----- end");
 }
