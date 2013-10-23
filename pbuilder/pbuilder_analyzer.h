@@ -27,7 +27,7 @@ namespace pbuilder {
 
         class AbstractAnalyzer {
         public:
-            virtual void analyze(void) = 0;
+            virtual void notify(void) = 0;
 
         private:
             virtual pbuilder::MODEL_TYPE getModelType(const std::string &) = 0;
@@ -56,7 +56,7 @@ namespace pbuilder {
 
             MysqlAnalyzer(pbuilder::PersistenceBuilder * p) : pbuilder(p) {
             };
-            void analyze(void);
+            void notify(void);
 
         private:
             static log4cxx::LoggerPtr logger;
