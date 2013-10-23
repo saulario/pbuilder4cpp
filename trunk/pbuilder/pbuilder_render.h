@@ -28,6 +28,7 @@ namespace pbuilder {
         class AbstractRender {
         public:
             virtual std::string asText(const pbuilder::Column & column_) = 0;
+            virtual std::string defaultValue(const pbuilder::Column & column_) = 0;
             virtual void notify(void) = 0;
         };
 
