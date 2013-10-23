@@ -35,8 +35,30 @@ TNTDBEntityDefinitionRender::TNTDBEntityDefinitionRender(TNTDBRender * render_) 
 void TNTDBEntityDefinitionRender::notify(void) {
     LOG4CXX_TRACE(logger, "notify -----> begin");
     for (std::pair<std::string, pbuilder::Table> p : render->parent->pbuilder->model.tables) {
-//        table(p.second);
-//        tableId(p.second);
+        constructor(p.second);
+        destructor(p.second);
     }
     LOG4CXX_TRACE(logger, "notify <----- end");
+}
+
+void TNTDBEntityDefinitionRender::constructor(const pbuilder::Table & table_) {
+    LOG4CXX_TRACE(logger, "constructor -----> begin");
+    render->parent->files[1]
+            << std::string(6, ' ')
+            << pbuilder::render::Render::toUpper(table_.name) << "() {"
+            << std::endl;
+    render->parent->files[1]
+            << std::string(6, ' ') << "}" << std::endl;
+    LOG4CXX_TRACE(logger, "constructor <----- end");
+}
+
+void TNTDBEntityDefinitionRender::destructor(const pbuilder::Table & table_) {
+    LOG4CXX_TRACE(logger, "destructor -----> begin");
+    render->parent->files[1]
+            << std::string(6, ' ')
+            << "~" << pbuilder::render::Render::toUpper(table_.name) << "() {"
+            << std::endl;
+    render->parent->files[1]
+            << std::string(6, ' ') << "}" << std::endl;
+    LOG4CXX_TRACE(logger, "destructor <----- end");
 }

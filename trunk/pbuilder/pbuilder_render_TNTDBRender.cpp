@@ -74,6 +74,7 @@ void TNTDBRender::notify(void) {
     TNTDBEntityDefinitionRender edef(this);
     
     edec.notify();
+    edef.notify();
     
     LOG4CXX_TRACE(logger, "doRender <----- end");    
 }
