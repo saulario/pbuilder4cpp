@@ -44,6 +44,20 @@ std::string TNTDBRender::asText(const pbuilder::Column & column_) {
         case DOUBLE:
             value = "double";
             break;
+        case STRING:
+        case CLOB:            
+            value = "std::string";
+            break;
+        case DATE:            
+            value = "tntdb::Date";
+            break;
+        case TIME:            
+            value = "tntdb::Time";
+            break;
+        case DATETIME:            
+        case TIMESTAMP:                        
+            value = "tntdb::Datetime";
+            break;
         default:
             value = "std::string";
     }

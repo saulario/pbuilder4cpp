@@ -46,6 +46,7 @@ namespace pbuilder {
 
         class TNTDBRender : public AbstractRender {
         public:
+
             TNTDBRender(Render * parent_) : parent(parent_) {
             };
             std::string asText(const pbuilder::Column & column_);
@@ -85,11 +86,14 @@ namespace pbuilder {
         private:
             static log4cxx::LoggerPtr logger;
             TNTDBRender * render;
-            void table(const pbuilder::Table & table);
-            void privateBlock(const pbuilder::Table & table);
-            void privateMember(const pbuilder::Column & column);
-            void publicBlock(const pbuilder::Table & table);
-            void publicMember(const pbuilder::Column & column);
+            void constructor(const pbuilder::Table & table_);
+            void destructor(const pbuilder::Table & table_);
+            void privateBlock(const pbuilder::Table & table_);
+            void privateMember(const pbuilder::Column & column_);
+            void publicBlock(const pbuilder::Table & table_);
+            void publicMember(const pbuilder::Column & column_);
+            void table(const pbuilder::Table & table_);
+            void tableId(const pbuilder::Table & table_);
         };
 
         class TNTDBEntityDefinitionRender {

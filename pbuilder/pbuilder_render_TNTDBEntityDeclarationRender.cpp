@@ -30,6 +30,9 @@ TNTDBEntityDeclarationRender::TNTDBEntityDeclarationRender(TNTDBRender * render_
     render->parent->files[0]
             << "#ifndef " << boost::algorithm::to_upper_copy(render_->parent->pbuilder->unit.ns) << "_ENTITY_H" << std::endl
             << "#define " << boost::algorithm::to_upper_copy(render_->parent->pbuilder->unit.ns) << "_ENTITY_H" << std::endl
+            << "#include <tntdb/date.h>" << std::endl            
+            << "#include <tntdb/datetime.h>" << std::endl            
+            << "#include <tntdb/time.h>" << std::endl                        
             << "namespace " << render->parent->pbuilder->unit.ns << " {" << std::endl
             << std::string(2, ' ') << "namespace entity {" << std::endl;
     LOG4CXX_TRACE(logger, "TNTDBEntityDeclarationRender <----- end");
@@ -48,19 +51,27 @@ void TNTDBEntityDeclarationRender::notify(void) {
     LOG4CXX_TRACE(logger, "notify -----> begin");
     for (std::pair<std::string, pbuilder::Table> p : render->parent->pbuilder->model.tables) {
         table(p.second);
+        tableId(p.second);
     }
     LOG4CXX_TRACE(logger, "notify <----- end");
 }
 
-void TNTDBEntityDeclarationRender::table(const pbuilder::Table & table_) {
-    LOG4CXX_TRACE(logger, "table -----> begin");
+void TNTDBEntityDeclarationRender::constructor(const pbuilder::Table & table_) {
+    LOG4CXX_TRACE(logger, "constructor -----> begin");
     render->parent->files[0]
-            << std::string(4, ' ') << "struct " << pbuilder::render::Render::toUpper(table_.name) << " {" << std::endl;
-    publicBlock(table_);
-    privateBlock(table_);
+            << std::string(6, ' ') 
+            << pbuilder::render::Render::toUpper(table_.name) << "();"
+            << std::endl;
+    LOG4CXX_TRACE(logger, "constructor <----- end");
+}
+
+void TNTDBEntityDeclarationRender::destructor(const pbuilder::Table & table_) {
+    LOG4CXX_TRACE(logger, "destructor -----> begin");
     render->parent->files[0]
-            << std::string(4, ' ') << "}" << std::endl;
-    LOG4CXX_TRACE(logger, "table <----- end");
+            << std::string(6, ' ') 
+            << "~" << pbuilder::render::Render::toUpper(table_.name) << "();"
+            << std::endl;
+    LOG4CXX_TRACE(logger, "destructor <----- end");
 }
 
 void TNTDBEntityDeclarationRender::privateBlock(const pbuilder::Table & table_) {
@@ -92,8 +103,8 @@ void TNTDBEntityDeclarationRender::publicBlock(const pbuilder::Table & table_) {
     for (pbuilder::Column column : table_.columns) {
         publicMember(column);
     }
-    render->parent->files[0]
-            << std::endl;
+    constructor(table_);
+    destructor(table_);
     LOG4CXX_TRACE(logger, "publicBlock <----- end");
 }
 
@@ -107,4 +118,28 @@ void TNTDBEntityDeclarationRender::publicMember(const pbuilder::Column & column_
             << std::string(6, ' ') << (column_.isUnsigned ? "unsigned " : "") << render->asText(column_)
             << " " << column_.name << ";" << std::endl;
     LOG4CXX_TRACE(logger, "publicMembers <----- end");
+}
+
+
+void TNTDBEntityDeclarationRender::table(const pbuilder::Table & table_) {
+    LOG4CXX_TRACE(logger, "table -----> begin");
+    render->parent->files[0]
+            << std::string(4, ' ') << "struct " << pbuilder::render::Render::toUpper(table_.name) << " {" << std::endl;
+    publicBlock(table_);
+    privateBlock(table_);
+    render->parent->files[0]
+            << std::string(4, ' ') << "}" << std::endl;
+    LOG4CXX_TRACE(logger, "table <----- end");
+}
+
+void TNTDBEntityDeclarationRender::tableId(const pbuilder::Table & table_) {
+    LOG4CXX_TRACE(logger, "tableId -----> begin");
+    if (table_.pkColumns.size() <= 1) {
+        LOG4CXX_TRACE(logger, "tableId <----- exiting");        
+        return;
+    }
+    pbuilder::Table t(table_.name + "Id");
+    t.columns = table_.pkColumns;
+    table(t);
+    LOG4CXX_TRACE(logger, "tableId <----- end");
 }
