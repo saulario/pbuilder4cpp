@@ -34,14 +34,12 @@ namespace pbuilder {
 
         class Render {
         public:
-            Render(pbuilder::PersistenceBuilder * pbuilder_);
-            ~Render();
-            //
             static const unsigned int FD_ENTITY_H = 0;
             static const unsigned int FD_ENTITY_CPP = 1;
             static const unsigned int FD_DAO_H = 2;
             static const unsigned int FD_DAO_CPP = 3;
-            //
+            Render(pbuilder::PersistenceBuilder * pbuilder_);
+            ~Render();
             void render(void);
             static std::string toUpper(const std::string & str_);
             std::ofstream files[4];
