@@ -41,17 +41,17 @@ void Render::render(void) {
     std::string basename(getenv("HOME"));
     basename += "/" + pbuilder->unit.ns;
 
-    files[0].open(basename + "_entity.h", std::ios::trunc);
-    files[1].open(basename + "_entity.cpp", std::ios::trunc);
-    files[2].open(basename + "_dao.h", std::ios::trunc);
-    files[3].open(basename + "_dao.cpp", std::ios::trunc);
+    files[FD_ENTITY_H].open(basename + "_entity.h", std::ios::trunc);
+    files[FD_ENTITY_CPP].open(basename + "_entity.cpp", std::ios::trunc);
+    files[FD_DAO_H].open(basename + "_dao.h", std::ios::trunc);
+    files[FD_DAO_CPP].open(basename + "_dao.cpp", std::ios::trunc);
 
     implementation->notify();
 
-    files[3].close();
-    files[2].close();
-    files[1].close();
-    files[0].close();
+    files[FD_DAO_CPP].close();
+    files[FD_DAO_H].close();
+    files[FD_ENTITY_CPP].close();
+    files[FD_ENTITY_H].close();
 
     LOG4CXX_TRACE(logger, "render <----- end");
 }
