@@ -94,10 +94,13 @@ namespace pbuilder {
             TNTDBRender * render;
             void constructor(const pbuilder::Table & table_);
             void destructor(const pbuilder::Table & table_);
+            void getter(const pbuilder::Column & column_);
             void privateBlock(const pbuilder::Table & table_);
             void privateMember(const pbuilder::Column & column_);
+            void privateMembers(const pbuilder::Table & table_);
             void publicBlock(const pbuilder::Table & table_);
             void publicMember(const pbuilder::Column & column_);
+            void setter(const pbuilder::Column & column_);
             void table(const pbuilder::Table & table_);
             void tableId(const pbuilder::Table & table_);
         };
@@ -111,7 +114,9 @@ namespace pbuilder {
             TNTDBRender * render;
             void constructor(const pbuilder::Table & table_);
             void destructor(const pbuilder::Table & table_);           
-            void privateMember(const pbuilder::Column & column_);
+            void getter(const pbuilder::Column & column_);            
+            void privateMembers(const pbuilder::Table & table_);
+            void setter(const pbuilder::Column & column_);
         };
 
     }

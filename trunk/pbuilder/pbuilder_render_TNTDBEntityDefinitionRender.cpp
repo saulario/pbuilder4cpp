@@ -41,6 +41,7 @@ void TNTDBEntityDefinitionRender::notify(void) {
     for (std::pair<std::string, pbuilder::Table> p : render->parent->pbuilder->model.tables) {
         constructor(p.second);
         destructor(p.second);
+        privateMembers(p.second);
     }
     LOG4CXX_TRACE(logger, "notify <----- end");
 }
@@ -91,4 +92,23 @@ void TNTDBEntityDefinitionRender::destructor(const pbuilder::Table & table_) {
     }
     render->parent->files[Render::FD_ENTITY_CPP] << "}" << std::endl;
     LOG4CXX_TRACE(logger, "destructor <----- end");
+}
+
+void TNTDBEntityDefinitionRender::privateMembers(const pbuilder::Table & table_) {
+    LOG4CXX_TRACE(logger, "privateMember -----> begin");
+    for (pbuilder::Column column : table_.columns) {
+        if (column.isNullable) {
+            getter(column);
+            setter(column);
+        }
+    }
+    LOG4CXX_TRACE(logger, "privateMember <----- end");
+}
+
+void TNTDBEntityDefinitionRender::getter(const pbuilder::Column& column_) {
+    
+}
+
+void TNTDBEntityDefinitionRender::setter(const pbuilder::Column& column_) {
+    
 }
