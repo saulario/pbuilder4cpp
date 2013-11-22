@@ -20,7 +20,6 @@
 #include <tntdb/result.h>
 #include <tntdb/error.h>
 
-#include "pbuilder.h"
 #include "pbuilder_analyzer.h"
 
 using namespace pbuilder::analyzer;
