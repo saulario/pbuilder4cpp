@@ -20,6 +20,7 @@
 #include <tntdb/result.h>
 #include <tntdb/error.h>
 
+#include "pbuilder.h"
 #include "pbuilder_analyzer.h"
 
 using namespace pbuilder::analyzer;
@@ -119,7 +120,7 @@ void MysqlAnalyzer::notify(void) {
             } catch (tntdb::NullValue) {
             }
             std::string columnType = row1.getString("COLUMN_TYPE");
-            column.isUnsigned = (columnType.find("unsigned") != std::string::npos);
+            column.isUnsigned = (columnType.find("unsigned") != std::string::npos);            
             column.comment = row1.getString("COLUMN_COMMENT");
             table.pkColumns.push_back(column);
         }

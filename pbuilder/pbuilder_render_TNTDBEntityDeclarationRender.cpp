@@ -103,7 +103,8 @@ void TNTDBEntityDeclarationRender::privateMember(const pbuilder::Column & column
     render->parent->files[Render::FD_ENTITY_H]
             << std::string(6, ' ') << (column_.isUnsigned ? "unsigned " : "") << render->asText(column_)
             << " * " << column_.name << ";"
-            << " // " << column_.comment << std::endl;
+            << " /* " << column_.comment << " */"
+            << std::endl;
     LOG4CXX_TRACE(logger, "privateMember <----- end");
 }
 
@@ -140,7 +141,8 @@ void TNTDBEntityDeclarationRender::publicMember(const pbuilder::Column & column_
     render->parent->files[Render::FD_ENTITY_H]
             << std::string(6, ' ') << (column_.isUnsigned ? "unsigned " : "") << render->asText(column_)
             << " " << column_.name << ";"
-            << " // " << column_.comment << std::endl;
+            << " /* " << column_.comment << " */" 
+            << std::endl;
     LOG4CXX_TRACE(logger, "publicMember <----- end");
 }
 
@@ -162,7 +164,7 @@ void TNTDBEntityDeclarationRender::table(const pbuilder::Table & table_) {
     publicBlock(table_);
     privateBlock(table_);
     render->parent->files[Render::FD_ENTITY_H]
-            << std::string(4, ' ') << "}" << std::endl;
+            << std::string(4, ' ') << "};" << std::endl;
     LOG4CXX_TRACE(logger, "table <----- end");
 }
 

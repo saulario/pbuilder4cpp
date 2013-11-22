@@ -49,6 +49,7 @@ void TNTDBEntityDefinitionRender::notify(void) {
 void TNTDBEntityDefinitionRender::constructor(const pbuilder::Table & table_) {
     LOG4CXX_TRACE(logger, "constructor -----> begin");
     render->parent->files[Render::FD_ENTITY_CPP]
+            << pbuilder::render::Render::toUpper(table_.name) << "::"
             << pbuilder::render::Render::toUpper(table_.name) << "() {"
             << std::endl;
     for (pbuilder::Column column : table_.columns) {
@@ -72,6 +73,7 @@ void TNTDBEntityDefinitionRender::constructor(const pbuilder::Table & table_) {
 void TNTDBEntityDefinitionRender::destructor(const pbuilder::Table & table_) {
     LOG4CXX_TRACE(logger, "destructor -----> begin");
     render->parent->files[Render::FD_ENTITY_CPP]
+            << pbuilder::render::Render::toUpper(table_.name) << "::"            
             << "~" << pbuilder::render::Render::toUpper(table_.name) << "() {"
             << std::endl;
     for (pbuilder::Column column : table_.columns) {
