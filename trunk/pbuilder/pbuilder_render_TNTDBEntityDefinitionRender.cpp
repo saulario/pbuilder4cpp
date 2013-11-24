@@ -96,21 +96,112 @@ void TNTDBEntityDefinitionRender::destructor(const pbuilder::Table & table_) {
     LOG4CXX_TRACE(logger, "destructor <----- end");
 }
 
+void TNTDBEntityDefinitionRender::getter(const pbuilder::Column & column_, const pbuilder::Table & table_) {
+    LOG4CXX_TRACE(logger, "getter -----> begin");
+    render->parent->files[Render::FD_ENTITY_CPP]
+            << (column_.isUnsigned ? "unsigned " : "") << render->asText(column_)
+            << " " << pbuilder::render::Render::toUpper(table_.name) << "::"
+            << "get" << pbuilder::render::Render::toUpper(column_.name)
+            << "(void) {"
+            << std::endl;
+    render->parent->files[Render::FD_ENTITY_CPP]
+            << std::string(2, ' ') 
+            << "return ("
+            << column_.name << " != NULL ? * " << column_.name 
+            << " : " << render->defaultValue(column_) << ");"
+            << std::endl;        
+    render->parent->files[Render::FD_ENTITY_CPP]
+            << "}"
+            << std::endl;
+    LOG4CXX_TRACE(logger, "getter <----- end");
+}
+
+void TNTDBEntityDefinitionRender::isNull(const pbuilder::Column & column_, const pbuilder::Table & table_) {
+    LOG4CXX_TRACE(logger, "isNull -----> begin");
+    render->parent->files[Render::FD_ENTITY_CPP]
+            << "bool " << pbuilder::render::Render::toUpper(table_.name) << "::"
+            << "isNull" << pbuilder::render::Render::toUpper(column_.name)
+            << "(void) {"
+            << std::endl;
+    render->parent->files[Render::FD_ENTITY_CPP]
+            << std::string(2, ' ')
+            << "return ("  << column_.name << " == NULL);"
+            << std::endl;
+    render->parent->files[Render::FD_ENTITY_CPP]
+            << "}"
+            << std::endl;
+    LOG4CXX_TRACE(logger, "isNull <----- end");
+}
+
 void TNTDBEntityDefinitionRender::privateMembers(const pbuilder::Table & table_) {
     LOG4CXX_TRACE(logger, "privateMember -----> begin");
     for (pbuilder::Column column : table_.columns) {
         if (column.isNullable) {
-            getter(column);
-            setter(column);
+            getter(column, table_);
+            setter(column, table_);
+            isNull(column, table_);
+            setNull(column, table_);            
         }
     }
     LOG4CXX_TRACE(logger, "privateMember <----- end");
 }
 
-void TNTDBEntityDefinitionRender::getter(const pbuilder::Column& column_) {
-    
+void TNTDBEntityDefinitionRender::setter(const pbuilder::Column & column_, const pbuilder::Table & table_) {
+    LOG4CXX_TRACE(logger, "setter -----> begin");
+    render->parent->files[Render::FD_ENTITY_CPP]
+            << "void " << pbuilder::render::Render::toUpper(table_.name) << "::"
+            << "set" << pbuilder::render::Render::toUpper(column_.name) << "(const "
+            << (column_.isUnsigned ? "unsigned " : "") << render->asText(column_)
+            << " & " << column_.name << "_) {"
+            << std::endl;
+    render->parent->files[Render::FD_ENTITY_CPP]
+            << std::string(2, ' ') 
+            << "if (" << column_.name << " != NULL) {"
+            << std::endl;
+    render->parent->files[Render::FD_ENTITY_CPP]
+            << std::string(4, ' ') 
+            << "delete " << column_.name << ";"
+            << std::endl;
+    render->parent->files[Render::FD_ENTITY_CPP]
+            << std::string(2, ' ') 
+            << "}"
+            << std::endl;
+    render->parent->files[Render::FD_ENTITY_CPP]
+            << std::string(2, ' ') 
+            << column_.name << " = new " 
+            << (column_.isUnsigned ? "unsigned " : "") << render->asText(column_) 
+            << "(" << column_.name << "_);"
+            << std::endl;    
+    render->parent->files[Render::FD_ENTITY_CPP]
+            << "}"
+            << std::endl;
+    LOG4CXX_TRACE(logger, "setter <----- end");
 }
 
-void TNTDBEntityDefinitionRender::setter(const pbuilder::Column& column_) {
-    
+void TNTDBEntityDefinitionRender::setNull(const pbuilder::Column & column_, const pbuilder::Table & table_) {
+    LOG4CXX_TRACE(logger, "setNull -----> begin");
+    render->parent->files[Render::FD_ENTITY_CPP]
+            << "void " << pbuilder::render::Render::toUpper(table_.name) << "::"
+            << "setNull" << pbuilder::render::Render::toUpper(column_.name) 
+            << "(void) {"
+            << std::endl;
+    render->parent->files[Render::FD_ENTITY_CPP]
+            << std::string(2, ' ') << "if ("
+            << column_.name << " != NULL) {"
+            << std::endl;
+    render->parent->files[Render::FD_ENTITY_CPP]
+            << std::string(4, ' ')
+            << "delete " << column_.name << ";"
+            << std::endl;
+    render->parent->files[Render::FD_ENTITY_CPP]
+            << std::string(2, ' ') << "}"
+            << std::endl;
+    render->parent->files[Render::FD_ENTITY_CPP]
+            << std::string(2, ' ') 
+            << column_.name << " = NULL;"
+            << std::endl;    
+    render->parent->files[Render::FD_ENTITY_CPP]
+            << "}"
+            << std::endl;
+    LOG4CXX_TRACE(logger, "setNull <----- end");
 }
