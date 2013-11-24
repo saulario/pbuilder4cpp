@@ -78,10 +78,20 @@ void TNTDBEntityDeclarationRender::getter(const pbuilder::Column & column_) {
     LOG4CXX_TRACE(logger, "getter -----> begin");
     render->parent->files[Render::FD_ENTITY_H]
             << std::string(6, ' ') << (column_.isUnsigned ? "unsigned " : "") << render->asText(column_)
-            << " * " << "get" << pbuilder::render::Render::toUpper(column_.name)
+            << " get" << pbuilder::render::Render::toUpper(column_.name)
             << "(void);"
             << std::endl;
     LOG4CXX_TRACE(logger, "getter <----- end");
+}
+
+void TNTDBEntityDeclarationRender::isNull(const pbuilder::Column & column_) {
+    LOG4CXX_TRACE(logger, "isNull -----> begin");
+    render->parent->files[Render::FD_ENTITY_H]
+            << std::string(6, ' ') 
+            << "bool isNull" << pbuilder::render::Render::toUpper(column_.name)
+            << "(void);"
+            << std::endl;
+    LOG4CXX_TRACE(logger, "isNull <----- end");
 }
 
 void TNTDBEntityDeclarationRender::privateBlock(const pbuilder::Table & table_) {
@@ -114,6 +124,8 @@ void TNTDBEntityDeclarationRender::privateMembers(const pbuilder::Table & table_
         if (column.isNullable) {
             getter(column);
             setter(column);
+            isNull(column);
+            setNull(column);
         }
     }
     LOG4CXX_TRACE(logger, "privateMembers <----- end");
@@ -155,6 +167,16 @@ void TNTDBEntityDeclarationRender::setter(const pbuilder::Column & column_) {
             << " & " << column_.name << ");"
             << std::endl;
     LOG4CXX_TRACE(logger, "setter <----- end");
+}
+
+void TNTDBEntityDeclarationRender::setNull(const pbuilder::Column & column_) {
+    LOG4CXX_TRACE(logger, "setNull -----> begin");
+    render->parent->files[Render::FD_ENTITY_H]
+            << std::string(6, ' ') 
+            << "void setNull" << pbuilder::render::Render::toUpper(column_.name)
+            << "(void);"
+            << std::endl;
+    LOG4CXX_TRACE(logger, "setNull <----- end");
 }
 
 void TNTDBEntityDeclarationRender::table(const pbuilder::Table & table_) {

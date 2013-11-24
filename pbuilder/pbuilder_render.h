@@ -95,12 +95,14 @@ namespace pbuilder {
             void constructor(const pbuilder::Table & table_);
             void destructor(const pbuilder::Table & table_);
             void getter(const pbuilder::Column & column_);
+            void isNull(const pbuilder::Column & column_);
             void privateBlock(const pbuilder::Table & table_);
             void privateMember(const pbuilder::Column & column_);
             void privateMembers(const pbuilder::Table & table_);
             void publicBlock(const pbuilder::Table & table_);
             void publicMember(const pbuilder::Column & column_);
             void setter(const pbuilder::Column & column_);
+            void setNull(const pbuilder::Column & column_);
             void table(const pbuilder::Table & table_);
             void tableId(const pbuilder::Table & table_);
         };
@@ -113,10 +115,12 @@ namespace pbuilder {
             static log4cxx::LoggerPtr logger;
             TNTDBRender * render;
             void constructor(const pbuilder::Table & table_);
-            void destructor(const pbuilder::Table & table_);           
-            void getter(const pbuilder::Column & column_);            
+            void destructor(const pbuilder::Table & table_);
+            void getter(const pbuilder::Column & column_, const pbuilder::Table & table_);
+            void isNull(const pbuilder::Column & column_, const pbuilder::Table & table_);
             void privateMembers(const pbuilder::Table & table_);
-            void setter(const pbuilder::Column & column_);
+            void setter(const pbuilder::Column & column_, const pbuilder::Table & table_);
+            void setNull(const pbuilder::Column & column_, const pbuilder::Table & table_);
         };
 
     }
