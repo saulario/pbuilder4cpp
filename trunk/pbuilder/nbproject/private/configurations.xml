@@ -15,6 +15,8 @@
         </gdb_interceptlist>
         <gdb_options>
           <DebugOptions>
+            <option name="debug_command"
+                    value="&quot;${OUTPUT_PATH}&quot; --unit comet_mysql --table %"/>
           </DebugOptions>
         </gdb_options>
         <gdb_buildfirst gdb_buildfirst_overriden="false" gdb_buildfirst_old="false"/>
@@ -31,8 +33,9 @@
           <runcommandpicklistitem>"${OUTPUT_PATH}" --unit test --table all</runcommandpicklistitem>
           <runcommandpicklistitem>"${OUTPUT_PATH}" --unit comet --table all</runcommandpicklistitem>
           <runcommandpicklistitem>"${OUTPUT_PATH}" --unit comet --table %</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" --unit comet_mysql --table %</runcommandpicklistitem>
         </runcommandpicklist>
-        <runcommand>"${OUTPUT_PATH}" --unit comet --table %</runcommand>
+        <runcommand>"${OUTPUT_PATH}" --unit comet_mysql --table %</runcommand>
         <rundir></rundir>
         <buildfirst>true</buildfirst>
         <terminal-type>0</terminal-type>
