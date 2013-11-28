@@ -122,6 +122,7 @@ void PersistenceBuilder::checkConfiguration(void) {
                 << "\t<units>\n"
                 << "\t\t<unit>\n"
                 << "\t\t\t<name>test</name>\n"
+                << "\t\t\t<database>test</database>\n"
                 << "\t\t\t<url>mysql:db=test</url>\n"
                 << "\t\t\t<namespace>test</namespace>\n"
                 << "\t\t</unit>\n"
@@ -179,6 +180,9 @@ void PersistenceBuilder::evaluateParameters(int argc, char** argv) {
             }
             if ("name" == key) {
                 unit->name = value;
+                unit->database = value;
+            } else if ("database" == key) {
+                unit->database = value;
             } else if ("url" == key) {
                 unit->url = value;
             } else if ("namespace" == key) {
@@ -192,6 +196,7 @@ void PersistenceBuilder::evaluateParameters(int argc, char** argv) {
     }
     Unit * ptr = unitMap.find(punit)->second;
     unit.name = ptr->name;
+    unit.database = ptr->database;
     unit.url = ptr->url;
     unit.ns = ptr->ns;
     for (std::pair<std::string, Unit*> pair : unitMap) delete pair.second;

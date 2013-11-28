@@ -35,7 +35,7 @@ void MysqlAnalyzer::notify(void) {
             "     TABLE_SCHEMA = :schema"
             " AND TABLE_NAME LIKE :table"
             " ORDER BY TABLE_NAME").
-            setString("schema", pbuilder->unit.name).
+            setString("schema", pbuilder->unit.database).
             setString("table", pbuilder->table).
             select()
             ;
@@ -47,7 +47,7 @@ void MysqlAnalyzer::notify(void) {
                 "     TABLE_SCHEMA = :schema "
                 " AND TABLE_NAME = :table"
                 " ORDER BY ORDINAL_POSITION").
-                setString("schema", pbuilder->unit.name).
+                setString("schema", pbuilder->unit.database).
                 setString("table", table.name).
                 select()
                 ;

@@ -50,10 +50,11 @@ namespace pbuilder {
     struct Unit {
     public:
         std::string name;
+        std::string database;
         std::string url;
         std::string ns;
 
-        Unit() : name(""), url(""), ns("") {
+        Unit() : name(""), database(""), url(""), ns("") {
         };
 
     };
