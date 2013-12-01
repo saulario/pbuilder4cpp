@@ -23,8 +23,8 @@ CREATE TABLE `test1` (
 	`tdatetime`		DATETIME NOT NULL 			COMMENT 'Datetime',
 	`ttimestamp`		TIMESTAMP NOT NULL 			COMMENT 'Timestamp',
 	`ttime`			TIME NOT NULL 				COMMENT 'Time',
-	`tchar`			CHAR(100) NOT NULL 			COMMENT 'Char(10)',
-	`tvarchar`		VARCHAR(100) NOT NULL 			COMMENT 'Varchar(10)',
+	`tchar`			CHAR(100) NOT NULL 			COMMENT 'Char(100)',
+	`tvarchar`		VARCHAR(100) NOT NULL 			COMMENT 'Varchar(100)',
 	`ttext`			TEXT NOT NULL 				COMMENT 'Text',
 	`tblob`			BLOB NOT NULL 				COMMENT 'Blob',
 	PRIMARY KEY(`tkey`)
@@ -87,8 +87,8 @@ CREATE TABLE `test2` (
 	`tdatetime`		DATETIME   				COMMENT 'Datetime',
 	`ttimestamp`		TIMESTAMP   				COMMENT 'Timestamp',
 	`ttime`			TIME   					COMMENT 'Time',
-	`tchar`			CHAR(100) 	  			COMMENT 'Char(10)',
-	`tvarchar`		VARCHAR(100)   				COMMENT 'Varchar(10)',
+	`tchar`			CHAR(100) 	  			COMMENT 'Char(100)',
+	`tvarchar`		VARCHAR(100)   				COMMENT 'Varchar(100)',
 	`ttext`			TEXT 	  				COMMENT 'Text',
 	`tblob`			BLOB   					COMMENT 'Blob',
 
