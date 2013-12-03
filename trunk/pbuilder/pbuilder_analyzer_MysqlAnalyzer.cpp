@@ -136,6 +136,8 @@ pbuilder::MODEL_TYPE MysqlAnalyzer::getModelType(const std::string & ptype) {
 
     if (ptype.compare("smallint") == 0) {
         return SMALLINT;
+    } else if (ptype.compare("mediumint") == 0) {
+        return MEDIUMINT;        
     } else if (ptype.compare("int") == 0) {
         return INTEGER;
     } else if (ptype.compare("bigint") == 0) {

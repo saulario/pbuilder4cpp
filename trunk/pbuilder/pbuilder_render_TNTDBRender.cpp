@@ -32,6 +32,9 @@ std::string TNTDBRender::asText(const pbuilder::Column & column_) {
         case SMALLINT:
             value = "short";
             break;
+        case MEDIUMINT:
+            value = "int";
+            break;            
         case INTEGER:
             value = "int";
             break;
@@ -72,6 +75,9 @@ std::string TNTDBRender::defaultValue(const pbuilder::Column & column_) {
         case SMALLINT:
             value = "0";
             break;
+        case MEDIUMINT:
+            value = "0";
+            break;            
         case INTEGER:
             value = "0";
             break;
