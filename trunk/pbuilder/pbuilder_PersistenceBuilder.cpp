@@ -123,7 +123,7 @@ void PersistenceBuilder::checkConfiguration(void) {
                 << "\t\t<unit>\n"
                 << "\t\t\t<name>test</name>\n"
                 << "\t\t\t<database>test</database>\n"
-                << "\t\t\t<url>mysql:db=test</url>\n"
+                << "\t\t\t<url>mysql:db=information_schema</url>\n"
                 << "\t\t\t<namespace>test</namespace>\n"
                 << "\t\t</unit>\n"
                 << "\t</units>\n"
