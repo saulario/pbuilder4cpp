@@ -34,8 +34,10 @@
           <runcommandpicklistitem>"${OUTPUT_PATH}" --unit comet --table all</runcommandpicklistitem>
           <runcommandpicklistitem>"${OUTPUT_PATH}" --unit comet --table %</runcommandpicklistitem>
           <runcommandpicklistitem>"${OUTPUT_PATH}" --unit comet_mysql --table %</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" --unit test_mysql --table %</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" --unit test --table %</runcommandpicklistitem>
         </runcommandpicklist>
-        <runcommand>"${OUTPUT_PATH}" --unit comet_mysql --table %</runcommand>
+        <runcommand>"${OUTPUT_PATH}" --unit test --table %</runcommand>
         <rundir></rundir>
         <buildfirst>true</buildfirst>
         <terminal-type>0</terminal-type>

@@ -28,6 +28,7 @@ namespace pbuilder {
 
     enum MODEL_TYPE {
         SMALLINT,
+        MEDIUMINT,
         INTEGER,
         BIGINT,
         FLOAT,
