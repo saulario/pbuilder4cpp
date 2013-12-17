@@ -160,6 +160,8 @@ pbuilder::MODEL_TYPE MysqlAnalyzer::getModelType(const std::string & ptype) {
         return DATETIME;
     } else if (ptype.compare("timestamp") == 0) {
         return TIMESTAMP;
+    } else if (ptype.compare("blob") == 0) {
+        return BLOB;
     } else if (ptype.compare("longblob") == 0) {
         return BLOB;
     } else if (ptype.compare("point") == 0) {

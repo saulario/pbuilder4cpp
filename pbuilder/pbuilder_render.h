@@ -54,8 +54,9 @@ namespace pbuilder {
 
             TNTDBRender(Render * parent_) : parent(parent_) {
             };
-            std::string asText(const pbuilder::Column & column_);
-            std::string defaultValue(const pbuilder::Column & column_);
+            std::string asText(const pbuilder::Column &);
+            std::string defaultValue(const pbuilder::Column &);
+            std::string isUnsigned(const pbuilder::Column &);
             void notify(void);
             Render * parent;
         private:

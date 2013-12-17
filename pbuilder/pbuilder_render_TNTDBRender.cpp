@@ -51,6 +51,9 @@ std::string TNTDBRender::asText(const pbuilder::Column & column_) {
         case CLOB:            
             value = "std::string";
             break;
+        case BLOB:            
+            value = "tntdb::Blob";
+            break;
         case DATE:            
             value = "tntdb::Date";
             break;
@@ -94,6 +97,9 @@ std::string TNTDBRender::defaultValue(const pbuilder::Column & column_) {
         case CLOB:            
             value = "\"\"";
             break;
+        case BLOB:            
+            value = "tntdb::Blob()";
+            break;    
         case DATE:            
             value = "tntdb::Date()";
             break;
@@ -108,6 +114,26 @@ std::string TNTDBRender::defaultValue(const pbuilder::Column & column_) {
             value = "\"\"";
     }
     LOG4CXX_TRACE(logger, "defaultValue <----- end");
+    return value;
+}
+
+std::string TNTDBRender::isUnsigned(const pbuilder::Column & column_) {
+    LOG4CXX_TRACE(logger, "isUnsigned -----> begin");
+    std::string value = "";
+    if (!column_.isUnsigned) {
+        return value;
+    }
+    switch (column_.type) {
+        case SMALLINT:
+        case MEDIUMINT:            
+        case INTEGER:            
+        case BIGINT:            
+            value = "unsigned ";
+            break;
+        default:
+            value = "";
+    }
+    LOG4CXX_TRACE(logger, "isUnsigned <----- end");
     return value;
 }
 
