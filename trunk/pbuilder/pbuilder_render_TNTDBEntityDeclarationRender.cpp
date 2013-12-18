@@ -78,7 +78,7 @@ void TNTDBEntityDeclarationRender::destructor(const pbuilder::Table & table_) {
 void TNTDBEntityDeclarationRender::getter(const pbuilder::Column & column_) {
     LOG4CXX_TRACE(logger, "getter -----> begin");
     render->parent->files[Render::FD_ENTITY_H]
-            << std::string(6, ' ') << render->isUnsigned(column_) << render->asText(column_)
+            << std::string(6, ' ') << render->asText(column_)
             << " get" << pbuilder::render::Render::toUpper(column_.name)
             << "(void) const;"
             << std::endl;
@@ -112,7 +112,7 @@ void TNTDBEntityDeclarationRender::privateMember(const pbuilder::Column & column
         return;
     }
     render->parent->files[Render::FD_ENTITY_H]
-            << std::string(6, ' ') << render->isUnsigned(column_) << render->asText(column_)
+            << std::string(6, ' ') << render->asText(column_)
             << " * " << column_.name << ";"
             << " /* " << column_.comment << " */"
             << std::endl;
@@ -152,7 +152,7 @@ void TNTDBEntityDeclarationRender::publicMember(const pbuilder::Column & column_
         return;
     }
     render->parent->files[Render::FD_ENTITY_H]
-            << std::string(6, ' ') << render->isUnsigned(column_) << render->asText(column_)
+            << std::string(6, ' ') << render->asText(column_)
             << " " << column_.name << ";"
             << " /* " << column_.comment << " */" 
             << std::endl;
@@ -164,7 +164,7 @@ void TNTDBEntityDeclarationRender::setter(const pbuilder::Column & column_) {
     render->parent->files[Render::FD_ENTITY_H]
             << std::string(6, ' ') << "void set"
             << pbuilder::render::Render::toUpper(column_.name) << "(const "
-            << render->isUnsigned(column_) << render->asText(column_)
+            << render->asText(column_)
             << " & " << column_.name << ");"
             << std::endl;
     LOG4CXX_TRACE(logger, "setter <----- end");
