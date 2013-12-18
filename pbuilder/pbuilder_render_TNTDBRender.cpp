@@ -30,16 +30,16 @@ std::string TNTDBRender::asText(const pbuilder::Column & column_) {
     std::string value = "";
     switch (column_.type) {
         case SMALLINT:
-            value = "short";
+            value = std::string((column_.isUnsigned ? "unsigned " : "")) + "short";
             break;
         case MEDIUMINT:
-            value = "int";
+            value = std::string((column_.isUnsigned ? "unsigned " : "")) + "int";
             break;            
         case INTEGER:
-            value = "int";
+            value = std::string((column_.isUnsigned ? "unsigned " : "")) + "int";
             break;
         case BIGINT:
-            value = "long";
+            value = std::string((column_.isUnsigned ? "unsigned " : "")) + "long";
             break;
         case FLOAT:
             value = "float";
@@ -114,26 +114,6 @@ std::string TNTDBRender::defaultValue(const pbuilder::Column & column_) {
             value = "\"\"";
     }
     LOG4CXX_TRACE(logger, "defaultValue <----- end");
-    return value;
-}
-
-std::string TNTDBRender::isUnsigned(const pbuilder::Column & column_) {
-    LOG4CXX_TRACE(logger, "isUnsigned -----> begin");
-    std::string value = "";
-    if (!column_.isUnsigned) {
-        return value;
-    }
-    switch (column_.type) {
-        case SMALLINT:
-        case MEDIUMINT:            
-        case INTEGER:            
-        case BIGINT:            
-            value = "unsigned ";
-            break;
-        default:
-            value = "";
-    }
-    LOG4CXX_TRACE(logger, "isUnsigned <----- end");
     return value;
 }
 

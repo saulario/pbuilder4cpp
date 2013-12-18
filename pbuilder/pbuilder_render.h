@@ -56,7 +56,6 @@ namespace pbuilder {
             };
             std::string asText(const pbuilder::Column &);
             std::string defaultValue(const pbuilder::Column &);
-            std::string isUnsigned(const pbuilder::Column &);
             void notify(void);
             Render * parent;
         private:
