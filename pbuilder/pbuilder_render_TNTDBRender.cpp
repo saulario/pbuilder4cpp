@@ -125,6 +125,7 @@ void TNTDBRender::notify(void) {
     TNTDBEntityDeclarationRender edec(this);
     TNTDBEntityDefinitionRender edef(this);
     
+    adec.notify();
     edec.notify();
     edef.notify();
     

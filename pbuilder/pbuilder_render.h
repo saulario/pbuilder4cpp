@@ -36,8 +36,8 @@ namespace pbuilder {
         public:
             static const unsigned int FD_ENTITY_H = 0;
             static const unsigned int FD_ENTITY_CPP = 1;
-            static const unsigned int FD_DAO_H = 2;
-            static const unsigned int FD_DAO_CPP = 3;
+            static const unsigned int FD_ARTIFACT_H = 2;
+            static const unsigned int FD_ARTIFACT_CPP = 3;
             Render(pbuilder::PersistenceBuilder * pbuilder_);
             ~Render();
             void render(void);
@@ -65,19 +65,20 @@ namespace pbuilder {
         class TNTDBArtifactDeclarationRender {
         public:
 
-            TNTDBArtifactDeclarationRender(TNTDBRender * render_) : render(render_) {
-            };
+            TNTDBArtifactDeclarationRender(TNTDBRender *);
+            ~TNTDBArtifactDeclarationRender();
             void notify(void);
         private:
             static log4cxx::LoggerPtr logger;
             TNTDBRender * render;
+            void table(const pbuilder::Table &);
         };
 
         class TNTDBArtifactDefinitionRender {
         public:
 
-            TNTDBArtifactDefinitionRender(TNTDBRender * render_) : render(render_) {
-            };
+            TNTDBArtifactDefinitionRender(TNTDBRender *);
+            ~TNTDBArtifactDefinitionRender();
             void notify(void);
         private:
             static log4cxx::LoggerPtr logger;
@@ -86,7 +87,7 @@ namespace pbuilder {
 
         class TNTDBEntityDeclarationRender {
         public:
-            TNTDBEntityDeclarationRender(TNTDBRender * render_);
+            TNTDBEntityDeclarationRender(TNTDBRender *);
             ~TNTDBEntityDeclarationRender();
             void notify(void);
         private:
