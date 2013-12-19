@@ -16,6 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * 
  */
+#include <boost/algorithm/string.hpp>
 #include "pbuilder.h"
 #include "pbuilder_render.h"
 
@@ -24,3 +25,25 @@ using namespace pbuilder::render;
 log4cxx::LoggerPtr TNTDBArtifactDefinitionRender::logger =
         log4cxx::Logger::getLogger("pbuilder::render::TNTDBArtifactDefinitionRender");
 
+TNTDBArtifactDefinitionRender::TNTDBArtifactDefinitionRender(TNTDBRender * render_) : render(render_) {
+    LOG4CXX_TRACE(logger, "TNTDBArtifactDefinitionRender -----> begin");
+    render->parent->files[Render::FD_ARTIFACT_CPP]
+            << "#ifndef " << boost::algorithm::to_upper_copy(render_->parent->pbuilder->unit.ns) << "_DAO_H" << std::endl
+            << "#define " << boost::algorithm::to_upper_copy(render_->parent->pbuilder->unit.ns) << "_DAO_H" << std::endl
+            << "#include <boost/thread/mutex.hpp>" << std::endl
+            << "#include <boost/thread/thread.hpp>" << std::endl
+            << "#include <tntdb/datetime.h>" << std::endl
+            << "#include <tntdb/time.h>" << std::endl
+            << "namespace " << render->parent->pbuilder->unit.ns << " {" << std::endl
+            << std::string(2, ' ') << "namespace entity {" << std::endl;
+    LOG4CXX_TRACE(logger, "TNTDBArtifactDefinitionRender <----- end");
+}
+
+TNTDBArtifactDefinitionRender::~TNTDBArtifactDefinitionRender() {
+    LOG4CXX_TRACE(logger, "~TNTDBArtifactDefinitionRender -----> begin");
+    render->parent->files[Render::FD_ARTIFACT_CPP]
+            << std::string(2, ' ') << "}" << std::endl
+            << "}" << std::endl
+            << "#endif" << std::endl;
+    LOG4CXX_TRACE(logger, "~TNTDBArtifactDefinitionRender <----- end");
+}

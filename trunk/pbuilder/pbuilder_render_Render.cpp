@@ -43,13 +43,13 @@ void Render::render(void) {
 
     files[FD_ENTITY_H].open(basename + "_entity.h", std::ios::trunc);
     files[FD_ENTITY_CPP].open(basename + "_entity.cpp", std::ios::trunc);
-    files[FD_DAO_H].open(basename + "_dao.h", std::ios::trunc);
-    files[FD_DAO_CPP].open(basename + "_dao.cpp", std::ios::trunc);
+    files[FD_ARTIFACT_H].open(basename + "_dao.h", std::ios::trunc);
+    files[FD_ARTIFACT_CPP].open(basename + "_dao.cpp", std::ios::trunc);
 
     implementation->notify();
 
-    files[FD_DAO_CPP].close();
-    files[FD_DAO_H].close();
+    files[FD_ARTIFACT_CPP].close();
+    files[FD_ARTIFACT_H].close();
     files[FD_ENTITY_CPP].close();
     files[FD_ENTITY_H].close();
 
