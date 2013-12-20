@@ -28,22 +28,96 @@ log4cxx::LoggerPtr TNTDBArtifactDefinitionRender::logger =
 TNTDBArtifactDefinitionRender::TNTDBArtifactDefinitionRender(TNTDBRender * render_) : render(render_) {
     LOG4CXX_TRACE(logger, "TNTDBArtifactDefinitionRender -----> begin");
     render->parent->files[Render::FD_ARTIFACT_CPP]
-            << "#ifndef " << boost::algorithm::to_upper_copy(render_->parent->pbuilder->unit.ns) << "_DAO_H" << std::endl
-            << "#define " << boost::algorithm::to_upper_copy(render_->parent->pbuilder->unit.ns) << "_DAO_H" << std::endl
-            << "#include <boost/thread/mutex.hpp>" << std::endl
-            << "#include <boost/thread/thread.hpp>" << std::endl
-            << "#include <tntdb/datetime.h>" << std::endl
-            << "#include <tntdb/time.h>" << std::endl
-            << "namespace " << render->parent->pbuilder->unit.ns << " {" << std::endl
-            << std::string(2, ' ') << "namespace entity {" << std::endl;
+            << "#include <boost/algorithm/string/split.hpp>" << std::endl
+            << "#include <boost/algorithm/string/predicate.hpp>" << std::endl
+            << "#include <boost/algorithm/string/classification.hpp>" << std::endl
+            << "#include <tntdb/error.h>" << std::endl
+            << "#include \"" << render->parent->pbuilder->unit.ns << "_dao.h\"" << std::endl
+            << "using namespace " << render->parent->pbuilder->unit.ns << "::dao;" << std::endl;;
+    
+    const char * common = R"DELIM(        
+void CommonDAO::createQueries(void) {
+    insertQuery = "insert into " + table + "(" + columns + ")"
+            " values("
+            ;
+    std::vector<std::string> fields;
+    bool first = true;
+    boost::algorithm::split(fields, columns, boost::algorithm::is_any_of(","));
+    for (std::string f : fields) {
+        if (!first) {
+            insertQuery += ",";
+        }
+        first = false;
+        insertQuery += ":" + f;
+    }
+    insertQuery += ")";
+    readQuery = "select " + columns + " from " + table + " where ";
+    first = true;
+    boost::algorithm::split(fields, keyColumns, boost::algorithm::is_any_of(","));
+    for (std::string f : fields) {
+        if (!first) {
+            readQuery += " and ";
+        }
+        first = false;
+        readQuery += f + "=:" + f;
+    }
+    removeQuery = "delete from " + table + " where ";
+    first = true;
+    boost::algorithm::split(fields, keyColumns, boost::algorithm::is_any_of(","));
+    for (std::string f : fields) {
+        if (!first) {
+            removeQuery += " and ";
+        }
+        first = false;
+        removeQuery += f + "=:" + f;
+    }
+    updateQuery = "update " + table + " set ";
+    first = true;
+    boost::algorithm::split(fields, columns, boost::algorithm::is_any_of(","));
+    for (std::string f : fields) {
+        if (!first) {
+            updateQuery += ",";
+        }
+        first = false;
+        updateQuery += f + "=:" + f;
+    }
+    updateQuery += " where ";
+    first = true;
+    boost::algorithm::split(fields, keyColumns, boost::algorithm::is_any_of(","));
+    for (std::string f : fields) {
+        if (!first) {
+            updateQuery += " and ";
+        }
+        first = false;
+        updateQuery += f + "=:" + f + "PK";
+    }
+}
+std::string CommonDAO::getInsertQuery(void) {
+    return insertQuery;
+}
+std::string CommonDAO::getReadQuery(void) {
+    return readQuery;
+}
+std::string CommonDAO::getRemoveQuery(void) {
+    return removeQuery;
+}
+std::string CommonDAO::getUpdateQuery(void) {
+    return updateQuery;
+}
+std::string CommonDAO::getColumns(void) {
+    return columns;
+}
+std::string CommonDAO::getTable(void) {
+    return table;
+}
+)DELIM";
+    render->parent->files[Render::FD_ARTIFACT_CPP]
+            << common
+            << std::endl;
     LOG4CXX_TRACE(logger, "TNTDBArtifactDefinitionRender <----- end");
 }
 
 TNTDBArtifactDefinitionRender::~TNTDBArtifactDefinitionRender() {
     LOG4CXX_TRACE(logger, "~TNTDBArtifactDefinitionRender -----> begin");
-    render->parent->files[Render::FD_ARTIFACT_CPP]
-            << std::string(2, ' ') << "}" << std::endl
-            << "}" << std::endl
-            << "#endif" << std::endl;
     LOG4CXX_TRACE(logger, "~TNTDBArtifactDefinitionRender <----- end");
 }
