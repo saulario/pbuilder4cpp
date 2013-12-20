@@ -93,19 +93,20 @@ namespace pbuilder {
         private:
             static log4cxx::LoggerPtr logger;
             TNTDBRender * render;
-            void constructor(const pbuilder::Table & table_);
-            void destructor(const pbuilder::Table & table_);
-            void getter(const pbuilder::Column & column_);
-            void isNull(const pbuilder::Column & column_);
-            void privateBlock(const pbuilder::Table & table_);
-            void privateMember(const pbuilder::Column & column_);
-            void privateMembers(const pbuilder::Table & table_);
-            void publicBlock(const pbuilder::Table & table_);
-            void publicMember(const pbuilder::Column & column_);
-            void setter(const pbuilder::Column & column_);
-            void setNull(const pbuilder::Column & column_);
-            void table(const pbuilder::Table & table_);
-            void tableId(const pbuilder::Table & table_);
+            void constructor(const pbuilder::Table &);
+            void destructor(const pbuilder::Table &);
+            void getter(const pbuilder::Column &);
+            void isNull(const pbuilder::Column &);
+            void operatorEquals(const pbuilder::Table &);            
+            void privateBlock(const pbuilder::Table &);
+            void privateMember(const pbuilder::Column &);
+            void privateMembers(const pbuilder::Table &);
+            void publicBlock(const pbuilder::Table &);
+            void publicMember(const pbuilder::Column &);
+            void setter(const pbuilder::Column &);
+            void setNull(const pbuilder::Column &);
+            void table(const pbuilder::Table &);
+            void tableId(const pbuilder::Table &);
         };
 
         class TNTDBEntityDefinitionRender {
@@ -115,13 +116,14 @@ namespace pbuilder {
         private:
             static log4cxx::LoggerPtr logger;
             TNTDBRender * render;
-            void constructor(const pbuilder::Table & table_);
-            void destructor(const pbuilder::Table & table_);
-            void getter(const pbuilder::Column & column_, const pbuilder::Table & table_);
-            void isNull(const pbuilder::Column & column_, const pbuilder::Table & table_);
-            void privateMembers(const pbuilder::Table & table_);
-            void setter(const pbuilder::Column & column_, const pbuilder::Table & table_);
-            void setNull(const pbuilder::Column & column_, const pbuilder::Table & table_);
+            void constructor(const pbuilder::Table &);
+            void destructor(const pbuilder::Table &);
+            void getter(const pbuilder::Column &, const pbuilder::Table &);
+            void isNull(const pbuilder::Column &, const pbuilder::Table &);
+            void operatorEquals(const pbuilder::Table &);
+            void privateMembers(const pbuilder::Table &);
+            void setter(const pbuilder::Column &, const pbuilder::Table &);
+            void setNull(const pbuilder::Column &, const pbuilder::Table &);
         };
 
     }

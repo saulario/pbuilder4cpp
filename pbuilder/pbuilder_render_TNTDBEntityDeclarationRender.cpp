@@ -85,6 +85,17 @@ void TNTDBEntityDeclarationRender::getter(const pbuilder::Column & column_) {
     LOG4CXX_TRACE(logger, "getter <----- end");
 }
 
+void TNTDBEntityDeclarationRender::operatorEquals(const pbuilder::Table & table_) {
+    LOG4CXX_TRACE(logger, "operatorEquals -----> begin");
+    render->parent->files[Render::FD_ENTITY_H]
+            << std::string(6, ' ') 
+            << "bool operator == (const " 
+            << pbuilder::render::Render::toUpper(table_.name)
+            << " *);"
+            << std::endl;
+    LOG4CXX_TRACE(logger, "operatorEquals <----- end");
+}
+
 void TNTDBEntityDeclarationRender::isNull(const pbuilder::Column & column_) {
     LOG4CXX_TRACE(logger, "isNull -----> begin");
     render->parent->files[Render::FD_ENTITY_H]
@@ -142,6 +153,7 @@ void TNTDBEntityDeclarationRender::publicBlock(const pbuilder::Table & table_) {
     constructor(table_);
     destructor(table_);
     privateMembers(table_);
+    operatorEquals(table_);
     LOG4CXX_TRACE(logger, "publicBlock <----- end");
 }
 
