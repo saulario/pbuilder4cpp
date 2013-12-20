@@ -96,13 +96,11 @@ public:
     TABLEDAO();
     ~TABLEDAO();
     static TABLEDAO * getInstance(void);
-    bool equals(const NAMESPACE::TABLE *, const NAMESPACE::TABLE *);
     NAMESPACE::TABLE * insert(tntdb::Connection &, NAMESPACE::TABLE *);
     NAMESPACE::TABLE * read(tntdb::Connection &, const int &);
     std::list<NAMESPACE::TABLE *> query(tntdb::Connection &, tntdb::Statement &);
     tntdb::Statement::size_type remove(tntdb::Connection &, const int &);
     NAMESPACE::TABLE * update(tntdb::Connection &, NAMESPACE::TABLE *);
-    void debug(void);
 };)";
     std::string str = cdn;
     boost::replace_all(str, "TABLE", pbuilder::render::Render::toUpper(table_.name));
