@@ -97,7 +97,7 @@ public:
     ~TABLEDAO();
     static TABLEDAO * getInstance(void);
     NAMESPACE::TABLE * insert(tntdb::Connection &, NAMESPACE::TABLE *);
-    NAMESPACE::TABLE * read(tntdb::Connection &, const int &);
+    NAMESPACE::TABLE * read(tntdb::Connection &, const KEYTYPE &);
     std::list<NAMESPACE::TABLE *> query(tntdb::Connection &, tntdb::Statement &);
     tntdb::Statement::size_type remove(tntdb::Connection &, const int &);
     NAMESPACE::TABLE * update(tntdb::Connection &, NAMESPACE::TABLE *);
@@ -105,6 +105,14 @@ public:
     std::string str = cdn;
     boost::replace_all(str, "TABLE", pbuilder::render::Render::toUpper(table_.name));
     boost::replace_all(str, "NAMESPACE", render->parent->pbuilder->unit.ns + "::entity");
+    std::string keytype = "UNDEFINED";
+    if (table_.pkColumns.size() > 1) {
+        keytype = render->parent->toUpper(table_.name) + "Id";
+    } else if (table_.pkColumns.size() == 1) {
+        keytype = render->asText(table_.pkColumns.front());
+    }
+    boost::replace_all(str, "KEYTYPE", keytype);
+    
     render->parent->files[Render::FD_ARTIFACT_H]
             << str
             << std::endl;
