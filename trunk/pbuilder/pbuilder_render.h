@@ -83,6 +83,10 @@ namespace pbuilder {
         private:
             static log4cxx::LoggerPtr logger;
             TNTDBRender * render;
+            void constructor(const pbuilder::Table &);
+            void destructor(const pbuilder::Table &);
+            void getInstance(const pbuilder::Table &);
+            void staticDefinition(const pbuilder::Table &);
         };
 
         class TNTDBEntityDeclarationRender {

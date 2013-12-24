@@ -38,7 +38,7 @@ TNTDBArtifactDeclarationRender::TNTDBArtifactDeclarationRender(TNTDBRender * ren
             << "#include \"" << render_->parent->pbuilder->unit.ns << "_entity.h\"" << std::endl
             << "namespace " << render->parent->pbuilder->unit.ns << " {" << std::endl
             << std::string(2, ' ') << "namespace dao {" << std::endl;
-    const char * common = R"(        
+    static const char * common = R"(        
 class CommonDAO {
 private:
     std::string insertQuery;
@@ -85,7 +85,7 @@ void TNTDBArtifactDeclarationRender::notify(void) {
 void TNTDBArtifactDeclarationRender::table(const pbuilder::Table & table_) {
     LOG4CXX_TRACE(logger, "table -----> begin");
 
-    const char * cdn = R"(
+    static const char * cdn = R"(
 class TABLEDAO : public CommonDAO {
 private:
     static TABLEDAO * dao;

@@ -33,9 +33,10 @@ TNTDBArtifactDefinitionRender::TNTDBArtifactDefinitionRender(TNTDBRender * rende
             << "#include <boost/algorithm/string/classification.hpp>" << std::endl
             << "#include <tntdb/error.h>" << std::endl
             << "#include \"" << render->parent->pbuilder->unit.ns << "_dao.h\"" << std::endl
-            << "using namespace " << render->parent->pbuilder->unit.ns << "::dao;" << std::endl;;
-    
-    const char * common = R"DELIM(        
+            << "using namespace " << render->parent->pbuilder->unit.ns << "::dao;" << std::endl;
+    ;
+
+    static const char * common = R"DELIM(        
 void CommonDAO::createQueries(void) {
     insertQuery = "insert into " + table + "(" + columns + ")"
             " values("
@@ -120,4 +121,95 @@ std::string CommonDAO::getTable(void) {
 TNTDBArtifactDefinitionRender::~TNTDBArtifactDefinitionRender() {
     LOG4CXX_TRACE(logger, "~TNTDBArtifactDefinitionRender -----> begin");
     LOG4CXX_TRACE(logger, "~TNTDBArtifactDefinitionRender <----- end");
+}
+
+void TNTDBArtifactDefinitionRender::notify(void) {
+    LOG4CXX_TRACE(logger, "notify -----> begin");
+    for (std::pair<std::string, pbuilder::Table> p : render->parent->pbuilder->model.tables) {
+        staticDefinition(p.second);
+        constructor(p.second);
+        destructor(p.second);
+        getInstance(p.second);
+    }
+    LOG4CXX_TRACE(logger, "notify <----- end");
+}
+
+void TNTDBArtifactDefinitionRender::constructor(const pbuilder::Table & table_) {
+    LOG4CXX_TRACE(logger, "constructor -----> begin");
+    LOG4CXX_TRACE(logger, "constructor <----- end");
+}
+
+void TNTDBArtifactDefinitionRender::destructor(const pbuilder::Table & table_) {
+    LOG4CXX_TRACE(logger, "destructor -----> begin");
+    static const char * cdn = R"DELIM(        
+OBJECT::~OBJECT() {
+    if (dao != NULL) {
+        delete dao;
+    }
+}
+)DELIM";
+    std::string str = cdn;
+    boost::replace_all(str, "OBJECT", pbuilder::render::Render::toUpper(table_.name) + "DAO");
+    render->parent->files[Render::FD_ARTIFACT_CPP]
+            << str
+            << std::endl;
+    LOG4CXX_TRACE(logger, "destructor <----- end");
+}
+
+void TNTDBArtifactDefinitionRender::getInstance(const pbuilder::Table & table_) {
+    LOG4CXX_TRACE(logger, "getInstance -----> begin");
+    static const char * cdn = R"DELIM(        
+OBJECT * OBJECT::getInstance(void) {
+    boost::mutex::scoped_lock lock(mtx);
+    if (dao == NULL) {
+        dao = new OBJECT();
+        dao->table = "TABLE";
+        dao->keyColumns = "KCOLS";
+        dao->columns = "COLS";
+        dao->createQueries();
+    }
+    return dao;
+}
+)DELIM";
+    std::string str = cdn;
+    boost::replace_all(str, "OBJECT", pbuilder::render::Render::toUpper(table_.name) + "DAO");
+    boost::replace_all(str, "TABLE", table_.name);
+    std::string cols = "";
+    bool first = true;
+    for (pbuilder::Column c : table_.pkColumns) {
+        if (!first) {
+            cols += ",";
+        }
+        first = false;
+        cols += c.name;
+    }
+    boost::replace_all(str, "KCOLS", cols);
+    cols = "";
+    first = true;
+    for (pbuilder::Column c : table_.columns) {
+        if (!first) {
+            cols += ",";
+        }
+        first = false;
+        cols += c.name;
+    }
+    boost::replace_all(str, "COLS", cols);
+    render->parent->files[Render::FD_ARTIFACT_CPP]
+            << str
+            << std::endl;
+    LOG4CXX_TRACE(logger, "getInstance <----- end");
+}
+
+void TNTDBArtifactDefinitionRender::staticDefinition(const pbuilder::Table & table_) {
+    LOG4CXX_TRACE(logger, "staticDefinition -----> begin");
+    static const char * cdn = R"DELIM(        
+OBJECT * OBJECT::dao = NULL;
+boost::mutex OBJECT::mtx;
+)DELIM";
+    std::string str = cdn;
+    boost::replace_all(str, "OBJECT", pbuilder::render::Render::toUpper(table_.name) + "DAO");
+    render->parent->files[Render::FD_ARTIFACT_CPP]
+            << str
+            << std::endl;
+    LOG4CXX_TRACE(logger, "staticDefinition <----- end");
 }
