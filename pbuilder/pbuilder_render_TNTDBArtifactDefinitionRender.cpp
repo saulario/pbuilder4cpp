@@ -186,8 +186,15 @@ OBJECT * OBJECT::getInstance(void) {
     boost::replace_all(str, "KCOLS", cols);
     cols = "";
     first = true;
+    int count = 0;
     for (pbuilder::Column c : table_.columns) {
+        count++;
         if (!first) {
+            if (!(count % 5)) {
+                cols += "\"";
+                cols += '\n';
+                cols += "\"";
+            }
             cols += ",";
         }
         first = false;
