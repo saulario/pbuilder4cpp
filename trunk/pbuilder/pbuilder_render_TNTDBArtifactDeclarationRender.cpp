@@ -97,11 +97,31 @@ public:
     ~TABLEDAO();
     static TABLEDAO * getInstance(void);
     NAMESPACE::TABLE * insert(tntdb::Connection &, NAMESPACE::TABLE *);
-    NAMESPACE::TABLE * read(tntdb::Connection &, const KEYTYPE &);
-    std::list<NAMESPACE::TABLE *> query(tntdb::Connection &, tntdb::Statement &);
-    tntdb::Statement::size_type remove(tntdb::Connection &, const int &);
-    NAMESPACE::TABLE * update(tntdb::Connection &, NAMESPACE::TABLE *);
-};)";
+    std::list<NAMESPACE::TABLE *> query(tntdb::Connection &, tntdb::Statement &);)";
+    std::string str = cdn;
+    boost::replace_all(str, "TABLE", pbuilder::render::Render::toUpper(table_.name));
+    boost::replace_all(str, "NAMESPACE", render->parent->pbuilder->unit.ns + "::entity");
+    render->parent->files[Render::FD_ARTIFACT_H]
+            << str
+            << std::endl;
+
+    if (table_.pkColumns.size() > 0) {
+        tableExtended(table_);
+    }
+
+    render->parent->files[Render::FD_ARTIFACT_H]
+            << "};"
+            << std::endl;
+
+    LOG4CXX_TRACE(logger, "table <----- end");
+}
+
+void TNTDBArtifactDeclarationRender::tableExtended(const pbuilder::Table & table_) {
+    LOG4CXX_TRACE(logger, "tableExtended -----> begin");
+
+    static const char * cdn = R"(    NAMESPACE::TABLE * read(tntdb::Connection &, const KEYTYPE &);
+    tntdb::Statement::size_type remove(tntdb::Connection &, const KEYTYPE &);
+    NAMESPACE::TABLE * update(tntdb::Connection &, NAMESPACE::TABLE *);)";
     std::string str = cdn;
     boost::replace_all(str, "TABLE", pbuilder::render::Render::toUpper(table_.name));
     boost::replace_all(str, "NAMESPACE", render->parent->pbuilder->unit.ns + "::entity");
@@ -112,9 +132,9 @@ public:
         keytype = render->asText(table_.pkColumns.front());
     }
     boost::replace_all(str, "KEYTYPE", keytype);
-    
+
     render->parent->files[Render::FD_ARTIFACT_H]
             << str
             << std::endl;
-    LOG4CXX_TRACE(logger, "table <----- end");
+    LOG4CXX_TRACE(logger, "tableExtended <----- end");
 }

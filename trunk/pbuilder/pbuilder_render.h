@@ -72,6 +72,7 @@ namespace pbuilder {
             static log4cxx::LoggerPtr logger;
             TNTDBRender * render;
             void table(const pbuilder::Table &);
+            void tableExtended(const pbuilder::Table &);
         };
 
         class TNTDBArtifactDefinitionRender {
