@@ -25,8 +25,8 @@ CREATE TABLE `test1` (
 	`ttime`			TIME NOT NULL 				COMMENT 'Time',
 	`tchar`			CHAR(100) NOT NULL 			COMMENT 'Char(100)',
 	`tvarchar`		VARCHAR(100) NOT NULL 			COMMENT 'Varchar(100)',
-	`ttext`			TEXT NOT NULL 				COMMENT 'Text',
-	`tblob`			BLOB NOT NULL 				COMMENT 'Blob',
+	`ttext`			TEXT 	 				COMMENT 'Text',
+	`tblob`			BLOB 	 				COMMENT 'Blob',
 	PRIMARY KEY(`tkey`)
 ) COMMENT 'Simple primary key test';
 
@@ -57,7 +57,7 @@ INSERT INTO `test1` VALUES (
 	'charáéíóúÁÉÍÓÚäëïöüÄËÏÖÜçÇâêîôûÂÊÎÔÛ',
 	'varcharáéíóúÁÉÍÓÚäëïöüÄËÏÖÜçÇâêîôûÂÊÎÔÛ',
 	'textáéíóúÁÉÍÓÚäëïöüÄËÏÖÜçÇâêîôûÂÊÎÔÛ',
-	'blobáéíóúÁÉÍÓÚäëïöüÄËÏÖÜçÇâêîôûÂÊÎÔÛ'
+	null
 );
 
 DROP TABLE IF EXISTS `test2` ;
@@ -124,6 +124,71 @@ INSERT INTO `test2` VALUES (
 	'charáéíóúÁÉÍÓÚäëïöüÄËÏÖÜçÇâêîôûÂÊÎÔÛ',
 	'varcharáéíóúÁÉÍÓÚäëïöüÄËÏÖÜçÇâêîôûÂÊÎÔÛ',
 	'textáéíóúÁÉÍÓÚäëïöüÄËÏÖÜçÇâêîôûÂÊÎÔÛ',
-	'blobáéíóúÁÉÍÓÚäëïöüÄËÏÖÜçÇâêîôûÂÊÎÔÛ'
+	NULL
 );
 
+DROP TABLE IF EXISTS `test3` ;
+CREATE TABLE `test3` (
+	`tkey1`			INTEGER NOT NULL DEFAULT '0'		COMMENT 'Primary key 1',
+	`tkey2`			INTEGER NOT NULL DEFAULT '0'		COMMENT 'Primary key 2',
+
+	`tsmallint`		SMALLINT 				COMMENT 'Smallint',
+	`tsmallintUnsigned`	SMALLINT UNSIGNED 			COMMENT 'Smallint unsigned',
+	`tmediumint`		MEDIUMINT 				COMMENT 'Mediumint',
+	`tmediumintUnsigned`	MEDIUMINT UNSIGNED			COMMENT 'Mediumint unsigned',
+	`tinteger`		INTEGER 				COMMENT 'Integer',
+	`tintegerUnsigned`	INTEGER UNSIGNED 			COMMENT 'Integer unsigned',
+	`tbigint`		BIGINT	 				COMMENT 'Bigint',
+	`tbigintUnsigned`	BIGINT UNSIGNED 			COMMENT 'Bigint unsigned',
+	`tdecimal`		DECIMAL(13,2) 				COMMENT 'Decimal',
+	`tdecimalUnsigned`	DECIMAL(13,2) UNSIGNED 			COMMENT 'Decimal unsigned',
+	`tdec`			DECIMAL(13,2) 				COMMENT 'Dec',
+	`tdecUnsigned`		DECIMAL(13,2) UNSIGNED 			COMMENT 'Dec unsigned',
+	`tfixed`		DECIMAL(13,2) 				COMMENT 'Fixed',
+	`tfixedUnsigned`	DECIMAL(13,2) UNSIGNED 			COMMENT 'Fixed unsigned',
+	`tfloat`		DECIMAL(13,2) 				COMMENT 'Float',
+	`tfloatUnsigned`	DECIMAL(13,2) UNSIGNED 			COMMENT 'Float unsigned',
+	`tdouble`		DECIMAL(13,2) 				COMMENT 'Double',
+	`tdoubleUnsigned`	DECIMAL(13,2) UNSIGNED 		  	COMMENT 'Double unsigned',
+	`tdate`			DATE  	 				COMMENT 'Date',
+	`tdatetime`		DATETIME   				COMMENT 'Datetime',
+	`ttimestamp`		TIMESTAMP   				COMMENT 'Timestamp',
+	`ttime`			TIME   					COMMENT 'Time',
+	`tchar`			CHAR(100) 	  			COMMENT 'Char(100)',
+	`tvarchar`		VARCHAR(100)   				COMMENT 'Varchar(100)',
+	`ttext`			TEXT 	  				COMMENT 'Text',
+	`tblob`			BLOB   					COMMENT 'Blob'
+
+) COMMENT 'No primary key test';
+
+
+INSERT INTO `test3` VALUES (
+	1,
+	2,
+	-32768,
+	65535,
+	-8388608,
+	 16777215,
+	-2147483648,
+	4294967295,
+	-9223372036854775808,
+	 18446744073709551615,
+	-99999999999.99,
+	99999999999.98,
+	-99999999999.97,
+	99999999999.96,
+	-99999999999.95,
+	99999999999.94,
+	-98765432109.99,
+	98765432109.99,
+	-12345678901.99,
+	12345678901.99,
+	'1967-07-10',
+	'1967-07-10 09:30:00',
+	CURRENT_TIMESTAMP,
+	'-838:59:59',
+	'charáéíóúÁÉÍÓÚäëïöüÄËÏÖÜçÇâêîôûÂÊÎÔÛ',
+	'varcharáéíóúÁÉÍÓÚäëïöüÄËÏÖÜçÇâêîôûÂÊÎÔÛ',
+	'textáéíóúÁÉÍÓÚäëïöüÄËÏÖÜçÇâêîôûÂÊÎÔÛ',
+	NULL
+);
