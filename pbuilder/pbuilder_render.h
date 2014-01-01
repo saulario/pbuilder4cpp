@@ -87,6 +87,15 @@ namespace pbuilder {
             void constructor(const pbuilder::Table &);
             void destructor(const pbuilder::Table &);
             void getInstance(const pbuilder::Table &);
+            void insert(const pbuilder::Table &);
+            void keyInMethodSignature(const pbuilder::Table &);
+            void keyInStatement(const pbuilder::Table &);
+            void loadColumns(const pbuilder::Table &);
+            void query(const pbuilder::Table &);
+            void read(const pbuilder::Table &);
+            void remove(const pbuilder::Table &);
+            void update(const pbuilder::Table &);
+            void setColumns(const pbuilder::Table &);
             void staticDefinition(const pbuilder::Table &);
         };
 

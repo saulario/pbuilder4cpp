@@ -127,7 +127,7 @@ void TNTDBArtifactDeclarationRender::tableExtended(const pbuilder::Table & table
     boost::replace_all(str, "NAMESPACE", render->parent->pbuilder->unit.ns + "::entity");
     std::string keytype = "UNDEFINED";
     if (table_.pkColumns.size() > 1) {
-        keytype = render->parent->toUpper(table_.name) + "Id";
+        keytype = render->parent->pbuilder->unit.ns + "::entity::" + render->parent->toUpper(table_.name) + "Id";
     } else if (table_.pkColumns.size() == 1) {
         keytype = render->asText(table_.pkColumns.front());
     }
