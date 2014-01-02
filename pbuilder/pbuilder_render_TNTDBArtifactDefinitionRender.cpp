@@ -264,6 +264,27 @@ ENTITY * OBJECT::insert(tntdb::Connection & con, ENTITY * e) {
     LOG4CXX_TRACE(logger, "insert <----- end");
 }
 
+void TNTDBArtifactDefinitionRender::loadColumn(const pbuilder::Table & table_, const pbuilder::Column & column_) {
+    LOG4CXX_TRACE(logger, "loadColumn-----> begin");
+    if (column_.isNullable) {
+        render->parent->files[Render::FD_ARTIFACT_CPP]
+                << std::string(4, ' ') << "try {" << std::endl
+                << std::string(8, ' ')
+                << "entity->set" << render->parent->toUpper(column_.name) << "(stmt.get(index++));" << std::endl
+                << std::string(4, ' ') << "} catch(tntdb::NullValue) {" << std::endl
+                << std::string(8, ' ')
+                << "entity->setNull" << render->parent->toUpper(column_.name) << "();" << std::endl
+                << std::string(4, ' ') << "}"
+                << std::endl;
+    } else {
+        render->parent->files[Render::FD_ARTIFACT_CPP]
+                << std::string(4, ' ')
+                << "entity->" << column_.name << " = stmt.get(index++);"
+                << std::endl;
+    }
+    LOG4CXX_TRACE(logger, "loadColumn <----- end");
+}
+
 void TNTDBArtifactDefinitionRender::loadColumns(const pbuilder::Table & table_) {
     LOG4CXX_TRACE(logger, "loadColumns-----> begin");
     render->parent->files[Render::FD_ARTIFACT_CPP]
@@ -273,6 +294,13 @@ void TNTDBArtifactDefinitionRender::loadColumns(const pbuilder::Table & table_) 
             << pbuilder::render::Render::toUpper(table_.name)
             << " * entity) {"
             << std::endl;
+    render->parent->files[Render::FD_ARTIFACT_CPP]
+            << std::string(4, ' ')
+            << "int index = 0;"
+            << std::endl;
+    for (pbuilder::Column c : table_.columns) {
+        loadColumn(table_, c);
+    }
     render->parent->files[Render::FD_ARTIFACT_CPP]
             << "}"
             << std::endl << std::endl;
@@ -340,12 +368,11 @@ void TNTDBArtifactDefinitionRender::remove(const pbuilder::Table & table_) {
             << "::remove(tntdb::Connection & con, const";
     keyInMethodSignature(table_);
     render->parent->files[Render::FD_ARTIFACT_CPP]
-            << ") {"
-            << std::endl
-            ;
-
-
+            << ") {" << std::endl
+            << std::string(4, ' ') << "tntdb::Statement stmt = con.prepare(getRemoveQuery());" << std::endl;
+    keyInStatement(table_);
     render->parent->files[Render::FD_ARTIFACT_CPP]
+            << std::string(4, ' ') << "return stmt.execute();" << std::endl
             << "}"
             << std::endl << std::endl;
     LOG4CXX_TRACE(logger, "remove <----- end");
@@ -357,13 +384,51 @@ void TNTDBArtifactDefinitionRender::update(const pbuilder::Table & table_) {
             << render->parent->pbuilder->unit.ns << "::entity::"
             << pbuilder::render::Render::toUpper(table_.name)
             << " * " << pbuilder::render::Render::toUpper(table_.name) << "DAO"
-            << "::update(tntdb::Connection & con, tntdb::Statement & stmt) {"
+            << "::update(tntdb::Connection & con, "
+            << render->parent->pbuilder->unit.ns << "::entity::"
+            << pbuilder::render::Render::toUpper(table_.name)
+            << " * " << table_.name << ") {"
             << std::endl;
-
     render->parent->files[Render::FD_ARTIFACT_CPP]
+            << std::string(4, ' ') << "tntdb::Statement stmt = con.prepare(getUpdateQuery());" << std::endl
+            << std::string(4, ' ') << "setColumns(stmt, " << table_.name << ");" << std::endl;
+    keyInStatement(table_);
+    render->parent->files[Render::FD_ARTIFACT_CPP]
+            << std::string(4, ' ') << "stmt.execute();" << std::endl
+            << std::string(4, ' ') << "return " << table_.name << ";" << std::endl
             << "}"
             << std::endl << std::endl;
     LOG4CXX_TRACE(logger, "update <----- end");
+}
+
+void TNTDBArtifactDefinitionRender::setColumn(const pbuilder::Table & table_, const pbuilder::Column & column_) {
+    LOG4CXX_TRACE(logger, "setColumn-----> begin");
+    if (column_.isNullable) {
+        render->parent->files[Render::FD_ARTIFACT_CPP]
+                << std::string(4, ' ')
+                << "if (" << table_.name << "->isNull"
+                << render->parent->toUpper(column_.name)
+                << "()) {"
+                << std::endl
+                << std::string(8, ' ')
+                << "stmt.setNull(\"" << column_.name << "\");"
+                << std::endl
+                << std::string(4, ' ') << "} else { "
+                << std::endl
+                << std::string(8, ' ')
+                << "stmt.set(\"" << column_.name << "\", entity->get"
+                << render->parent->toUpper(column_.name) << "());"
+                << std::endl
+                << std::string(4, ' ')
+                << "}"
+                << std::endl;
+    } else {
+        render->parent->files[Render::FD_ARTIFACT_CPP]
+                << std::string(4, ' ')
+                << "stmt.set(\"" << column_.name << "\", entity->" << column_.name << ");"
+                << std::endl;
+    }
+    LOG4CXX_TRACE(logger, "setColumn <----- end");
 }
 
 void TNTDBArtifactDefinitionRender::setColumns(const pbuilder::Table & table_) {
@@ -375,6 +440,9 @@ void TNTDBArtifactDefinitionRender::setColumns(const pbuilder::Table & table_) {
             << pbuilder::render::Render::toUpper(table_.name)
             << " * entity) {"
             << std::endl;
+    for (pbuilder::Column c : table_.columns) {
+        setColumn(table_, c);
+    }
     render->parent->files[Render::FD_ARTIFACT_CPP]
             << "}"
             << std::endl << std::endl;
