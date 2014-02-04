@@ -49,7 +49,7 @@ void CommonDAO::createQueries(void) {
             insertQuery += ",";
         }
         first = false;
-        insertQuery += ":" + f + "PK";
+        insertQuery += ":" + f;
     }
     insertQuery += ")";
     readQuery = "select " + columns + " from " + table + " where ";
@@ -60,7 +60,7 @@ void CommonDAO::createQueries(void) {
             readQuery += " and ";
         }
         first = false;
-        readQuery += f + "=:" + f;
+        readQuery += f + "=:" + f + "PK";
     }
     removeQuery = "delete from " + table + " where ";
     first = true;
@@ -244,6 +244,18 @@ void TNTDBArtifactDefinitionRender::keyInStatement(const pbuilder::Table & table
     LOG4CXX_TRACE(logger, "keyInStatement <----- end");
 }
 
+void TNTDBArtifactDefinitionRender::keyInUpdateStatement(const pbuilder::Table & table_) {
+    LOG4CXX_TRACE(logger, "keyInStatement -----> begin");
+    for (pbuilder::Column c : table_.pkColumns) {
+        render->parent->files[Render::FD_ARTIFACT_CPP]
+                << std::string(4, ' ')
+                << "stmt.set(\"" << c.name << "PK\", "
+                << "e->" << c.name << ");"
+                << std::endl;
+    }
+    LOG4CXX_TRACE(logger, "keyInStatement <----- end");
+}
+
 void TNTDBArtifactDefinitionRender::insert(const pbuilder::Table & table_) {
     LOG4CXX_TRACE(logger, "insert -----> begin");
     static const char * cdn = R"DELIM(        
@@ -270,16 +282,16 @@ void TNTDBArtifactDefinitionRender::loadColumn(const pbuilder::Table & table_, c
         render->parent->files[Render::FD_ARTIFACT_CPP]
                 << std::string(4, ' ') << "try {" << std::endl
                 << std::string(8, ' ')
-                << "entity->set" << render->parent->toUpper(column_.name) << "(stmt.get(index++));" << std::endl
+                << "e->set" << render->parent->toUpper(column_.name) << "(row.get(index++));" << std::endl
                 << std::string(4, ' ') << "} catch(tntdb::NullValue) {" << std::endl
                 << std::string(8, ' ')
-                << "entity->setNull" << render->parent->toUpper(column_.name) << "();" << std::endl
+                << "e->setNull" << render->parent->toUpper(column_.name) << "();" << std::endl
                 << std::string(4, ' ') << "}"
                 << std::endl;
     } else {
         render->parent->files[Render::FD_ARTIFACT_CPP]
                 << std::string(4, ' ')
-                << "entity->" << column_.name << " = stmt.get(index++);"
+                << "e->" << column_.name << " = row.get(index++);"
                 << std::endl;
     }
     LOG4CXX_TRACE(logger, "loadColumn <----- end");
@@ -292,7 +304,7 @@ void TNTDBArtifactDefinitionRender::loadColumns(const pbuilder::Table & table_) 
             << "::loadColumns(tntdb::Row & row, "
             << render->parent->pbuilder->unit.ns << "::entity::"
             << pbuilder::render::Render::toUpper(table_.name)
-            << " * entity) {"
+            << " * e) {"
             << std::endl;
     render->parent->files[Render::FD_ARTIFACT_CPP]
             << std::string(4, ' ')
@@ -342,21 +354,26 @@ void TNTDBArtifactDefinitionRender::read(const pbuilder::Table & table_) {
     render->parent->files[Render::FD_ARTIFACT_CPP]
             << ") {" << std::endl
             << std::string(4, ' ') << "tntdb::Statement stmt = con.prepare(getReadQuery());" << std::endl
-            << std::string(4, ' ') << "ENTITY * e = NULL;" << std::endl
+            << std::string(4, ' ')
+            << render->parent->pbuilder->unit.ns << "::entity::"
+            << pbuilder::render::Render::toUpper(table_.name)
+            << " * e = NULL;" << std::endl
             << std::string(4, ' ') << "try {" << std::endl;
     keyInStatement(table_);
-    static const char * cdn1 = R"DELIM(        tntdb::Row row = stmt.selectRow();
-        e = new test::entity::Test1;
-        loadColumns(row, e);
-    } catch (tntdb::NotFound) {
-    }
-    return e;
-}
-)DELIM";
     render->parent->files[Render::FD_ARTIFACT_CPP]
-            << cdn1
-            << std::endl;
-
+            << std::string(8, ' ')
+            << "tntdb::Row row = stmt.selectRow();" << std::endl
+            << std::string(8, ' ')
+            << "e = new "
+            << render->parent->pbuilder->unit.ns << "::entity::"
+            << pbuilder::render::Render::toUpper(table_.name) << ";"
+            << std::endl
+            << std::string(8, ' ') << "loadColumns(row, e);" << std::endl
+            << std::string(4, ' ') << "} catch(tntdb::NotFound) {" << std::endl
+            << std::string(4, ' ') << "}" << std::endl
+            << std::string(4, ' ') << "return e;" << std::endl
+            << "}" << std::endl
+            ;
     LOG4CXX_TRACE(logger, "read <----- end");
 }
 
@@ -387,15 +404,15 @@ void TNTDBArtifactDefinitionRender::update(const pbuilder::Table & table_) {
             << "::update(tntdb::Connection & con, "
             << render->parent->pbuilder->unit.ns << "::entity::"
             << pbuilder::render::Render::toUpper(table_.name)
-            << " * " << table_.name << ") {"
+            << " * e) {"
             << std::endl;
     render->parent->files[Render::FD_ARTIFACT_CPP]
             << std::string(4, ' ') << "tntdb::Statement stmt = con.prepare(getUpdateQuery());" << std::endl
-            << std::string(4, ' ') << "setColumns(stmt, " << table_.name << ");" << std::endl;
-    keyInStatement(table_);
+            << std::string(4, ' ') << "setColumns(stmt, e);" << std::endl;
+    keyInUpdateStatement(table_);
     render->parent->files[Render::FD_ARTIFACT_CPP]
             << std::string(4, ' ') << "stmt.execute();" << std::endl
-            << std::string(4, ' ') << "return " << table_.name << ";" << std::endl
+            << std::string(4, ' ') << "return e;" << std::endl
             << "}"
             << std::endl << std::endl;
     LOG4CXX_TRACE(logger, "update <----- end");
@@ -406,7 +423,7 @@ void TNTDBArtifactDefinitionRender::setColumn(const pbuilder::Table & table_, co
     if (column_.isNullable) {
         render->parent->files[Render::FD_ARTIFACT_CPP]
                 << std::string(4, ' ')
-                << "if (" << table_.name << "->isNull"
+                << "if (e->isNull"
                 << render->parent->toUpper(column_.name)
                 << "()) {"
                 << std::endl
@@ -416,7 +433,7 @@ void TNTDBArtifactDefinitionRender::setColumn(const pbuilder::Table & table_, co
                 << std::string(4, ' ') << "} else { "
                 << std::endl
                 << std::string(8, ' ')
-                << "stmt.set(\"" << column_.name << "\", entity->get"
+                << "stmt.set(\"" << column_.name << "\", e->get"
                 << render->parent->toUpper(column_.name) << "());"
                 << std::endl
                 << std::string(4, ' ')
@@ -425,7 +442,7 @@ void TNTDBArtifactDefinitionRender::setColumn(const pbuilder::Table & table_, co
     } else {
         render->parent->files[Render::FD_ARTIFACT_CPP]
                 << std::string(4, ' ')
-                << "stmt.set(\"" << column_.name << "\", entity->" << column_.name << ");"
+                << "stmt.set(\"" << column_.name << "\", e->" << column_.name << ");"
                 << std::endl;
     }
     LOG4CXX_TRACE(logger, "setColumn <----- end");
@@ -438,7 +455,7 @@ void TNTDBArtifactDefinitionRender::setColumns(const pbuilder::Table & table_) {
             << "::setColumns(tntdb::Statement & stmt, const "
             << render->parent->pbuilder->unit.ns << "::entity::"
             << pbuilder::render::Render::toUpper(table_.name)
-            << " * entity) {"
+            << " * e) {"
             << std::endl;
     for (pbuilder::Column c : table_.columns) {
         setColumn(table_, c);
