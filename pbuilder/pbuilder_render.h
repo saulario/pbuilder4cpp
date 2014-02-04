@@ -90,6 +90,7 @@ namespace pbuilder {
             void insert(const pbuilder::Table &);
             void keyInMethodSignature(const pbuilder::Table &);
             void keyInStatement(const pbuilder::Table &);
+            void keyInUpdateStatement(const pbuilder::Table &);
             void loadColumn(const pbuilder::Table &, const pbuilder::Column &);
             void loadColumns(const pbuilder::Table &);
             void query(const pbuilder::Table &);
