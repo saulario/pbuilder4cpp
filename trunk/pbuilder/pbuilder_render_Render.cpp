@@ -39,7 +39,8 @@ void Render::render(void) {
     LOG4CXX_TRACE(logger, "render -----> begin");
 
     std::string basename(getenv("HOME"));
-    basename += "/" + pbuilder->unit.ns;
+    //basename += "/" + pbuilder->unit.ns;
+    basename = pbuilder->unit.ns;
 
     files[FD_ENTITY_H].open(basename + "_entity.h", std::ios::trunc);
     files[FD_ENTITY_CPP].open(basename + "_entity.cpp", std::ios::trunc);
