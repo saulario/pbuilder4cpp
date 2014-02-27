@@ -31,6 +31,7 @@ namespace pbuilder {
 
         private:
             virtual pbuilder::MODEL_TYPE getModelType(const std::string &) = 0;
+            virtual bool supportedType(const pbuilder::Column &) = 0;
         };
 
         class Analyzer {
@@ -62,7 +63,8 @@ namespace pbuilder {
             static log4cxx::LoggerPtr logger;
             pbuilder::PersistenceBuilder * pbuilder;
 
-            pbuilder::MODEL_TYPE getModelType(const std::string & ptype);
+            pbuilder::MODEL_TYPE getModelType(const std::string &);
+            bool supportedType(const pbuilder::Column &);
         };
 
 

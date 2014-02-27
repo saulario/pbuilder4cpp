@@ -57,6 +57,9 @@ void MysqlAnalyzer::notify(void) {
             column.position = row1.getUnsigned64("ORDINAL_POSITION");
             column.isNullable = (row1.getString("IS_NULLABLE").compare("YES") == 0);
             column.schemaType = row1.getString("DATA_TYPE");
+            if (!supportedType(column)) {
+                continue;
+            }            
             column.type = getModelType(column.schemaType);
             try {
                 column.charMaxLength = row1.getUnsigned64("CHARACTER_MAXIMUM_LENGTH");
@@ -171,4 +174,17 @@ pbuilder::MODEL_TYPE MysqlAnalyzer::getModelType(const std::string & ptype) {
     }
 
     return STRING;
+}
+
+bool MysqlAnalyzer::supportedType(const pbuilder::Column & column_) {
+    if (pbuilder->unit.geometry) {
+        return true;
+    }
+    bool supported = true;
+    if ("point" == column_.schemaType) {
+        supported = false;
+    } else if ("polygon" == column_.schemaType) {
+        supported = false;
+    }
+    return supported;
 }
