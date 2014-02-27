@@ -125,6 +125,7 @@ void PersistenceBuilder::checkConfiguration(void) {
                 << "\t\t\t<database>test</database>\n"
                 << "\t\t\t<url>mysql:db=information_schema</url>\n"
                 << "\t\t\t<namespace>test</namespace>\n"
+                << "\t\t\t<geometry>false</geometry>\n"
                 << "\t\t</unit>\n"
                 << "\t</units>\n"
                 << "</pbuilder>\n"
@@ -187,6 +188,8 @@ void PersistenceBuilder::evaluateParameters(int argc, char** argv) {
                 unit->url = value;
             } else if ("namespace" == key) {
                 unit->ns = value;
+            } else if ("geometry" == key) {
+                std::istringstream(value) >> std::boolalpha >> unit->geometry;
             }
         }
     };

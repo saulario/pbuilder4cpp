@@ -54,8 +54,9 @@ namespace pbuilder {
         std::string database;
         std::string url;
         std::string ns;
+        bool geometry;
 
-        Unit() : name(""), database(""), url(""), ns("") {
+        Unit() : name(""), database(""), url(""), ns(""), geometry(false) {
         };
 
     };
