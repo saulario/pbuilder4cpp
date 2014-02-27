@@ -52,8 +52,7 @@ namespace pbuilder {
         class TNTDBRender : public AbstractRender {
         public:
 
-            TNTDBRender(Render * parent_) : parent(parent_) {
-            };
+            TNTDBRender(Render *);
             std::string asText(const pbuilder::Column &);
             std::string defaultValue(const pbuilder::Column &);
             std::string rowGet(const pbuilder::Column &);
@@ -62,6 +61,9 @@ namespace pbuilder {
             Render * parent;
         private:
             static log4cxx::LoggerPtr logger;
+            std::string dateInitialization;
+            std::string datetimeInitialization;
+            std::string timeInitialization;
         };
 
         class TNTDBArtifactDeclarationRender {

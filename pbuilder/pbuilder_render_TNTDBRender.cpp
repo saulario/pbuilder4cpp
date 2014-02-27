@@ -25,6 +25,21 @@ using namespace pbuilder::render;
 
 log4cxx::LoggerPtr TNTDBRender::logger = log4cxx::Logger::getLogger("pbuilder::render::TNTDBRender");
 
+TNTDBRender::TNTDBRender(Render* parent_) : parent(parent_) {
+    dateInitialization = "tntdb::Date()";
+    if (!parent->pbuilder->unit.dateInitialization.empty()) {
+        dateInitialization = parent->pbuilder->unit.dateInitialization;
+    }
+    datetimeInitialization = "tntdb::Datetime()";
+    if (!parent->pbuilder->unit.datetimeInitialization.empty()) {
+        datetimeInitialization = parent->pbuilder->unit.datetimeInitialization;
+    }
+    timeInitialization = "tntdb::Time()";
+    if (!parent->pbuilder->unit.timeInitialization.empty()) {
+        timeInitialization = parent->pbuilder->unit.timeInitialization;
+    }    
+}
+
 std::string TNTDBRender::asText(const pbuilder::Column & column_) {
     LOG4CXX_TRACE(logger, "asText -----> begin");
     std::string value = "";
@@ -101,14 +116,14 @@ std::string TNTDBRender::defaultValue(const pbuilder::Column & column_) {
             value = "tntdb::Blob()";
             break;
         case DATE:
-            value = "tntdb::Date()";
+            value = dateInitialization;
             break;
         case TIME:
-            value = "tntdb::Time()";
+            value = timeInitialization;
             break;
         case DATETIME:
         case TIMESTAMP:
-            value = "tntdb::Datetime()";
+            value = datetimeInitialization;
             break;
         default:
             value = "\"\"";

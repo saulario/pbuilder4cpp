@@ -190,6 +190,12 @@ void PersistenceBuilder::evaluateParameters(int argc, char** argv) {
                 unit->ns = value;
             } else if ("geometry" == key) {
                 std::istringstream(value) >> std::boolalpha >> unit->geometry;
+            } else if ("dateInitialization" == key) {
+                unit->dateInitialization = value;
+            } else if ("datetimeInitialization" == key) {
+                unit->datetimeInitialization = value;
+            } else if ("timeInitialization" == key) {
+                unit->timeInitialization = value;
             }
         }
     };
@@ -202,6 +208,10 @@ void PersistenceBuilder::evaluateParameters(int argc, char** argv) {
     unit.database = ptr->database;
     unit.url = ptr->url;
     unit.ns = ptr->ns;
+    unit.geometry = ptr->geometry;
+    unit.dateInitialization = ptr->dateInitialization;
+    unit.datetimeInitialization = ptr->datetimeInitialization;
+    unit.timeInitialization = ptr->timeInitialization;
     for (std::pair<std::string, Unit*> pair : unitMap) delete pair.second;
 
     LOG4CXX_TRACE(logger, "evaluateParameters <----- end");
