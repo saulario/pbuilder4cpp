@@ -56,6 +56,8 @@ namespace pbuilder {
             };
             std::string asText(const pbuilder::Column &);
             std::string defaultValue(const pbuilder::Column &);
+            std::string rowGet(const pbuilder::Column &);
+            std::string stmtSet(const pbuilder::Column &, const bool & = false);
             void notify(void);
             Render * parent;
         private:

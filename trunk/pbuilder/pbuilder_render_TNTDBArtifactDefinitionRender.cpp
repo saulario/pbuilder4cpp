@@ -282,7 +282,9 @@ void TNTDBArtifactDefinitionRender::loadColumn(const pbuilder::Table & table_, c
         render->parent->files[Render::FD_ARTIFACT_CPP]
                 << std::string(4, ' ') << "try {" << std::endl
                 << std::string(8, ' ')
-                << "e->set" << render->parent->toUpper(column_.name) << "(row.get(index++));" << std::endl
+                << "e->set" << render->parent->toUpper(column_.name) << "("
+                << render->rowGet(column_)
+                << ");" << std::endl
                 << std::string(4, ' ') << "} catch(tntdb::NullValue) {" << std::endl
                 << std::string(8, ' ')
                 << "e->setNull" << render->parent->toUpper(column_.name) << "();" << std::endl
@@ -291,7 +293,7 @@ void TNTDBArtifactDefinitionRender::loadColumn(const pbuilder::Table & table_, c
     } else {
         render->parent->files[Render::FD_ARTIFACT_CPP]
                 << std::string(4, ' ')
-                << "e->" << column_.name << " = row.get(index++);"
+                << "e->" << column_.name << " = " << render->rowGet(column_) << ";"
                 << std::endl;
     }
     LOG4CXX_TRACE(logger, "loadColumn <----- end");
@@ -433,8 +435,7 @@ void TNTDBArtifactDefinitionRender::setColumn(const pbuilder::Table & table_, co
                 << std::string(4, ' ') << "} else { "
                 << std::endl
                 << std::string(8, ' ')
-                << "stmt.set(\"" << column_.name << "\", e->get"
-                << render->parent->toUpper(column_.name) << "());"
+                << render->stmtSet(column_, true)
                 << std::endl
                 << std::string(4, ' ')
                 << "}"
@@ -442,7 +443,7 @@ void TNTDBArtifactDefinitionRender::setColumn(const pbuilder::Table & table_, co
     } else {
         render->parent->files[Render::FD_ARTIFACT_CPP]
                 << std::string(4, ' ')
-                << "stmt.set(\"" << column_.name << "\", e->" << column_.name << ");"
+                << render->stmtSet(column_)
                 << std::endl;
     }
     LOG4CXX_TRACE(logger, "setColumn <----- end");

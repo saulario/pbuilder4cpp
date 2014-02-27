@@ -91,7 +91,7 @@ void TNTDBEntityDeclarationRender::operatorEquals(const pbuilder::Table & table_
             << std::string(6, ' ') 
             << "bool operator == (const " 
             << pbuilder::render::Render::toUpper(table_.name)
-            << " *);"
+            << " &);"
             << std::endl;
     LOG4CXX_TRACE(logger, "operatorEquals <----- end");
 }
