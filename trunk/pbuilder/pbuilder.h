@@ -55,8 +55,12 @@ namespace pbuilder {
         std::string url;
         std::string ns;
         bool geometry;
+        std::string dateInitialization;
+        std::string datetimeInitialization;
+        std::string timeInitialization;
 
-        Unit() : name(""), database(""), url(""), ns(""), geometry(false) {
+        Unit() : name(""), database(""), url(""), ns(""), geometry(false)
+        , dateInitialization(""), datetimeInitialization(""), timeInitialization("") {
         };
 
     };
