@@ -93,7 +93,6 @@ private:
     void loadColumns(tntdb::Row &, NAMESPACE::TABLE *);
     void setColumns(tntdb::Statement &, const NAMESPACE::TABLE *);
 public:
-    TABLEDAO();
     ~TABLEDAO();
     static TABLEDAO * getInstance(void);
     NAMESPACE::TABLE * insert(tntdb::Connection &, NAMESPACE::TABLE *);

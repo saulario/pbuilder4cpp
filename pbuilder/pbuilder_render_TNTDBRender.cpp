@@ -34,7 +34,7 @@ std::string TNTDBRender::asText(const pbuilder::Column & column_) {
             break;
         case MEDIUMINT:
             value = std::string((column_.isUnsigned ? "unsigned " : "")) + "int";
-            break;            
+            break;
         case INTEGER:
             value = std::string((column_.isUnsigned ? "unsigned " : "")) + "int";
             break;
@@ -48,20 +48,20 @@ std::string TNTDBRender::asText(const pbuilder::Column & column_) {
             value = "double";
             break;
         case STRING:
-        case CLOB:            
+        case CLOB:
             value = "std::string";
             break;
-        case BLOB:            
+        case BLOB:
             value = "tntdb::Blob";
             break;
-        case DATE:            
+        case DATE:
             value = "tntdb::Date";
             break;
-        case TIME:            
+        case TIME:
             value = "tntdb::Time";
             break;
-        case DATETIME:            
-        case TIMESTAMP:                        
+        case DATETIME:
+        case TIMESTAMP:
             value = "tntdb::Datetime";
             break;
         default:
@@ -80,7 +80,7 @@ std::string TNTDBRender::defaultValue(const pbuilder::Column & column_) {
             break;
         case MEDIUMINT:
             value = "0";
-            break;            
+            break;
         case INTEGER:
             value = "0";
             break;
@@ -94,20 +94,20 @@ std::string TNTDBRender::defaultValue(const pbuilder::Column & column_) {
             value = "0.0";
             break;
         case STRING:
-        case CLOB:            
+        case CLOB:
             value = "\"\"";
             break;
-        case BLOB:            
+        case BLOB:
             value = "tntdb::Blob()";
-            break;    
-        case DATE:            
+            break;
+        case DATE:
             value = "tntdb::Date()";
             break;
-        case TIME:            
+        case TIME:
             value = "tntdb::Time()";
             break;
-        case DATETIME:            
-        case TIMESTAMP:                        
+        case DATETIME:
+        case TIMESTAMP:
             value = "tntdb::Datetime()";
             break;
         default:
@@ -118,17 +118,151 @@ std::string TNTDBRender::defaultValue(const pbuilder::Column & column_) {
 }
 
 void TNTDBRender::notify(void) {
-    LOG4CXX_TRACE(logger, "doRender -----> begin");    
+    LOG4CXX_TRACE(logger, "doRender -----> begin");
 
     TNTDBArtifactDeclarationRender adec(this);
     TNTDBArtifactDefinitionRender adef(this);
     TNTDBEntityDeclarationRender edec(this);
     TNTDBEntityDefinitionRender edef(this);
-    
+
     adec.notify();
     adef.notify();
     edec.notify();
     edef.notify();
-    
-    LOG4CXX_TRACE(logger, "doRender <----- end");    
+
+    LOG4CXX_TRACE(logger, "doRender <----- end");
+}
+
+std::string TNTDBRender::rowGet(const pbuilder::Column & column_) {
+    LOG4CXX_TRACE(logger, "rowGet -----> begin");
+    std::string value = "row.get";
+    switch (column_.type) {
+        case SMALLINT:
+            if (column_.isUnsigned) {
+                value += "Unsigned";
+            } else {
+                value += "Int";
+            }
+            break;
+        case MEDIUMINT:
+            if (column_.isUnsigned) {
+                value += "Unsigned";
+            } else {
+                value += "Int";
+            }
+            break;
+        case INTEGER:
+            if (column_.isUnsigned) {
+                value += "Unsigned";
+            } else {
+                value += "Int";
+            }
+            break;
+        case BIGINT:
+            if (column_.isUnsigned) {
+                value += "Unsigned64";
+            } else {
+                value += "Int64";
+            }
+            break;
+        case FLOAT:
+            value += "Float";
+            break;
+        case DOUBLE:
+            value += "Double";
+            break;
+        case STRING:
+        case CLOB:
+            value += "String";
+            break;
+        case BLOB:
+            value += "Blob";
+            break;
+        case DATE:
+            value += "Date";
+            break;
+        case TIME:
+            value += "Time";
+            break;
+        case DATETIME:
+        case TIMESTAMP:
+            value += "Datetime";
+            break;
+        default:
+            value = "String";
+    }
+    value += "(index++)";
+
+    LOG4CXX_TRACE(logger, "rowGet <----- end");
+    return value;
+}
+
+std::string TNTDBRender::stmtSet(const pbuilder::Column & column_, const bool & nullable_) {
+    LOG4CXX_TRACE(logger, "stmtSet -----> begin");
+    std::string value = "stmt.set";
+    std::string suffix = "";
+    switch (column_.type) {
+        case SMALLINT:
+            if (column_.isUnsigned) {
+                value += "Unsigned";
+            } else {
+                value += "Int";
+            }
+            break;
+        case MEDIUMINT:
+            if (column_.isUnsigned) {
+                value += "Unsigned";
+            } else {
+                value += "Int";
+            }
+            break;
+        case INTEGER:
+            if (column_.isUnsigned) {
+                value += "Unsigned";
+            } else {
+                value += "Int";
+            }
+            break;
+        case BIGINT:
+            if (column_.isUnsigned) {
+                value += "Unsigned64";
+            } else {
+                value += "Int64";
+            }
+            break;
+        case FLOAT:
+            value += "Float";
+            break;
+        case DOUBLE:
+            value += "Double";
+            break;
+        case STRING:
+        case CLOB:
+            value += "String";
+            break;
+        case BLOB:
+            value += "Blob";
+            break;
+        case DATE:
+            value += "Date";
+            break;
+        case TIME:
+            value += "Time";
+            break;
+        case DATETIME:
+        case TIMESTAMP:
+            value += "";
+            suffix = ".getIso()";
+            break;
+        default:
+            value = "String";
+    }
+    if (!nullable_) {
+        value += "(\"" + column_.name + "\", e->" + column_.name + suffix + ");";
+    } else {
+        value += "(\"" + column_.name + "\", e->get" + parent->toUpper(column_.name) + "());";
+    }
+
+    LOG4CXX_TRACE(logger, "stmtSet <----- end");
+    return value;
 }

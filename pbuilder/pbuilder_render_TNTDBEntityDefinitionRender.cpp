@@ -141,14 +141,14 @@ void TNTDBEntityDefinitionRender::operatorEquals(const pbuilder::Table & table_)
             << pbuilder::render::Render::toUpper(table_.name) << "::"
             << "operator == (const "
             << pbuilder::render::Render::toUpper(table_.name)
-            << " * other) {"
+            << " & other) {"
             << std::endl;
     for (pbuilder::Column column : table_.columns) {
         render->parent->files[Render::FD_ENTITY_CPP]
                 << std::string(2, ' ')
                 << "if (this->"
                 << column.name
-                << " != other->"
+                << " != other."
                 << column.name
                 << ") return false;"
                 << std::endl;
