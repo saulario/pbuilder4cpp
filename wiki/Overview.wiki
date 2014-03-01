@@ -4,7 +4,12 @@
 
 == What is `pbuilder` ==
 
-`pbuilder` is a Database Access Layer creator, and builds for your table structs (entities) and artifacts (DAO's) to perform CRUD operations.
+`pbuilder` is a Database Access Layer creator, and builds for your table structs (entities) and artifacts (DAO's) to perform CRUD operations. This layer is contains two elements
+
+   * Entities representing database tables
+   * DAOs (artifacts) that interacts with database engine.
+
+
 
 == What is not `pbuilder` ==
 
