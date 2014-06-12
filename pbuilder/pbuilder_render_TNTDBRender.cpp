@@ -37,7 +37,7 @@ TNTDBRender::TNTDBRender(Render* parent_) : parent(parent_) {
     timeInitialization = "tntdb::Time()";
     if (!parent->pbuilder->unit.timeInitialization.empty()) {
         timeInitialization = parent->pbuilder->unit.timeInitialization;
-    }
+    }    
 }
 
 std::string TNTDBRender::asText(const pbuilder::Column & column_) {
@@ -181,10 +181,10 @@ std::string TNTDBRender::rowGet(const pbuilder::Column & column_) {
             }
             break;
         case FLOAT:
-            value += "Decimal";
+            value += "Float";
             break;
         case DOUBLE:
-            value += "Decimal";
+            value += "Double";
             break;
         case STRING:
         case CLOB:
@@ -207,15 +207,6 @@ std::string TNTDBRender::rowGet(const pbuilder::Column & column_) {
             value = "String";
     }
     value += "(index++)";
-
-    switch (column_.type) {
-        case FLOAT:
-            value += ".getFloat()";
-            break;
-        case DOUBLE:
-            value += ".getDouble()";
-            break;
-    }
 
     LOG4CXX_TRACE(logger, "rowGet <----- end");
     return value;
