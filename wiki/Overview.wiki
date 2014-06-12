@@ -28,4 +28,4 @@ That means that generated code can manage this database engines.
 
 == Supported schemas ==
 
-At this moment (r1402rc0) only MySQL information_schema is supported. Next versions include analyzer for PostgreSQL. Oracle and SQLite are not included at this moment.
+Current version supports only MySQL information_schemas. Next versions include analyzer for PostgreSQL. Oracle and SQLite are not included at this moment.
