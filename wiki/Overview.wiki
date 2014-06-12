@@ -1,6 +1,6 @@
 #summary Persistence Builder for C++ overview
 
-= About `pbuilder4cpp` (aka `pbuilder`)=
+= About `pbuilder4cpp`=
 
 == What is `pbuilder` ==
 
@@ -29,4 +29,3 @@ That means that generated code can manage this database engines.
 == Supported schemas ==
 
 At this moment (r1402rc0) only MySQL information_schema is supported. Next versions include analyzer for PostgreSQL. Oracle and SQLite are not included at this moment.
-
