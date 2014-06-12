@@ -13,7 +13,7 @@
 
 == What is not `pbuilder` ==
 
-`pbuilder` is not an ORM such as Hibernate or OpenJPA in Java.
+`pbuilder4cpp` is not an ORM such as Hibernate or OpenJPA in Java.
 
 == Supported databases ==
 
