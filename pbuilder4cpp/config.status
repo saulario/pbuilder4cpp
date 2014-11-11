@@ -449,7 +449,7 @@ Copyright (C) 2010 Free Software Foundation, Inc.
 This config.status script is free software; the Free Software Foundation
 gives unlimited permission to copy, distribute and modify it."
 
-ac_pwd='/home/saulario/code/co/trunk1/pbuilder4cpp'
+ac_pwd='/home/saulario/svn/pbuilder4cpp/trunk/pbuilder4cpp'
 srcdir='.'
 INSTALL='/usr/bin/install -c'
 MKDIR_P='/bin/mkdir -p'
@@ -667,12 +667,12 @@ S["mkdir_p"]="/bin/mkdir -p"
 S["MKDIR_P"]="/bin/mkdir -p"
 S["INSTALL_STRIP_PROGRAM"]="$(install_sh) -c -s"
 S["STRIP"]=""
-S["install_sh"]="${SHELL} /home/saulario/code/co/trunk1/pbuilder4cpp/install-sh"
-S["MAKEINFO"]="${SHELL} /home/saulario/code/co/trunk1/pbuilder4cpp/missing --run makeinfo"
-S["AUTOHEADER"]="${SHELL} /home/saulario/code/co/trunk1/pbuilder4cpp/missing --run autoheader"
-S["AUTOMAKE"]="${SHELL} /home/saulario/code/co/trunk1/pbuilder4cpp/missing --run automake-1.11"
-S["AUTOCONF"]="${SHELL} /home/saulario/code/co/trunk1/pbuilder4cpp/missing --run autoconf"
-S["ACLOCAL"]="${SHELL} /home/saulario/code/co/trunk1/pbuilder4cpp/missing --run aclocal-1.11"
+S["install_sh"]="${SHELL} /home/saulario/svn/pbuilder4cpp/trunk/pbuilder4cpp/install-sh"
+S["MAKEINFO"]="${SHELL} /home/saulario/svn/pbuilder4cpp/trunk/pbuilder4cpp/missing --run makeinfo"
+S["AUTOHEADER"]="${SHELL} /home/saulario/svn/pbuilder4cpp/trunk/pbuilder4cpp/missing --run autoheader"
+S["AUTOMAKE"]="${SHELL} /home/saulario/svn/pbuilder4cpp/trunk/pbuilder4cpp/missing --run automake-1.11"
+S["AUTOCONF"]="${SHELL} /home/saulario/svn/pbuilder4cpp/trunk/pbuilder4cpp/missing --run autoconf"
+S["ACLOCAL"]="${SHELL} /home/saulario/svn/pbuilder4cpp/trunk/pbuilder4cpp/missing --run aclocal-1.11"
 S["VERSION"]="1406"
 S["PACKAGE"]="pbuilder4cpp"
 S["CYGPATH_W"]="echo"
