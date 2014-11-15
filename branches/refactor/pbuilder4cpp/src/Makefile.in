@@ -47,11 +47,11 @@ am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
 am_pbuilder4cpp_OBJECTS = pbuilder4cpp-main.$(OBJEXT) \
 	pbuilder4cpp-Analyzer.$(OBJEXT) \
+	pbuilder4cpp-PersistenceBuilder.$(OBJEXT) \
+	pbuilder4cpp-Render.$(OBJEXT) \
 	pbuilder4cpp-MysqlAnalyzer.$(OBJEXT) \
 	pbuilder4cpp-OracleAnalyzer.$(OBJEXT) \
-	pbuilder4cpp-PersistenceBuilder.$(OBJEXT) \
 	pbuilder4cpp-PostgresqlAnalyzer.$(OBJEXT) \
-	pbuilder4cpp-Render.$(OBJEXT) \
 	pbuilder4cpp-SqliteAnalyzer.$(OBJEXT) \
 	pbuilder4cpp-TNTDBArtifactDeclarationRender.$(OBJEXT) \
 	pbuilder4cpp-TNTDBArtifactDefinitionRender.$(OBJEXT) \
@@ -168,17 +168,17 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 pbuilder4cpp_SOURCES = main.cpp \
 	Analyzer.cpp \
-	MysqlAnalyzer.cpp \
-	OracleAnalyzer.cpp \
 	PersistenceBuilder.cpp \
-	PostgresqlAnalyzer.cpp \
 	Render.cpp \
-	SqliteAnalyzer.cpp \
-	TNTDBArtifactDeclarationRender.cpp \
-	TNTDBArtifactDefinitionRender.cpp \
-	TNTDBEntityDeclarationRender.cpp \
-	TNTDBEntityDefinitionRender.cpp \
-	TNTDBRender.cpp
+	analyzer/MysqlAnalyzer.cpp \
+	analyzer/OracleAnalyzer.cpp \
+	analyzer/PostgresqlAnalyzer.cpp \
+	analyzer/SqliteAnalyzer.cpp \
+	tntdb/TNTDBArtifactDeclarationRender.cpp \
+	tntdb/TNTDBArtifactDefinitionRender.cpp \
+	tntdb/TNTDBEntityDeclarationRender.cpp \
+	tntdb/TNTDBEntityDefinitionRender.cpp \
+	tntdb/TNTDBRender.cpp
 
 pbuilder4cpp_CXXFLAGS = --std=c++0x 
 pbuilder4cpp_LDADD = -llog4cxx -lboost_program_options -ltntdb
@@ -319,34 +319,6 @@ pbuilder4cpp-Analyzer.obj: Analyzer.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -c -o pbuilder4cpp-Analyzer.obj `if test -f 'Analyzer.cpp'; then $(CYGPATH_W) 'Analyzer.cpp'; else $(CYGPATH_W) '$(srcdir)/Analyzer.cpp'; fi`
 
-pbuilder4cpp-MysqlAnalyzer.o: MysqlAnalyzer.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -MT pbuilder4cpp-MysqlAnalyzer.o -MD -MP -MF $(DEPDIR)/pbuilder4cpp-MysqlAnalyzer.Tpo -c -o pbuilder4cpp-MysqlAnalyzer.o `test -f 'MysqlAnalyzer.cpp' || echo '$(srcdir)/'`MysqlAnalyzer.cpp
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/pbuilder4cpp-MysqlAnalyzer.Tpo $(DEPDIR)/pbuilder4cpp-MysqlAnalyzer.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='MysqlAnalyzer.cpp' object='pbuilder4cpp-MysqlAnalyzer.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -c -o pbuilder4cpp-MysqlAnalyzer.o `test -f 'MysqlAnalyzer.cpp' || echo '$(srcdir)/'`MysqlAnalyzer.cpp
-
-pbuilder4cpp-MysqlAnalyzer.obj: MysqlAnalyzer.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -MT pbuilder4cpp-MysqlAnalyzer.obj -MD -MP -MF $(DEPDIR)/pbuilder4cpp-MysqlAnalyzer.Tpo -c -o pbuilder4cpp-MysqlAnalyzer.obj `if test -f 'MysqlAnalyzer.cpp'; then $(CYGPATH_W) 'MysqlAnalyzer.cpp'; else $(CYGPATH_W) '$(srcdir)/MysqlAnalyzer.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/pbuilder4cpp-MysqlAnalyzer.Tpo $(DEPDIR)/pbuilder4cpp-MysqlAnalyzer.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='MysqlAnalyzer.cpp' object='pbuilder4cpp-MysqlAnalyzer.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -c -o pbuilder4cpp-MysqlAnalyzer.obj `if test -f 'MysqlAnalyzer.cpp'; then $(CYGPATH_W) 'MysqlAnalyzer.cpp'; else $(CYGPATH_W) '$(srcdir)/MysqlAnalyzer.cpp'; fi`
-
-pbuilder4cpp-OracleAnalyzer.o: OracleAnalyzer.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -MT pbuilder4cpp-OracleAnalyzer.o -MD -MP -MF $(DEPDIR)/pbuilder4cpp-OracleAnalyzer.Tpo -c -o pbuilder4cpp-OracleAnalyzer.o `test -f 'OracleAnalyzer.cpp' || echo '$(srcdir)/'`OracleAnalyzer.cpp
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/pbuilder4cpp-OracleAnalyzer.Tpo $(DEPDIR)/pbuilder4cpp-OracleAnalyzer.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='OracleAnalyzer.cpp' object='pbuilder4cpp-OracleAnalyzer.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -c -o pbuilder4cpp-OracleAnalyzer.o `test -f 'OracleAnalyzer.cpp' || echo '$(srcdir)/'`OracleAnalyzer.cpp
-
-pbuilder4cpp-OracleAnalyzer.obj: OracleAnalyzer.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -MT pbuilder4cpp-OracleAnalyzer.obj -MD -MP -MF $(DEPDIR)/pbuilder4cpp-OracleAnalyzer.Tpo -c -o pbuilder4cpp-OracleAnalyzer.obj `if test -f 'OracleAnalyzer.cpp'; then $(CYGPATH_W) 'OracleAnalyzer.cpp'; else $(CYGPATH_W) '$(srcdir)/OracleAnalyzer.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/pbuilder4cpp-OracleAnalyzer.Tpo $(DEPDIR)/pbuilder4cpp-OracleAnalyzer.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='OracleAnalyzer.cpp' object='pbuilder4cpp-OracleAnalyzer.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -c -o pbuilder4cpp-OracleAnalyzer.obj `if test -f 'OracleAnalyzer.cpp'; then $(CYGPATH_W) 'OracleAnalyzer.cpp'; else $(CYGPATH_W) '$(srcdir)/OracleAnalyzer.cpp'; fi`
-
 pbuilder4cpp-PersistenceBuilder.o: PersistenceBuilder.cpp
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -MT pbuilder4cpp-PersistenceBuilder.o -MD -MP -MF $(DEPDIR)/pbuilder4cpp-PersistenceBuilder.Tpo -c -o pbuilder4cpp-PersistenceBuilder.o `test -f 'PersistenceBuilder.cpp' || echo '$(srcdir)/'`PersistenceBuilder.cpp
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/pbuilder4cpp-PersistenceBuilder.Tpo $(DEPDIR)/pbuilder4cpp-PersistenceBuilder.Po
@@ -360,20 +332,6 @@ pbuilder4cpp-PersistenceBuilder.obj: PersistenceBuilder.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='PersistenceBuilder.cpp' object='pbuilder4cpp-PersistenceBuilder.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -c -o pbuilder4cpp-PersistenceBuilder.obj `if test -f 'PersistenceBuilder.cpp'; then $(CYGPATH_W) 'PersistenceBuilder.cpp'; else $(CYGPATH_W) '$(srcdir)/PersistenceBuilder.cpp'; fi`
-
-pbuilder4cpp-PostgresqlAnalyzer.o: PostgresqlAnalyzer.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -MT pbuilder4cpp-PostgresqlAnalyzer.o -MD -MP -MF $(DEPDIR)/pbuilder4cpp-PostgresqlAnalyzer.Tpo -c -o pbuilder4cpp-PostgresqlAnalyzer.o `test -f 'PostgresqlAnalyzer.cpp' || echo '$(srcdir)/'`PostgresqlAnalyzer.cpp
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/pbuilder4cpp-PostgresqlAnalyzer.Tpo $(DEPDIR)/pbuilder4cpp-PostgresqlAnalyzer.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='PostgresqlAnalyzer.cpp' object='pbuilder4cpp-PostgresqlAnalyzer.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -c -o pbuilder4cpp-PostgresqlAnalyzer.o `test -f 'PostgresqlAnalyzer.cpp' || echo '$(srcdir)/'`PostgresqlAnalyzer.cpp
-
-pbuilder4cpp-PostgresqlAnalyzer.obj: PostgresqlAnalyzer.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -MT pbuilder4cpp-PostgresqlAnalyzer.obj -MD -MP -MF $(DEPDIR)/pbuilder4cpp-PostgresqlAnalyzer.Tpo -c -o pbuilder4cpp-PostgresqlAnalyzer.obj `if test -f 'PostgresqlAnalyzer.cpp'; then $(CYGPATH_W) 'PostgresqlAnalyzer.cpp'; else $(CYGPATH_W) '$(srcdir)/PostgresqlAnalyzer.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/pbuilder4cpp-PostgresqlAnalyzer.Tpo $(DEPDIR)/pbuilder4cpp-PostgresqlAnalyzer.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='PostgresqlAnalyzer.cpp' object='pbuilder4cpp-PostgresqlAnalyzer.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -c -o pbuilder4cpp-PostgresqlAnalyzer.obj `if test -f 'PostgresqlAnalyzer.cpp'; then $(CYGPATH_W) 'PostgresqlAnalyzer.cpp'; else $(CYGPATH_W) '$(srcdir)/PostgresqlAnalyzer.cpp'; fi`
 
 pbuilder4cpp-Render.o: Render.cpp
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -MT pbuilder4cpp-Render.o -MD -MP -MF $(DEPDIR)/pbuilder4cpp-Render.Tpo -c -o pbuilder4cpp-Render.o `test -f 'Render.cpp' || echo '$(srcdir)/'`Render.cpp
@@ -389,89 +347,131 @@ pbuilder4cpp-Render.obj: Render.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -c -o pbuilder4cpp-Render.obj `if test -f 'Render.cpp'; then $(CYGPATH_W) 'Render.cpp'; else $(CYGPATH_W) '$(srcdir)/Render.cpp'; fi`
 
-pbuilder4cpp-SqliteAnalyzer.o: SqliteAnalyzer.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -MT pbuilder4cpp-SqliteAnalyzer.o -MD -MP -MF $(DEPDIR)/pbuilder4cpp-SqliteAnalyzer.Tpo -c -o pbuilder4cpp-SqliteAnalyzer.o `test -f 'SqliteAnalyzer.cpp' || echo '$(srcdir)/'`SqliteAnalyzer.cpp
+pbuilder4cpp-MysqlAnalyzer.o: analyzer/MysqlAnalyzer.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -MT pbuilder4cpp-MysqlAnalyzer.o -MD -MP -MF $(DEPDIR)/pbuilder4cpp-MysqlAnalyzer.Tpo -c -o pbuilder4cpp-MysqlAnalyzer.o `test -f 'analyzer/MysqlAnalyzer.cpp' || echo '$(srcdir)/'`analyzer/MysqlAnalyzer.cpp
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/pbuilder4cpp-MysqlAnalyzer.Tpo $(DEPDIR)/pbuilder4cpp-MysqlAnalyzer.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='analyzer/MysqlAnalyzer.cpp' object='pbuilder4cpp-MysqlAnalyzer.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -c -o pbuilder4cpp-MysqlAnalyzer.o `test -f 'analyzer/MysqlAnalyzer.cpp' || echo '$(srcdir)/'`analyzer/MysqlAnalyzer.cpp
+
+pbuilder4cpp-MysqlAnalyzer.obj: analyzer/MysqlAnalyzer.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -MT pbuilder4cpp-MysqlAnalyzer.obj -MD -MP -MF $(DEPDIR)/pbuilder4cpp-MysqlAnalyzer.Tpo -c -o pbuilder4cpp-MysqlAnalyzer.obj `if test -f 'analyzer/MysqlAnalyzer.cpp'; then $(CYGPATH_W) 'analyzer/MysqlAnalyzer.cpp'; else $(CYGPATH_W) '$(srcdir)/analyzer/MysqlAnalyzer.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/pbuilder4cpp-MysqlAnalyzer.Tpo $(DEPDIR)/pbuilder4cpp-MysqlAnalyzer.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='analyzer/MysqlAnalyzer.cpp' object='pbuilder4cpp-MysqlAnalyzer.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -c -o pbuilder4cpp-MysqlAnalyzer.obj `if test -f 'analyzer/MysqlAnalyzer.cpp'; then $(CYGPATH_W) 'analyzer/MysqlAnalyzer.cpp'; else $(CYGPATH_W) '$(srcdir)/analyzer/MysqlAnalyzer.cpp'; fi`
+
+pbuilder4cpp-OracleAnalyzer.o: analyzer/OracleAnalyzer.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -MT pbuilder4cpp-OracleAnalyzer.o -MD -MP -MF $(DEPDIR)/pbuilder4cpp-OracleAnalyzer.Tpo -c -o pbuilder4cpp-OracleAnalyzer.o `test -f 'analyzer/OracleAnalyzer.cpp' || echo '$(srcdir)/'`analyzer/OracleAnalyzer.cpp
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/pbuilder4cpp-OracleAnalyzer.Tpo $(DEPDIR)/pbuilder4cpp-OracleAnalyzer.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='analyzer/OracleAnalyzer.cpp' object='pbuilder4cpp-OracleAnalyzer.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -c -o pbuilder4cpp-OracleAnalyzer.o `test -f 'analyzer/OracleAnalyzer.cpp' || echo '$(srcdir)/'`analyzer/OracleAnalyzer.cpp
+
+pbuilder4cpp-OracleAnalyzer.obj: analyzer/OracleAnalyzer.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -MT pbuilder4cpp-OracleAnalyzer.obj -MD -MP -MF $(DEPDIR)/pbuilder4cpp-OracleAnalyzer.Tpo -c -o pbuilder4cpp-OracleAnalyzer.obj `if test -f 'analyzer/OracleAnalyzer.cpp'; then $(CYGPATH_W) 'analyzer/OracleAnalyzer.cpp'; else $(CYGPATH_W) '$(srcdir)/analyzer/OracleAnalyzer.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/pbuilder4cpp-OracleAnalyzer.Tpo $(DEPDIR)/pbuilder4cpp-OracleAnalyzer.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='analyzer/OracleAnalyzer.cpp' object='pbuilder4cpp-OracleAnalyzer.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -c -o pbuilder4cpp-OracleAnalyzer.obj `if test -f 'analyzer/OracleAnalyzer.cpp'; then $(CYGPATH_W) 'analyzer/OracleAnalyzer.cpp'; else $(CYGPATH_W) '$(srcdir)/analyzer/OracleAnalyzer.cpp'; fi`
+
+pbuilder4cpp-PostgresqlAnalyzer.o: analyzer/PostgresqlAnalyzer.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -MT pbuilder4cpp-PostgresqlAnalyzer.o -MD -MP -MF $(DEPDIR)/pbuilder4cpp-PostgresqlAnalyzer.Tpo -c -o pbuilder4cpp-PostgresqlAnalyzer.o `test -f 'analyzer/PostgresqlAnalyzer.cpp' || echo '$(srcdir)/'`analyzer/PostgresqlAnalyzer.cpp
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/pbuilder4cpp-PostgresqlAnalyzer.Tpo $(DEPDIR)/pbuilder4cpp-PostgresqlAnalyzer.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='analyzer/PostgresqlAnalyzer.cpp' object='pbuilder4cpp-PostgresqlAnalyzer.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -c -o pbuilder4cpp-PostgresqlAnalyzer.o `test -f 'analyzer/PostgresqlAnalyzer.cpp' || echo '$(srcdir)/'`analyzer/PostgresqlAnalyzer.cpp
+
+pbuilder4cpp-PostgresqlAnalyzer.obj: analyzer/PostgresqlAnalyzer.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -MT pbuilder4cpp-PostgresqlAnalyzer.obj -MD -MP -MF $(DEPDIR)/pbuilder4cpp-PostgresqlAnalyzer.Tpo -c -o pbuilder4cpp-PostgresqlAnalyzer.obj `if test -f 'analyzer/PostgresqlAnalyzer.cpp'; then $(CYGPATH_W) 'analyzer/PostgresqlAnalyzer.cpp'; else $(CYGPATH_W) '$(srcdir)/analyzer/PostgresqlAnalyzer.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/pbuilder4cpp-PostgresqlAnalyzer.Tpo $(DEPDIR)/pbuilder4cpp-PostgresqlAnalyzer.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='analyzer/PostgresqlAnalyzer.cpp' object='pbuilder4cpp-PostgresqlAnalyzer.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -c -o pbuilder4cpp-PostgresqlAnalyzer.obj `if test -f 'analyzer/PostgresqlAnalyzer.cpp'; then $(CYGPATH_W) 'analyzer/PostgresqlAnalyzer.cpp'; else $(CYGPATH_W) '$(srcdir)/analyzer/PostgresqlAnalyzer.cpp'; fi`
+
+pbuilder4cpp-SqliteAnalyzer.o: analyzer/SqliteAnalyzer.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -MT pbuilder4cpp-SqliteAnalyzer.o -MD -MP -MF $(DEPDIR)/pbuilder4cpp-SqliteAnalyzer.Tpo -c -o pbuilder4cpp-SqliteAnalyzer.o `test -f 'analyzer/SqliteAnalyzer.cpp' || echo '$(srcdir)/'`analyzer/SqliteAnalyzer.cpp
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/pbuilder4cpp-SqliteAnalyzer.Tpo $(DEPDIR)/pbuilder4cpp-SqliteAnalyzer.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='SqliteAnalyzer.cpp' object='pbuilder4cpp-SqliteAnalyzer.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='analyzer/SqliteAnalyzer.cpp' object='pbuilder4cpp-SqliteAnalyzer.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -c -o pbuilder4cpp-SqliteAnalyzer.o `test -f 'SqliteAnalyzer.cpp' || echo '$(srcdir)/'`SqliteAnalyzer.cpp
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -c -o pbuilder4cpp-SqliteAnalyzer.o `test -f 'analyzer/SqliteAnalyzer.cpp' || echo '$(srcdir)/'`analyzer/SqliteAnalyzer.cpp
 
-pbuilder4cpp-SqliteAnalyzer.obj: SqliteAnalyzer.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -MT pbuilder4cpp-SqliteAnalyzer.obj -MD -MP -MF $(DEPDIR)/pbuilder4cpp-SqliteAnalyzer.Tpo -c -o pbuilder4cpp-SqliteAnalyzer.obj `if test -f 'SqliteAnalyzer.cpp'; then $(CYGPATH_W) 'SqliteAnalyzer.cpp'; else $(CYGPATH_W) '$(srcdir)/SqliteAnalyzer.cpp'; fi`
+pbuilder4cpp-SqliteAnalyzer.obj: analyzer/SqliteAnalyzer.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -MT pbuilder4cpp-SqliteAnalyzer.obj -MD -MP -MF $(DEPDIR)/pbuilder4cpp-SqliteAnalyzer.Tpo -c -o pbuilder4cpp-SqliteAnalyzer.obj `if test -f 'analyzer/SqliteAnalyzer.cpp'; then $(CYGPATH_W) 'analyzer/SqliteAnalyzer.cpp'; else $(CYGPATH_W) '$(srcdir)/analyzer/SqliteAnalyzer.cpp'; fi`
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/pbuilder4cpp-SqliteAnalyzer.Tpo $(DEPDIR)/pbuilder4cpp-SqliteAnalyzer.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='SqliteAnalyzer.cpp' object='pbuilder4cpp-SqliteAnalyzer.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='analyzer/SqliteAnalyzer.cpp' object='pbuilder4cpp-SqliteAnalyzer.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -c -o pbuilder4cpp-SqliteAnalyzer.obj `if test -f 'SqliteAnalyzer.cpp'; then $(CYGPATH_W) 'SqliteAnalyzer.cpp'; else $(CYGPATH_W) '$(srcdir)/SqliteAnalyzer.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -c -o pbuilder4cpp-SqliteAnalyzer.obj `if test -f 'analyzer/SqliteAnalyzer.cpp'; then $(CYGPATH_W) 'analyzer/SqliteAnalyzer.cpp'; else $(CYGPATH_W) '$(srcdir)/analyzer/SqliteAnalyzer.cpp'; fi`
 
-pbuilder4cpp-TNTDBArtifactDeclarationRender.o: TNTDBArtifactDeclarationRender.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -MT pbuilder4cpp-TNTDBArtifactDeclarationRender.o -MD -MP -MF $(DEPDIR)/pbuilder4cpp-TNTDBArtifactDeclarationRender.Tpo -c -o pbuilder4cpp-TNTDBArtifactDeclarationRender.o `test -f 'TNTDBArtifactDeclarationRender.cpp' || echo '$(srcdir)/'`TNTDBArtifactDeclarationRender.cpp
+pbuilder4cpp-TNTDBArtifactDeclarationRender.o: tntdb/TNTDBArtifactDeclarationRender.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -MT pbuilder4cpp-TNTDBArtifactDeclarationRender.o -MD -MP -MF $(DEPDIR)/pbuilder4cpp-TNTDBArtifactDeclarationRender.Tpo -c -o pbuilder4cpp-TNTDBArtifactDeclarationRender.o `test -f 'tntdb/TNTDBArtifactDeclarationRender.cpp' || echo '$(srcdir)/'`tntdb/TNTDBArtifactDeclarationRender.cpp
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/pbuilder4cpp-TNTDBArtifactDeclarationRender.Tpo $(DEPDIR)/pbuilder4cpp-TNTDBArtifactDeclarationRender.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='TNTDBArtifactDeclarationRender.cpp' object='pbuilder4cpp-TNTDBArtifactDeclarationRender.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='tntdb/TNTDBArtifactDeclarationRender.cpp' object='pbuilder4cpp-TNTDBArtifactDeclarationRender.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -c -o pbuilder4cpp-TNTDBArtifactDeclarationRender.o `test -f 'TNTDBArtifactDeclarationRender.cpp' || echo '$(srcdir)/'`TNTDBArtifactDeclarationRender.cpp
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -c -o pbuilder4cpp-TNTDBArtifactDeclarationRender.o `test -f 'tntdb/TNTDBArtifactDeclarationRender.cpp' || echo '$(srcdir)/'`tntdb/TNTDBArtifactDeclarationRender.cpp
 
-pbuilder4cpp-TNTDBArtifactDeclarationRender.obj: TNTDBArtifactDeclarationRender.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -MT pbuilder4cpp-TNTDBArtifactDeclarationRender.obj -MD -MP -MF $(DEPDIR)/pbuilder4cpp-TNTDBArtifactDeclarationRender.Tpo -c -o pbuilder4cpp-TNTDBArtifactDeclarationRender.obj `if test -f 'TNTDBArtifactDeclarationRender.cpp'; then $(CYGPATH_W) 'TNTDBArtifactDeclarationRender.cpp'; else $(CYGPATH_W) '$(srcdir)/TNTDBArtifactDeclarationRender.cpp'; fi`
+pbuilder4cpp-TNTDBArtifactDeclarationRender.obj: tntdb/TNTDBArtifactDeclarationRender.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -MT pbuilder4cpp-TNTDBArtifactDeclarationRender.obj -MD -MP -MF $(DEPDIR)/pbuilder4cpp-TNTDBArtifactDeclarationRender.Tpo -c -o pbuilder4cpp-TNTDBArtifactDeclarationRender.obj `if test -f 'tntdb/TNTDBArtifactDeclarationRender.cpp'; then $(CYGPATH_W) 'tntdb/TNTDBArtifactDeclarationRender.cpp'; else $(CYGPATH_W) '$(srcdir)/tntdb/TNTDBArtifactDeclarationRender.cpp'; fi`
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/pbuilder4cpp-TNTDBArtifactDeclarationRender.Tpo $(DEPDIR)/pbuilder4cpp-TNTDBArtifactDeclarationRender.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='TNTDBArtifactDeclarationRender.cpp' object='pbuilder4cpp-TNTDBArtifactDeclarationRender.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='tntdb/TNTDBArtifactDeclarationRender.cpp' object='pbuilder4cpp-TNTDBArtifactDeclarationRender.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -c -o pbuilder4cpp-TNTDBArtifactDeclarationRender.obj `if test -f 'TNTDBArtifactDeclarationRender.cpp'; then $(CYGPATH_W) 'TNTDBArtifactDeclarationRender.cpp'; else $(CYGPATH_W) '$(srcdir)/TNTDBArtifactDeclarationRender.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -c -o pbuilder4cpp-TNTDBArtifactDeclarationRender.obj `if test -f 'tntdb/TNTDBArtifactDeclarationRender.cpp'; then $(CYGPATH_W) 'tntdb/TNTDBArtifactDeclarationRender.cpp'; else $(CYGPATH_W) '$(srcdir)/tntdb/TNTDBArtifactDeclarationRender.cpp'; fi`
 
-pbuilder4cpp-TNTDBArtifactDefinitionRender.o: TNTDBArtifactDefinitionRender.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -MT pbuilder4cpp-TNTDBArtifactDefinitionRender.o -MD -MP -MF $(DEPDIR)/pbuilder4cpp-TNTDBArtifactDefinitionRender.Tpo -c -o pbuilder4cpp-TNTDBArtifactDefinitionRender.o `test -f 'TNTDBArtifactDefinitionRender.cpp' || echo '$(srcdir)/'`TNTDBArtifactDefinitionRender.cpp
+pbuilder4cpp-TNTDBArtifactDefinitionRender.o: tntdb/TNTDBArtifactDefinitionRender.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -MT pbuilder4cpp-TNTDBArtifactDefinitionRender.o -MD -MP -MF $(DEPDIR)/pbuilder4cpp-TNTDBArtifactDefinitionRender.Tpo -c -o pbuilder4cpp-TNTDBArtifactDefinitionRender.o `test -f 'tntdb/TNTDBArtifactDefinitionRender.cpp' || echo '$(srcdir)/'`tntdb/TNTDBArtifactDefinitionRender.cpp
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/pbuilder4cpp-TNTDBArtifactDefinitionRender.Tpo $(DEPDIR)/pbuilder4cpp-TNTDBArtifactDefinitionRender.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='TNTDBArtifactDefinitionRender.cpp' object='pbuilder4cpp-TNTDBArtifactDefinitionRender.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='tntdb/TNTDBArtifactDefinitionRender.cpp' object='pbuilder4cpp-TNTDBArtifactDefinitionRender.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -c -o pbuilder4cpp-TNTDBArtifactDefinitionRender.o `test -f 'TNTDBArtifactDefinitionRender.cpp' || echo '$(srcdir)/'`TNTDBArtifactDefinitionRender.cpp
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -c -o pbuilder4cpp-TNTDBArtifactDefinitionRender.o `test -f 'tntdb/TNTDBArtifactDefinitionRender.cpp' || echo '$(srcdir)/'`tntdb/TNTDBArtifactDefinitionRender.cpp
 
-pbuilder4cpp-TNTDBArtifactDefinitionRender.obj: TNTDBArtifactDefinitionRender.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -MT pbuilder4cpp-TNTDBArtifactDefinitionRender.obj -MD -MP -MF $(DEPDIR)/pbuilder4cpp-TNTDBArtifactDefinitionRender.Tpo -c -o pbuilder4cpp-TNTDBArtifactDefinitionRender.obj `if test -f 'TNTDBArtifactDefinitionRender.cpp'; then $(CYGPATH_W) 'TNTDBArtifactDefinitionRender.cpp'; else $(CYGPATH_W) '$(srcdir)/TNTDBArtifactDefinitionRender.cpp'; fi`
+pbuilder4cpp-TNTDBArtifactDefinitionRender.obj: tntdb/TNTDBArtifactDefinitionRender.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -MT pbuilder4cpp-TNTDBArtifactDefinitionRender.obj -MD -MP -MF $(DEPDIR)/pbuilder4cpp-TNTDBArtifactDefinitionRender.Tpo -c -o pbuilder4cpp-TNTDBArtifactDefinitionRender.obj `if test -f 'tntdb/TNTDBArtifactDefinitionRender.cpp'; then $(CYGPATH_W) 'tntdb/TNTDBArtifactDefinitionRender.cpp'; else $(CYGPATH_W) '$(srcdir)/tntdb/TNTDBArtifactDefinitionRender.cpp'; fi`
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/pbuilder4cpp-TNTDBArtifactDefinitionRender.Tpo $(DEPDIR)/pbuilder4cpp-TNTDBArtifactDefinitionRender.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='TNTDBArtifactDefinitionRender.cpp' object='pbuilder4cpp-TNTDBArtifactDefinitionRender.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='tntdb/TNTDBArtifactDefinitionRender.cpp' object='pbuilder4cpp-TNTDBArtifactDefinitionRender.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -c -o pbuilder4cpp-TNTDBArtifactDefinitionRender.obj `if test -f 'TNTDBArtifactDefinitionRender.cpp'; then $(CYGPATH_W) 'TNTDBArtifactDefinitionRender.cpp'; else $(CYGPATH_W) '$(srcdir)/TNTDBArtifactDefinitionRender.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -c -o pbuilder4cpp-TNTDBArtifactDefinitionRender.obj `if test -f 'tntdb/TNTDBArtifactDefinitionRender.cpp'; then $(CYGPATH_W) 'tntdb/TNTDBArtifactDefinitionRender.cpp'; else $(CYGPATH_W) '$(srcdir)/tntdb/TNTDBArtifactDefinitionRender.cpp'; fi`
 
-pbuilder4cpp-TNTDBEntityDeclarationRender.o: TNTDBEntityDeclarationRender.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -MT pbuilder4cpp-TNTDBEntityDeclarationRender.o -MD -MP -MF $(DEPDIR)/pbuilder4cpp-TNTDBEntityDeclarationRender.Tpo -c -o pbuilder4cpp-TNTDBEntityDeclarationRender.o `test -f 'TNTDBEntityDeclarationRender.cpp' || echo '$(srcdir)/'`TNTDBEntityDeclarationRender.cpp
+pbuilder4cpp-TNTDBEntityDeclarationRender.o: tntdb/TNTDBEntityDeclarationRender.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -MT pbuilder4cpp-TNTDBEntityDeclarationRender.o -MD -MP -MF $(DEPDIR)/pbuilder4cpp-TNTDBEntityDeclarationRender.Tpo -c -o pbuilder4cpp-TNTDBEntityDeclarationRender.o `test -f 'tntdb/TNTDBEntityDeclarationRender.cpp' || echo '$(srcdir)/'`tntdb/TNTDBEntityDeclarationRender.cpp
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/pbuilder4cpp-TNTDBEntityDeclarationRender.Tpo $(DEPDIR)/pbuilder4cpp-TNTDBEntityDeclarationRender.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='TNTDBEntityDeclarationRender.cpp' object='pbuilder4cpp-TNTDBEntityDeclarationRender.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='tntdb/TNTDBEntityDeclarationRender.cpp' object='pbuilder4cpp-TNTDBEntityDeclarationRender.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -c -o pbuilder4cpp-TNTDBEntityDeclarationRender.o `test -f 'TNTDBEntityDeclarationRender.cpp' || echo '$(srcdir)/'`TNTDBEntityDeclarationRender.cpp
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -c -o pbuilder4cpp-TNTDBEntityDeclarationRender.o `test -f 'tntdb/TNTDBEntityDeclarationRender.cpp' || echo '$(srcdir)/'`tntdb/TNTDBEntityDeclarationRender.cpp
 
-pbuilder4cpp-TNTDBEntityDeclarationRender.obj: TNTDBEntityDeclarationRender.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -MT pbuilder4cpp-TNTDBEntityDeclarationRender.obj -MD -MP -MF $(DEPDIR)/pbuilder4cpp-TNTDBEntityDeclarationRender.Tpo -c -o pbuilder4cpp-TNTDBEntityDeclarationRender.obj `if test -f 'TNTDBEntityDeclarationRender.cpp'; then $(CYGPATH_W) 'TNTDBEntityDeclarationRender.cpp'; else $(CYGPATH_W) '$(srcdir)/TNTDBEntityDeclarationRender.cpp'; fi`
+pbuilder4cpp-TNTDBEntityDeclarationRender.obj: tntdb/TNTDBEntityDeclarationRender.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -MT pbuilder4cpp-TNTDBEntityDeclarationRender.obj -MD -MP -MF $(DEPDIR)/pbuilder4cpp-TNTDBEntityDeclarationRender.Tpo -c -o pbuilder4cpp-TNTDBEntityDeclarationRender.obj `if test -f 'tntdb/TNTDBEntityDeclarationRender.cpp'; then $(CYGPATH_W) 'tntdb/TNTDBEntityDeclarationRender.cpp'; else $(CYGPATH_W) '$(srcdir)/tntdb/TNTDBEntityDeclarationRender.cpp'; fi`
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/pbuilder4cpp-TNTDBEntityDeclarationRender.Tpo $(DEPDIR)/pbuilder4cpp-TNTDBEntityDeclarationRender.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='TNTDBEntityDeclarationRender.cpp' object='pbuilder4cpp-TNTDBEntityDeclarationRender.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='tntdb/TNTDBEntityDeclarationRender.cpp' object='pbuilder4cpp-TNTDBEntityDeclarationRender.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -c -o pbuilder4cpp-TNTDBEntityDeclarationRender.obj `if test -f 'TNTDBEntityDeclarationRender.cpp'; then $(CYGPATH_W) 'TNTDBEntityDeclarationRender.cpp'; else $(CYGPATH_W) '$(srcdir)/TNTDBEntityDeclarationRender.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -c -o pbuilder4cpp-TNTDBEntityDeclarationRender.obj `if test -f 'tntdb/TNTDBEntityDeclarationRender.cpp'; then $(CYGPATH_W) 'tntdb/TNTDBEntityDeclarationRender.cpp'; else $(CYGPATH_W) '$(srcdir)/tntdb/TNTDBEntityDeclarationRender.cpp'; fi`
 
-pbuilder4cpp-TNTDBEntityDefinitionRender.o: TNTDBEntityDefinitionRender.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -MT pbuilder4cpp-TNTDBEntityDefinitionRender.o -MD -MP -MF $(DEPDIR)/pbuilder4cpp-TNTDBEntityDefinitionRender.Tpo -c -o pbuilder4cpp-TNTDBEntityDefinitionRender.o `test -f 'TNTDBEntityDefinitionRender.cpp' || echo '$(srcdir)/'`TNTDBEntityDefinitionRender.cpp
+pbuilder4cpp-TNTDBEntityDefinitionRender.o: tntdb/TNTDBEntityDefinitionRender.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -MT pbuilder4cpp-TNTDBEntityDefinitionRender.o -MD -MP -MF $(DEPDIR)/pbuilder4cpp-TNTDBEntityDefinitionRender.Tpo -c -o pbuilder4cpp-TNTDBEntityDefinitionRender.o `test -f 'tntdb/TNTDBEntityDefinitionRender.cpp' || echo '$(srcdir)/'`tntdb/TNTDBEntityDefinitionRender.cpp
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/pbuilder4cpp-TNTDBEntityDefinitionRender.Tpo $(DEPDIR)/pbuilder4cpp-TNTDBEntityDefinitionRender.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='TNTDBEntityDefinitionRender.cpp' object='pbuilder4cpp-TNTDBEntityDefinitionRender.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='tntdb/TNTDBEntityDefinitionRender.cpp' object='pbuilder4cpp-TNTDBEntityDefinitionRender.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -c -o pbuilder4cpp-TNTDBEntityDefinitionRender.o `test -f 'TNTDBEntityDefinitionRender.cpp' || echo '$(srcdir)/'`TNTDBEntityDefinitionRender.cpp
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -c -o pbuilder4cpp-TNTDBEntityDefinitionRender.o `test -f 'tntdb/TNTDBEntityDefinitionRender.cpp' || echo '$(srcdir)/'`tntdb/TNTDBEntityDefinitionRender.cpp
 
-pbuilder4cpp-TNTDBEntityDefinitionRender.obj: TNTDBEntityDefinitionRender.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -MT pbuilder4cpp-TNTDBEntityDefinitionRender.obj -MD -MP -MF $(DEPDIR)/pbuilder4cpp-TNTDBEntityDefinitionRender.Tpo -c -o pbuilder4cpp-TNTDBEntityDefinitionRender.obj `if test -f 'TNTDBEntityDefinitionRender.cpp'; then $(CYGPATH_W) 'TNTDBEntityDefinitionRender.cpp'; else $(CYGPATH_W) '$(srcdir)/TNTDBEntityDefinitionRender.cpp'; fi`
+pbuilder4cpp-TNTDBEntityDefinitionRender.obj: tntdb/TNTDBEntityDefinitionRender.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -MT pbuilder4cpp-TNTDBEntityDefinitionRender.obj -MD -MP -MF $(DEPDIR)/pbuilder4cpp-TNTDBEntityDefinitionRender.Tpo -c -o pbuilder4cpp-TNTDBEntityDefinitionRender.obj `if test -f 'tntdb/TNTDBEntityDefinitionRender.cpp'; then $(CYGPATH_W) 'tntdb/TNTDBEntityDefinitionRender.cpp'; else $(CYGPATH_W) '$(srcdir)/tntdb/TNTDBEntityDefinitionRender.cpp'; fi`
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/pbuilder4cpp-TNTDBEntityDefinitionRender.Tpo $(DEPDIR)/pbuilder4cpp-TNTDBEntityDefinitionRender.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='TNTDBEntityDefinitionRender.cpp' object='pbuilder4cpp-TNTDBEntityDefinitionRender.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='tntdb/TNTDBEntityDefinitionRender.cpp' object='pbuilder4cpp-TNTDBEntityDefinitionRender.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -c -o pbuilder4cpp-TNTDBEntityDefinitionRender.obj `if test -f 'TNTDBEntityDefinitionRender.cpp'; then $(CYGPATH_W) 'TNTDBEntityDefinitionRender.cpp'; else $(CYGPATH_W) '$(srcdir)/TNTDBEntityDefinitionRender.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -c -o pbuilder4cpp-TNTDBEntityDefinitionRender.obj `if test -f 'tntdb/TNTDBEntityDefinitionRender.cpp'; then $(CYGPATH_W) 'tntdb/TNTDBEntityDefinitionRender.cpp'; else $(CYGPATH_W) '$(srcdir)/tntdb/TNTDBEntityDefinitionRender.cpp'; fi`
 
-pbuilder4cpp-TNTDBRender.o: TNTDBRender.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -MT pbuilder4cpp-TNTDBRender.o -MD -MP -MF $(DEPDIR)/pbuilder4cpp-TNTDBRender.Tpo -c -o pbuilder4cpp-TNTDBRender.o `test -f 'TNTDBRender.cpp' || echo '$(srcdir)/'`TNTDBRender.cpp
+pbuilder4cpp-TNTDBRender.o: tntdb/TNTDBRender.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -MT pbuilder4cpp-TNTDBRender.o -MD -MP -MF $(DEPDIR)/pbuilder4cpp-TNTDBRender.Tpo -c -o pbuilder4cpp-TNTDBRender.o `test -f 'tntdb/TNTDBRender.cpp' || echo '$(srcdir)/'`tntdb/TNTDBRender.cpp
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/pbuilder4cpp-TNTDBRender.Tpo $(DEPDIR)/pbuilder4cpp-TNTDBRender.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='TNTDBRender.cpp' object='pbuilder4cpp-TNTDBRender.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='tntdb/TNTDBRender.cpp' object='pbuilder4cpp-TNTDBRender.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -c -o pbuilder4cpp-TNTDBRender.o `test -f 'TNTDBRender.cpp' || echo '$(srcdir)/'`TNTDBRender.cpp
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -c -o pbuilder4cpp-TNTDBRender.o `test -f 'tntdb/TNTDBRender.cpp' || echo '$(srcdir)/'`tntdb/TNTDBRender.cpp
 
-pbuilder4cpp-TNTDBRender.obj: TNTDBRender.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -MT pbuilder4cpp-TNTDBRender.obj -MD -MP -MF $(DEPDIR)/pbuilder4cpp-TNTDBRender.Tpo -c -o pbuilder4cpp-TNTDBRender.obj `if test -f 'TNTDBRender.cpp'; then $(CYGPATH_W) 'TNTDBRender.cpp'; else $(CYGPATH_W) '$(srcdir)/TNTDBRender.cpp'; fi`
+pbuilder4cpp-TNTDBRender.obj: tntdb/TNTDBRender.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -MT pbuilder4cpp-TNTDBRender.obj -MD -MP -MF $(DEPDIR)/pbuilder4cpp-TNTDBRender.Tpo -c -o pbuilder4cpp-TNTDBRender.obj `if test -f 'tntdb/TNTDBRender.cpp'; then $(CYGPATH_W) 'tntdb/TNTDBRender.cpp'; else $(CYGPATH_W) '$(srcdir)/tntdb/TNTDBRender.cpp'; fi`
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/pbuilder4cpp-TNTDBRender.Tpo $(DEPDIR)/pbuilder4cpp-TNTDBRender.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='TNTDBRender.cpp' object='pbuilder4cpp-TNTDBRender.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='tntdb/TNTDBRender.cpp' object='pbuilder4cpp-TNTDBRender.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -c -o pbuilder4cpp-TNTDBRender.obj `if test -f 'TNTDBRender.cpp'; then $(CYGPATH_W) 'TNTDBRender.cpp'; else $(CYGPATH_W) '$(srcdir)/TNTDBRender.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -c -o pbuilder4cpp-TNTDBRender.obj `if test -f 'tntdb/TNTDBRender.cpp'; then $(CYGPATH_W) 'tntdb/TNTDBRender.cpp'; else $(CYGPATH_W) '$(srcdir)/tntdb/TNTDBRender.cpp'; fi`
 
 ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
 	list='$(SOURCES) $(HEADERS) $(LISP) $(TAGS_FILES)'; \
