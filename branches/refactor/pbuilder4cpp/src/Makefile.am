@@ -7,11 +7,11 @@ pbuilder4cpp_SOURCES = main.cpp \
 	analyzer/OracleAnalyzer.cpp \
 	analyzer/PostgresqlAnalyzer.cpp \
 	analyzer/SqliteAnalyzer.cpp \
-	tntdb/TNTDBArtifactDeclarationRender.cpp \
-	tntdb/TNTDBArtifactDefinitionRender.cpp \
-	tntdb/TNTDBEntityDeclarationRender.cpp \
-	tntdb/TNTDBEntityDefinitionRender.cpp \
-	tntdb/TNTDBRender.cpp
+	tntdb/ArtifactDeclaration.cpp \
+	tntdb/ArtifactDefinition.cpp \
+	tntdb/EntityDeclaration.cpp \
+	tntdb/EntityDefinition.cpp \
+	tntdb/Render.cpp
 
 pbuilder4cpp_CXXFLAGS=--std=c++0x 
 pbuilder4cpp_LDADD=-llog4cxx -lboost_program_options -ltntdb

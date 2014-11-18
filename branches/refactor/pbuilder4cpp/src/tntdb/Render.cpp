@@ -1,5 +1,5 @@
 /*
- * Persistence Builder (pbuilder)
+ * Persistence Builder (pbuilder4cpp)
  * Copyright (C) 2013..  Saul Correas Subias 
  * 
  * This program is free software: you can redistribute it and/or modify
@@ -21,11 +21,11 @@
 #include "pbuilder.h"
 #include "pbuilder_render.h"
 
-using namespace pbuilder::render;
+using namespace pbuilder::render::tntdb;
 
-log4cxx::LoggerPtr TNTDBRender::logger = log4cxx::Logger::getLogger("pbuilder::render::TNTDBRender");
+log4cxx::LoggerPtr Render::logger = log4cxx::Logger::getLogger("pbuilder::render::tntdb::Render");
 
-TNTDBRender::TNTDBRender(Render* parent_) : parent(parent_) {
+Render::Render(pbuilder::render::Render * parent_) : parent(parent_) {
     dateInitialization = "tntdb::Date()";
     if (!parent->pbuilder->unit.dateInitialization.empty()) {
         dateInitialization = parent->pbuilder->unit.dateInitialization;
@@ -40,7 +40,7 @@ TNTDBRender::TNTDBRender(Render* parent_) : parent(parent_) {
     }
 }
 
-std::string TNTDBRender::asText(const pbuilder::Column & column_) {
+std::string Render::asText(const pbuilder::Column & column_) {
     LOG4CXX_TRACE(logger, "asText -----> begin");
     std::string value = "";
     switch (column_.type) {
@@ -86,7 +86,7 @@ std::string TNTDBRender::asText(const pbuilder::Column & column_) {
     return value;
 }
 
-std::string TNTDBRender::defaultValue(const pbuilder::Column & column_) {
+std::string Render::defaultValue(const pbuilder::Column & column_) {
     LOG4CXX_TRACE(logger, "defaultValue -----> begin");
     std::string value = "";
     switch (column_.type) {
@@ -132,23 +132,23 @@ std::string TNTDBRender::defaultValue(const pbuilder::Column & column_) {
     return value;
 }
 
-void TNTDBRender::notify(void) {
-    LOG4CXX_TRACE(logger, "doRender -----> begin");
+void Render::notify(void) {
+    LOG4CXX_TRACE(logger, "notify -----> begin");
 
-    TNTDBArtifactDeclarationRender adec(this);
-    TNTDBArtifactDefinitionRender adef(this);
-    TNTDBEntityDeclarationRender edec(this);
-    TNTDBEntityDefinitionRender edef(this);
+    ArtifactDeclaration adec(this);
+    ArtifactDefinition adef(this);
+    EntityDeclaration edec(this);
+    EntityDefinition edef(this);
 
     adec.notify();
     adef.notify();
     edec.notify();
     edef.notify();
 
-    LOG4CXX_TRACE(logger, "doRender <----- end");
+    LOG4CXX_TRACE(logger, "notify <----- end");
 }
 
-std::string TNTDBRender::rowGet(const pbuilder::Column & column_) {
+std::string Render::rowGet(const pbuilder::Column & column_) {
     LOG4CXX_TRACE(logger, "rowGet -----> begin");
     std::string value = "row.get";
     switch (column_.type) {
@@ -221,7 +221,7 @@ std::string TNTDBRender::rowGet(const pbuilder::Column & column_) {
     return value;
 }
 
-std::string TNTDBRender::stmtSet(const pbuilder::Column & column_, const bool & nullable_) {
+std::string Render::stmtSet(const pbuilder::Column & column_, const bool & nullable_) {
     LOG4CXX_TRACE(logger, "stmtSet -----> begin");
     std::string value = "stmt.set";
     std::string suffix = "";

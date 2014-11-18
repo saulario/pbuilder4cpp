@@ -1,5 +1,5 @@
 /*
- * Persistence Builder (pbuilder)
+ * Persistence Builder (pbuilder4cpp)
  * Copyright (C) 2013..  Saul Correas Subias 
  * 
  * This program is free software: you can redistribute it and/or modify
@@ -21,14 +21,14 @@
 #include "pbuilder.h"
 #include "pbuilder_render.h"
 
-using namespace pbuilder::render;
+using namespace pbuilder::render::tntdb;
 
-log4cxx::LoggerPtr TNTDBArtifactDeclarationRender::logger =
-        log4cxx::Logger::getLogger("pbuilder::render::TNTDBArtifactDeclarationRender");
+log4cxx::LoggerPtr ArtifactDeclaration::logger =
+        log4cxx::Logger::getLogger("pbuilder::render::tntdb::ArtifactDeclaration");
 
-TNTDBArtifactDeclarationRender::TNTDBArtifactDeclarationRender(TNTDBRender * render_) : render(render_) {
-    LOG4CXX_TRACE(logger, "TNTDBArtifactDeclarationRender -----> begin");
-    render->parent->files[Render::FD_ARTIFACT_H]
+ArtifactDeclaration::ArtifactDeclaration(Render * render_) : render(render_) {
+    LOG4CXX_TRACE(logger, "ArtifactDeclaration -----> begin");
+    render->parent->files[pbuilder::render::Render::FD_ARTIFACT_H]
             << "#ifndef " << boost::algorithm::to_upper_copy(render_->parent->pbuilder->unit.ns) << "_DAO_H" << std::endl
             << "#define " << boost::algorithm::to_upper_copy(render_->parent->pbuilder->unit.ns) << "_DAO_H" << std::endl
             << "#include <boost/thread/mutex.hpp>" << std::endl
@@ -59,22 +59,22 @@ public:
     std::string getTable(void);
 };    
 )";
-    render->parent->files[Render::FD_ARTIFACT_H]
+    render->parent->files[pbuilder::render::Render::FD_ARTIFACT_H]
             << common
             << std::endl;
-    LOG4CXX_TRACE(logger, "TNTDBArtifactDeclarationRender <----- end");
+    LOG4CXX_TRACE(logger, "ArtifactDeclaration <----- end");
 }
 
-TNTDBArtifactDeclarationRender::~TNTDBArtifactDeclarationRender() {
-    LOG4CXX_TRACE(logger, "~TNTDBArtifactDeclarationRender -----> begin");
-    render->parent->files[Render::FD_ARTIFACT_H]
+ArtifactDeclaration::~ArtifactDeclaration() {
+    LOG4CXX_TRACE(logger, "~ArtifactDeclaration -----> begin");
+    render->parent->files[pbuilder::render::Render::FD_ARTIFACT_H]
             << std::string(2, ' ') << "}" << std::endl
             << "}" << std::endl
             << "#endif" << std::endl;
-    LOG4CXX_TRACE(logger, "~TNTDBArtifactDeclarationRender <----- end");
+    LOG4CXX_TRACE(logger, "~ArtifactDeclaration <----- end");
 }
 
-void TNTDBArtifactDeclarationRender::notify(void) {
+void ArtifactDeclaration::notify(void) {
     LOG4CXX_TRACE(logger, "notify -----> begin");
     for (std::pair<std::string, pbuilder::Table> p : render->parent->pbuilder->model.tables) {
         table(p.second);
@@ -82,7 +82,7 @@ void TNTDBArtifactDeclarationRender::notify(void) {
     LOG4CXX_TRACE(logger, "notify <----- end");
 }
 
-void TNTDBArtifactDeclarationRender::table(const pbuilder::Table & table_) {
+void ArtifactDeclaration::table(const pbuilder::Table & table_) {
     LOG4CXX_TRACE(logger, "table -----> begin");
 
     static const char * cdn = R"(
@@ -100,7 +100,7 @@ public:
     std::string str = cdn;
     boost::replace_all(str, "TABLE", pbuilder::render::Render::toUpper(table_.name));
     boost::replace_all(str, "NAMESPACE", render->parent->pbuilder->unit.ns + "::entity");
-    render->parent->files[Render::FD_ARTIFACT_H]
+    render->parent->files[pbuilder::render::Render::FD_ARTIFACT_H]
             << str
             << std::endl;
 
@@ -108,14 +108,14 @@ public:
         tableExtended(table_);
     }
 
-    render->parent->files[Render::FD_ARTIFACT_H]
+    render->parent->files[pbuilder::render::Render::FD_ARTIFACT_H]
             << "};"
             << std::endl;
 
     LOG4CXX_TRACE(logger, "table <----- end");
 }
 
-void TNTDBArtifactDeclarationRender::tableExtended(const pbuilder::Table & table_) {
+void ArtifactDeclaration::tableExtended(const pbuilder::Table & table_) {
     LOG4CXX_TRACE(logger, "tableExtended -----> begin");
 
     static const char * cdn = R"(    NAMESPACE::TABLE * read(tntdb::Connection &, const KEYTYPE &);
@@ -132,7 +132,7 @@ void TNTDBArtifactDeclarationRender::tableExtended(const pbuilder::Table & table
     }
     boost::replace_all(str, "KEYTYPE", keytype);
 
-    render->parent->files[Render::FD_ARTIFACT_H]
+    render->parent->files[pbuilder::render::Render::FD_ARTIFACT_H]
             << str
             << std::endl;
     LOG4CXX_TRACE(logger, "tableExtended <----- end");

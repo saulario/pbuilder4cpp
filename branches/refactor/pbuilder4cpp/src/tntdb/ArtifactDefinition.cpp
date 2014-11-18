@@ -1,5 +1,5 @@
 /*
- * Persistence Builder (pbuilder)
+ * Persistence Builder (pbuilder4cpp)
  * Copyright (C) 2013..  Saul Correas Subias 
  * 
  * This program is free software: you can redistribute it and/or modify
@@ -20,14 +20,14 @@
 #include "pbuilder.h"
 #include "pbuilder_render.h"
 
-using namespace pbuilder::render;
+using namespace pbuilder::render::tntdb;
 
-log4cxx::LoggerPtr TNTDBArtifactDefinitionRender::logger =
-        log4cxx::Logger::getLogger("pbuilder::render::TNTDBArtifactDefinitionRender");
+log4cxx::LoggerPtr ArtifactDefinition::logger =
+        log4cxx::Logger::getLogger("pbuilder::render::tntdb::ArtifactDefinition");
 
-TNTDBArtifactDefinitionRender::TNTDBArtifactDefinitionRender(TNTDBRender * render_) : render(render_) {
-    LOG4CXX_TRACE(logger, "TNTDBArtifactDefinitionRender -----> begin");
-    render->parent->files[Render::FD_ARTIFACT_CPP]
+ArtifactDefinition::ArtifactDefinition(Render * render_) : render(render_) {
+    LOG4CXX_TRACE(logger, "ArtifactDefinition -----> begin");
+    render->parent->files[pbuilder::render::Render::FD_ARTIFACT_CPP]
             << "#include <boost/algorithm/string/split.hpp>" << std::endl
             << "#include <boost/algorithm/string/predicate.hpp>" << std::endl
             << "#include <boost/algorithm/string/classification.hpp>" << std::endl
@@ -112,18 +112,18 @@ std::string CommonDAO::getTable(void) {
     return table;
 }
 )DELIM";
-    render->parent->files[Render::FD_ARTIFACT_CPP]
+    render->parent->files[pbuilder::render::Render::FD_ARTIFACT_CPP]
             << common
             << std::endl;
-    LOG4CXX_TRACE(logger, "TNTDBArtifactDefinitionRender <----- end");
+    LOG4CXX_TRACE(logger, "ArtifactDefinition <----- end");
 }
 
-TNTDBArtifactDefinitionRender::~TNTDBArtifactDefinitionRender() {
-    LOG4CXX_TRACE(logger, "~TNTDBArtifactDefinitionRender -----> begin");
-    LOG4CXX_TRACE(logger, "~TNTDBArtifactDefinitionRender <----- end");
+ArtifactDefinition::~ArtifactDefinition() {
+    LOG4CXX_TRACE(logger, "~ArtifactDefinition -----> begin");
+    LOG4CXX_TRACE(logger, "~ArtifactDefinition <----- end");
 }
 
-void TNTDBArtifactDefinitionRender::notify(void) {
+void ArtifactDefinition::notify(void) {
     LOG4CXX_TRACE(logger, "notify -----> begin");
     for (std::pair<std::string, pbuilder::Table> p : render->parent->pbuilder->model.tables) {
         staticDefinition(p.second);
@@ -143,12 +143,12 @@ void TNTDBArtifactDefinitionRender::notify(void) {
     LOG4CXX_TRACE(logger, "notify <----- end");
 }
 
-void TNTDBArtifactDefinitionRender::constructor(const pbuilder::Table & table_) {
+void ArtifactDefinition::constructor(const pbuilder::Table & table_) {
     LOG4CXX_TRACE(logger, "constructor -----> begin");
     LOG4CXX_TRACE(logger, "constructor <----- end");
 }
 
-void TNTDBArtifactDefinitionRender::destructor(const pbuilder::Table & table_) {
+void ArtifactDefinition::destructor(const pbuilder::Table & table_) {
     LOG4CXX_TRACE(logger, "destructor -----> begin");
     static const char * cdn = R"DELIM(        
 OBJECT::~OBJECT() {
@@ -159,13 +159,13 @@ OBJECT::~OBJECT() {
 )DELIM";
     std::string str = cdn;
     boost::replace_all(str, "OBJECT", pbuilder::render::Render::toUpper(table_.name) + "DAO");
-    render->parent->files[Render::FD_ARTIFACT_CPP]
+    render->parent->files[pbuilder::render::Render::FD_ARTIFACT_CPP]
             << str
             << std::endl;
     LOG4CXX_TRACE(logger, "destructor <----- end");
 }
 
-void TNTDBArtifactDefinitionRender::getInstance(const pbuilder::Table & table_) {
+void ArtifactDefinition::getInstance(const pbuilder::Table & table_) {
     LOG4CXX_TRACE(logger, "getInstance -----> begin");
     static const char * cdn = R"DELIM(        
 OBJECT * OBJECT::getInstance(void) {
@@ -210,20 +210,20 @@ OBJECT * OBJECT::getInstance(void) {
         cols += c.name;
     }
     boost::replace_all(str, "COLS", cols);
-    render->parent->files[Render::FD_ARTIFACT_CPP]
+    render->parent->files[pbuilder::render::Render::FD_ARTIFACT_CPP]
             << str
             << std::endl;
     LOG4CXX_TRACE(logger, "getInstance <----- end");
 }
 
-void TNTDBArtifactDefinitionRender::keyInMethodSignature(const pbuilder::Table & table_) {
+void ArtifactDefinition::keyInMethodSignature(const pbuilder::Table & table_) {
     LOG4CXX_TRACE(logger, "keyInMethodSignature -----> begin");
     if (table_.pkColumns.size() == 1) {
-        render->parent->files[Render::FD_ARTIFACT_CPP]
+        render->parent->files[pbuilder::render::Render::FD_ARTIFACT_CPP]
                 << " " << render->asText(table_.pkColumns.front())
                 << " & " << table_.pkColumns.front().name;
     } else {
-        render->parent->files[Render::FD_ARTIFACT_CPP]
+        render->parent->files[pbuilder::render::Render::FD_ARTIFACT_CPP]
                 << " " << render->parent->pbuilder->unit.ns
                 << "::entity::"
                 << render->parent->toUpper(table_.name) << "Id & id";
@@ -231,11 +231,11 @@ void TNTDBArtifactDefinitionRender::keyInMethodSignature(const pbuilder::Table &
     LOG4CXX_TRACE(logger, "keyInMethodSignature <----- end");
 }
 
-void TNTDBArtifactDefinitionRender::keyInStatement(const pbuilder::Table & table_) {
+void ArtifactDefinition::keyInStatement(const pbuilder::Table & table_) {
     LOG4CXX_TRACE(logger, "keyInStatement -----> begin");
     std::string prefix = (table_.pkColumns.size() > 1 ? "id." : "");
     for (pbuilder::Column c : table_.pkColumns) {
-        render->parent->files[Render::FD_ARTIFACT_CPP]
+        render->parent->files[pbuilder::render::Render::FD_ARTIFACT_CPP]
                 << std::string(8, ' ')
                 << "stmt.set(\"" << c.name << "PK\", "
                 << prefix << c.name << ");"
@@ -244,10 +244,10 @@ void TNTDBArtifactDefinitionRender::keyInStatement(const pbuilder::Table & table
     LOG4CXX_TRACE(logger, "keyInStatement <----- end");
 }
 
-void TNTDBArtifactDefinitionRender::keyInUpdateStatement(const pbuilder::Table & table_) {
+void ArtifactDefinition::keyInUpdateStatement(const pbuilder::Table & table_) {
     LOG4CXX_TRACE(logger, "keyInStatement -----> begin");
     for (pbuilder::Column c : table_.pkColumns) {
-        render->parent->files[Render::FD_ARTIFACT_CPP]
+        render->parent->files[pbuilder::render::Render::FD_ARTIFACT_CPP]
                 << std::string(4, ' ')
                 << "stmt.set(\"" << c.name << "PK\", "
                 << "e->" << c.name << ");"
@@ -256,7 +256,7 @@ void TNTDBArtifactDefinitionRender::keyInUpdateStatement(const pbuilder::Table &
     LOG4CXX_TRACE(logger, "keyInStatement <----- end");
 }
 
-void TNTDBArtifactDefinitionRender::insert(const pbuilder::Table & table_) {
+void ArtifactDefinition::insert(const pbuilder::Table & table_) {
     LOG4CXX_TRACE(logger, "insert -----> begin");
     static const char * cdn = R"DELIM(        
 ENTITY * OBJECT::insert(tntdb::Connection & con, ENTITY * e) {
@@ -270,16 +270,16 @@ ENTITY * OBJECT::insert(tntdb::Connection & con, ENTITY * e) {
     boost::replace_all(str, "ENTITY", render->parent->pbuilder->unit.ns + "::entity::"
             + pbuilder::render::Render::toUpper(table_.name));
     boost::replace_all(str, "OBJECT", pbuilder::render::Render::toUpper(table_.name) + "DAO");
-    render->parent->files[Render::FD_ARTIFACT_CPP]
+    render->parent->files[pbuilder::render::Render::FD_ARTIFACT_CPP]
             << str
             << std::endl;
     LOG4CXX_TRACE(logger, "insert <----- end");
 }
 
-void TNTDBArtifactDefinitionRender::loadColumn(const pbuilder::Table & table_, const pbuilder::Column & column_) {
+void ArtifactDefinition::loadColumn(const pbuilder::Table & table_, const pbuilder::Column & column_) {
     LOG4CXX_TRACE(logger, "loadColumn-----> begin");
     if (column_.isNullable) {
-        render->parent->files[Render::FD_ARTIFACT_CPP]
+        render->parent->files[pbuilder::render::Render::FD_ARTIFACT_CPP]
                 << std::string(4, ' ') << "try {" << std::endl
                 << std::string(8, ' ')
                 << "e->set" << render->parent->toUpper(column_.name) << "("
@@ -291,7 +291,7 @@ void TNTDBArtifactDefinitionRender::loadColumn(const pbuilder::Table & table_, c
                 << std::string(4, ' ') << "}"
                 << std::endl;
     } else {
-        render->parent->files[Render::FD_ARTIFACT_CPP]
+        render->parent->files[pbuilder::render::Render::FD_ARTIFACT_CPP]
                 << std::string(4, ' ')
                 << "e->" << column_.name << " = " << render->rowGet(column_) << ";"
                 << std::endl;
@@ -299,29 +299,29 @@ void TNTDBArtifactDefinitionRender::loadColumn(const pbuilder::Table & table_, c
     LOG4CXX_TRACE(logger, "loadColumn <----- end");
 }
 
-void TNTDBArtifactDefinitionRender::loadColumns(const pbuilder::Table & table_) {
+void ArtifactDefinition::loadColumns(const pbuilder::Table & table_) {
     LOG4CXX_TRACE(logger, "loadColumns-----> begin");
-    render->parent->files[Render::FD_ARTIFACT_CPP]
+    render->parent->files[pbuilder::render::Render::FD_ARTIFACT_CPP]
             << "void " << pbuilder::render::Render::toUpper(table_.name) << "DAO"
             << "::loadColumns(tntdb::Row & row, "
             << render->parent->pbuilder->unit.ns << "::entity::"
             << pbuilder::render::Render::toUpper(table_.name)
             << " * e) {"
             << std::endl;
-    render->parent->files[Render::FD_ARTIFACT_CPP]
+    render->parent->files[pbuilder::render::Render::FD_ARTIFACT_CPP]
             << std::string(4, ' ')
             << "int index = 0;"
             << std::endl;
     for (pbuilder::Column c : table_.columns) {
         loadColumn(table_, c);
     }
-    render->parent->files[Render::FD_ARTIFACT_CPP]
+    render->parent->files[pbuilder::render::Render::FD_ARTIFACT_CPP]
             << "}"
             << std::endl << std::endl;
     LOG4CXX_TRACE(logger, "loadColumns <----- end");
 }
 
-void TNTDBArtifactDefinitionRender::query(const pbuilder::Table & table_) {
+void ArtifactDefinition::query(const pbuilder::Table & table_) {
     LOG4CXX_TRACE(logger, "query -----> begin");
     static const char * cdn = R"DELIM(        
 std::list<ENTITY *> OBJECT::query(tntdb::Connection & con, tntdb::Statement & stmt) {
@@ -339,21 +339,21 @@ std::list<ENTITY *> OBJECT::query(tntdb::Connection & con, tntdb::Statement & st
     boost::replace_all(str, "ENTITY", render->parent->pbuilder->unit.ns + "::entity::"
             + pbuilder::render::Render::toUpper(table_.name));
     boost::replace_all(str, "OBJECT", pbuilder::render::Render::toUpper(table_.name) + "DAO");
-    render->parent->files[Render::FD_ARTIFACT_CPP]
+    render->parent->files[pbuilder::render::Render::FD_ARTIFACT_CPP]
             << str
             << std::endl;
     LOG4CXX_TRACE(logger, "query <----- end");
 }
 
-void TNTDBArtifactDefinitionRender::read(const pbuilder::Table & table_) {
+void ArtifactDefinition::read(const pbuilder::Table & table_) {
     LOG4CXX_TRACE(logger, "read -----> begin");
-    render->parent->files[Render::FD_ARTIFACT_CPP]
+    render->parent->files[pbuilder::render::Render::FD_ARTIFACT_CPP]
             << render->parent->pbuilder->unit.ns << "::entity::"
             << pbuilder::render::Render::toUpper(table_.name)
             << " * " << pbuilder::render::Render::toUpper(table_.name) << "DAO"
             << "::read(tntdb::Connection & con, const";
     keyInMethodSignature(table_);
-    render->parent->files[Render::FD_ARTIFACT_CPP]
+    render->parent->files[pbuilder::render::Render::FD_ARTIFACT_CPP]
             << ") {" << std::endl
             << std::string(4, ' ') << "tntdb::Statement stmt = con.prepare(getReadQuery());" << std::endl
             << std::string(4, ' ')
@@ -362,7 +362,7 @@ void TNTDBArtifactDefinitionRender::read(const pbuilder::Table & table_) {
             << " * e = NULL;" << std::endl
             << std::string(4, ' ') << "try {" << std::endl;
     keyInStatement(table_);
-    render->parent->files[Render::FD_ARTIFACT_CPP]
+    render->parent->files[pbuilder::render::Render::FD_ARTIFACT_CPP]
             << std::string(8, ' ')
             << "tntdb::Row row = stmt.selectRow();" << std::endl
             << std::string(8, ' ')
@@ -379,27 +379,27 @@ void TNTDBArtifactDefinitionRender::read(const pbuilder::Table & table_) {
     LOG4CXX_TRACE(logger, "read <----- end");
 }
 
-void TNTDBArtifactDefinitionRender::remove(const pbuilder::Table & table_) {
+void ArtifactDefinition::remove(const pbuilder::Table & table_) {
     LOG4CXX_TRACE(logger, "remove -----> begin");
-    render->parent->files[Render::FD_ARTIFACT_CPP]
+    render->parent->files[pbuilder::render::Render::FD_ARTIFACT_CPP]
             << "tntdb::Statement::size_type "
             << pbuilder::render::Render::toUpper(table_.name) << "DAO"
             << "::remove(tntdb::Connection & con, const";
     keyInMethodSignature(table_);
-    render->parent->files[Render::FD_ARTIFACT_CPP]
+    render->parent->files[pbuilder::render::Render::FD_ARTIFACT_CPP]
             << ") {" << std::endl
             << std::string(4, ' ') << "tntdb::Statement stmt = con.prepare(getRemoveQuery());" << std::endl;
     keyInStatement(table_);
-    render->parent->files[Render::FD_ARTIFACT_CPP]
+    render->parent->files[pbuilder::render::Render::FD_ARTIFACT_CPP]
             << std::string(4, ' ') << "return stmt.execute();" << std::endl
             << "}"
             << std::endl << std::endl;
     LOG4CXX_TRACE(logger, "remove <----- end");
 }
 
-void TNTDBArtifactDefinitionRender::update(const pbuilder::Table & table_) {
+void ArtifactDefinition::update(const pbuilder::Table & table_) {
     LOG4CXX_TRACE(logger, "update-----> begin");
-    render->parent->files[Render::FD_ARTIFACT_CPP]
+    render->parent->files[pbuilder::render::Render::FD_ARTIFACT_CPP]
             << render->parent->pbuilder->unit.ns << "::entity::"
             << pbuilder::render::Render::toUpper(table_.name)
             << " * " << pbuilder::render::Render::toUpper(table_.name) << "DAO"
@@ -408,11 +408,11 @@ void TNTDBArtifactDefinitionRender::update(const pbuilder::Table & table_) {
             << pbuilder::render::Render::toUpper(table_.name)
             << " * e) {"
             << std::endl;
-    render->parent->files[Render::FD_ARTIFACT_CPP]
+    render->parent->files[pbuilder::render::Render::FD_ARTIFACT_CPP]
             << std::string(4, ' ') << "tntdb::Statement stmt = con.prepare(getUpdateQuery());" << std::endl
             << std::string(4, ' ') << "setColumns(stmt, e);" << std::endl;
     keyInUpdateStatement(table_);
-    render->parent->files[Render::FD_ARTIFACT_CPP]
+    render->parent->files[pbuilder::render::Render::FD_ARTIFACT_CPP]
             << std::string(4, ' ') << "stmt.execute();" << std::endl
             << std::string(4, ' ') << "return e;" << std::endl
             << "}"
@@ -420,10 +420,10 @@ void TNTDBArtifactDefinitionRender::update(const pbuilder::Table & table_) {
     LOG4CXX_TRACE(logger, "update <----- end");
 }
 
-void TNTDBArtifactDefinitionRender::setColumn(const pbuilder::Table & table_, const pbuilder::Column & column_) {
+void ArtifactDefinition::setColumn(const pbuilder::Table & table_, const pbuilder::Column & column_) {
     LOG4CXX_TRACE(logger, "setColumn-----> begin");
     if (column_.isNullable) {
-        render->parent->files[Render::FD_ARTIFACT_CPP]
+        render->parent->files[pbuilder::render::Render::FD_ARTIFACT_CPP]
                 << std::string(4, ' ')
                 << "if (e->isNull"
                 << render->parent->toUpper(column_.name)
@@ -441,7 +441,7 @@ void TNTDBArtifactDefinitionRender::setColumn(const pbuilder::Table & table_, co
                 << "}"
                 << std::endl;
     } else {
-        render->parent->files[Render::FD_ARTIFACT_CPP]
+        render->parent->files[pbuilder::render::Render::FD_ARTIFACT_CPP]
                 << std::string(4, ' ')
                 << render->stmtSet(column_)
                 << std::endl;
@@ -449,9 +449,9 @@ void TNTDBArtifactDefinitionRender::setColumn(const pbuilder::Table & table_, co
     LOG4CXX_TRACE(logger, "setColumn <----- end");
 }
 
-void TNTDBArtifactDefinitionRender::setColumns(const pbuilder::Table & table_) {
+void ArtifactDefinition::setColumns(const pbuilder::Table & table_) {
     LOG4CXX_TRACE(logger, "setColumns-----> begin");
-    render->parent->files[Render::FD_ARTIFACT_CPP]
+    render->parent->files[pbuilder::render::Render::FD_ARTIFACT_CPP]
             << "void " << pbuilder::render::Render::toUpper(table_.name) << "DAO"
             << "::setColumns(tntdb::Statement & stmt, const "
             << render->parent->pbuilder->unit.ns << "::entity::"
@@ -461,13 +461,13 @@ void TNTDBArtifactDefinitionRender::setColumns(const pbuilder::Table & table_) {
     for (pbuilder::Column c : table_.columns) {
         setColumn(table_, c);
     }
-    render->parent->files[Render::FD_ARTIFACT_CPP]
+    render->parent->files[pbuilder::render::Render::FD_ARTIFACT_CPP]
             << "}"
             << std::endl << std::endl;
     LOG4CXX_TRACE(logger, "setColumns <----- end");
 }
 
-void TNTDBArtifactDefinitionRender::staticDefinition(const pbuilder::Table & table_) {
+void ArtifactDefinition::staticDefinition(const pbuilder::Table & table_) {
     LOG4CXX_TRACE(logger, "staticDefinition -----> begin");
     static const char * cdn = R"DELIM(        
 OBJECT * OBJECT::dao = NULL;
@@ -475,7 +475,7 @@ boost::mutex OBJECT::mtx;
 )DELIM";
     std::string str = cdn;
     boost::replace_all(str, "OBJECT", pbuilder::render::Render::toUpper(table_.name) + "DAO");
-    render->parent->files[Render::FD_ARTIFACT_CPP]
+    render->parent->files[pbuilder::render::Render::FD_ARTIFACT_CPP]
             << str
             << std::endl;
     LOG4CXX_TRACE(logger, "staticDefinition <----- end");

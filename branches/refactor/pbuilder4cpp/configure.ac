@@ -3,7 +3,7 @@
 
 AC_PREREQ([2.68])
 AC_INIT([pbuilder4cpp], [1406], [Saul Correas <saul.correas@gmail.com>])
-AM_INIT_AUTOMAKE([foreign -Wall -Werror])
+AM_INIT_AUTOMAKE([foreign -Wall -Werror subdir-objects])
 AC_CONFIG_SRCDIR([src/main.cpp])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_FILES([Makefile src/Makefile])

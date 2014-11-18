@@ -1,5 +1,5 @@
 /*
- * Persistence Builder (pbuilder)
+ * Persistence Builder (pbuilder4cpp)
  * Copyright (C) 2013..  Saul Correas Subias 
  * 
  * This program is free software: you can redistribute it and/or modify
@@ -25,7 +25,7 @@ log4cxx::LoggerPtr Render::logger = log4cxx::Logger::getLogger("pbuilder::render
 
 Render::Render(pbuilder::PersistenceBuilder * pbuilder_) : pbuilder(pbuilder_), implementation(0) {
     LOG4CXX_TRACE(logger, "Render -----> begin");
-    implementation = static_cast<AbstractRender *> (new TNTDBRender(this));
+    implementation = static_cast<AbstractRender *> (new pbuilder::render::tntdb::Render(this));
     LOG4CXX_TRACE(logger, "Render <----- end");
 }
 
