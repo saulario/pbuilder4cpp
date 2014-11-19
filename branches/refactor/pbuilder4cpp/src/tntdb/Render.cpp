@@ -18,14 +18,14 @@
  */
 #include <iomanip>
 
-#include "pbuilder.h"
-#include "pbuilder_render.h"
+#include "pbuilder4cpp.h"
+#include "render.h"
 
-using namespace pbuilder::render::tntdb;
+using namespace pbuilder4cpp::render::tntdb;
 
-log4cxx::LoggerPtr Render::logger = log4cxx::Logger::getLogger("pbuilder::render::tntdb::Render");
+log4cxx::LoggerPtr Render::logger = log4cxx::Logger::getLogger("pbuilder4cpp::render::tntdb::Render");
 
-Render::Render(pbuilder::render::Render * parent_) : parent(parent_) {
+Render::Render(pbuilder4cpp::render::Render * parent_) : parent(parent_) {
     dateInitialization = "tntdb::Date()";
     if (!parent->pbuilder->unit.dateInitialization.empty()) {
         dateInitialization = parent->pbuilder->unit.dateInitialization;
@@ -40,7 +40,7 @@ Render::Render(pbuilder::render::Render * parent_) : parent(parent_) {
     }
 }
 
-std::string Render::asText(const pbuilder::Column & column_) {
+std::string Render::asText(const pbuilder4cpp::Column & column_) {
     LOG4CXX_TRACE(logger, "asText -----> begin");
     std::string value = "";
     switch (column_.type) {
@@ -86,7 +86,7 @@ std::string Render::asText(const pbuilder::Column & column_) {
     return value;
 }
 
-std::string Render::defaultValue(const pbuilder::Column & column_) {
+std::string Render::defaultValue(const pbuilder4cpp::Column & column_) {
     LOG4CXX_TRACE(logger, "defaultValue -----> begin");
     std::string value = "";
     switch (column_.type) {
@@ -148,7 +148,7 @@ void Render::notify(void) {
     LOG4CXX_TRACE(logger, "notify <----- end");
 }
 
-std::string Render::rowGet(const pbuilder::Column & column_) {
+std::string Render::rowGet(const pbuilder4cpp::Column & column_) {
     LOG4CXX_TRACE(logger, "rowGet -----> begin");
     std::string value = "row.get";
     switch (column_.type) {
@@ -221,7 +221,7 @@ std::string Render::rowGet(const pbuilder::Column & column_) {
     return value;
 }
 
-std::string Render::stmtSet(const pbuilder::Column & column_, const bool & nullable_) {
+std::string Render::stmtSet(const pbuilder4cpp::Column & column_, const bool & nullable_) {
     LOG4CXX_TRACE(logger, "stmtSet -----> begin");
     std::string value = "stmt.set";
     std::string suffix = "";

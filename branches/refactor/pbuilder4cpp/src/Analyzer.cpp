@@ -19,13 +19,13 @@
 #include <cstdlib>
 #include <iostream>
 #include <stdexcept>
-#include "pbuilder_analyzer.h"
+#include "analyzer.h"
 
-using namespace pbuilder::analyzer;
+using namespace pbuilder4cpp::analyzer;
 
-log4cxx::LoggerPtr Analyzer::logger = log4cxx::Logger::getLogger("pbuilder::analyzer::Analyzer");
+log4cxx::LoggerPtr Analyzer::logger = log4cxx::Logger::getLogger("pbuilder4cpp::analyzer::Analyzer");
 
-Analyzer::Analyzer(pbuilder::PersistenceBuilder * pb) : pbuilder(pb), implementation(0) {
+Analyzer::Analyzer(pbuilder4cpp::PersistenceBuilder * pb) : pbuilder(pb), implementation(0) {
     LOG4CXX_TRACE(logger, "Analyzer -----> begin");
 
     std::string::size_type n = pbuilder->unit.url.find(":");

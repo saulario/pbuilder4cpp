@@ -17,15 +17,15 @@
  * 
  */
 #include <boost/algorithm/string.hpp>
-#include "pbuilder_render.h"
+#include "render.h"
 
-using namespace pbuilder::render;
+using namespace pbuilder4cpp::render;
 
-log4cxx::LoggerPtr Render::logger = log4cxx::Logger::getLogger("pbuilder::render::Render");
+log4cxx::LoggerPtr Render::logger = log4cxx::Logger::getLogger("pbuilder4cpp::render::Render");
 
-Render::Render(pbuilder::PersistenceBuilder * pbuilder_) : pbuilder(pbuilder_), implementation(0) {
+Render::Render(pbuilder4cpp::PersistenceBuilder * pbuilder_) : pbuilder(pbuilder_), implementation(0) {
     LOG4CXX_TRACE(logger, "Render -----> begin");
-    implementation = static_cast<AbstractRender *> (new pbuilder::render::tntdb::Render(this));
+    implementation = static_cast<AbstractRender *> (new pbuilder4cpp::render::tntdb::Render(this));
     LOG4CXX_TRACE(logger, "Render <----- end");
 }
 

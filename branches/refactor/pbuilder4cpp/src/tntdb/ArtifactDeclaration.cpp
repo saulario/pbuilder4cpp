@@ -18,17 +18,17 @@
  */
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/algorithm/string.hpp>
-#include "pbuilder.h"
-#include "pbuilder_render.h"
+#include "pbuilder4cpp.h"
+#include "render.h"
 
-using namespace pbuilder::render::tntdb;
+using namespace pbuilder4cpp::render::tntdb;
 
 log4cxx::LoggerPtr ArtifactDeclaration::logger =
-        log4cxx::Logger::getLogger("pbuilder::render::tntdb::ArtifactDeclaration");
+        log4cxx::Logger::getLogger("pbuilder4cpp::render::tntdb::ArtifactDeclaration");
 
 ArtifactDeclaration::ArtifactDeclaration(Render * render_) : render(render_) {
     LOG4CXX_TRACE(logger, "ArtifactDeclaration -----> begin");
-    render->parent->files[pbuilder::render::Render::FD_ARTIFACT_H]
+    render->parent->files[pbuilder4cpp::render::Render::FD_ARTIFACT_H]
             << "#ifndef " << boost::algorithm::to_upper_copy(render_->parent->pbuilder->unit.ns) << "_DAO_H" << std::endl
             << "#define " << boost::algorithm::to_upper_copy(render_->parent->pbuilder->unit.ns) << "_DAO_H" << std::endl
             << "#include <boost/thread/mutex.hpp>" << std::endl
@@ -59,7 +59,7 @@ public:
     std::string getTable(void);
 };    
 )";
-    render->parent->files[pbuilder::render::Render::FD_ARTIFACT_H]
+    render->parent->files[pbuilder4cpp::render::Render::FD_ARTIFACT_H]
             << common
             << std::endl;
     LOG4CXX_TRACE(logger, "ArtifactDeclaration <----- end");
@@ -67,7 +67,7 @@ public:
 
 ArtifactDeclaration::~ArtifactDeclaration() {
     LOG4CXX_TRACE(logger, "~ArtifactDeclaration -----> begin");
-    render->parent->files[pbuilder::render::Render::FD_ARTIFACT_H]
+    render->parent->files[pbuilder4cpp::render::Render::FD_ARTIFACT_H]
             << std::string(2, ' ') << "}" << std::endl
             << "}" << std::endl
             << "#endif" << std::endl;
@@ -76,13 +76,13 @@ ArtifactDeclaration::~ArtifactDeclaration() {
 
 void ArtifactDeclaration::notify(void) {
     LOG4CXX_TRACE(logger, "notify -----> begin");
-    for (std::pair<std::string, pbuilder::Table> p : render->parent->pbuilder->model.tables) {
+    for (std::pair<std::string, pbuilder4cpp::Table> p : render->parent->pbuilder->model.tables) {
         table(p.second);
     }
     LOG4CXX_TRACE(logger, "notify <----- end");
 }
 
-void ArtifactDeclaration::table(const pbuilder::Table & table_) {
+void ArtifactDeclaration::table(const pbuilder4cpp::Table & table_) {
     LOG4CXX_TRACE(logger, "table -----> begin");
 
     static const char * cdn = R"(
@@ -98,9 +98,9 @@ public:
     NAMESPACE::TABLE * insert(tntdb::Connection &, NAMESPACE::TABLE *);
     std::list<NAMESPACE::TABLE *> query(tntdb::Connection &, tntdb::Statement &);)";
     std::string str = cdn;
-    boost::replace_all(str, "TABLE", pbuilder::render::Render::toUpper(table_.name));
+    boost::replace_all(str, "TABLE", pbuilder4cpp::render::Render::toUpper(table_.name));
     boost::replace_all(str, "NAMESPACE", render->parent->pbuilder->unit.ns + "::entity");
-    render->parent->files[pbuilder::render::Render::FD_ARTIFACT_H]
+    render->parent->files[pbuilder4cpp::render::Render::FD_ARTIFACT_H]
             << str
             << std::endl;
 
@@ -108,21 +108,21 @@ public:
         tableExtended(table_);
     }
 
-    render->parent->files[pbuilder::render::Render::FD_ARTIFACT_H]
+    render->parent->files[pbuilder4cpp::render::Render::FD_ARTIFACT_H]
             << "};"
             << std::endl;
 
     LOG4CXX_TRACE(logger, "table <----- end");
 }
 
-void ArtifactDeclaration::tableExtended(const pbuilder::Table & table_) {
+void ArtifactDeclaration::tableExtended(const pbuilder4cpp::Table & table_) {
     LOG4CXX_TRACE(logger, "tableExtended -----> begin");
 
     static const char * cdn = R"(    NAMESPACE::TABLE * read(tntdb::Connection &, const KEYTYPE &);
     tntdb::Statement::size_type remove(tntdb::Connection &, const KEYTYPE &);
     NAMESPACE::TABLE * update(tntdb::Connection &, NAMESPACE::TABLE *);)";
     std::string str = cdn;
-    boost::replace_all(str, "TABLE", pbuilder::render::Render::toUpper(table_.name));
+    boost::replace_all(str, "TABLE", pbuilder4cpp::render::Render::toUpper(table_.name));
     boost::replace_all(str, "NAMESPACE", render->parent->pbuilder->unit.ns + "::entity");
     std::string keytype = "UNDEFINED";
     if (table_.pkColumns.size() > 1) {
@@ -132,7 +132,7 @@ void ArtifactDeclaration::tableExtended(const pbuilder::Table & table_) {
     }
     boost::replace_all(str, "KEYTYPE", keytype);
 
-    render->parent->files[pbuilder::render::Render::FD_ARTIFACT_H]
+    render->parent->files[pbuilder4cpp::render::Render::FD_ARTIFACT_H]
             << str
             << std::endl;
     LOG4CXX_TRACE(logger, "tableExtended <----- end");

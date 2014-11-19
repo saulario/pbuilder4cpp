@@ -1,5 +1,5 @@
 /*
- * Persistence Builder (pbuilder)
+ * Persistence Builder (pbuilder4cpp)
  * Copyright (C) 2013..  Saul Correas Subias 
  * 
  * This program is free software: you can redistribute it and/or modify
@@ -16,10 +16,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * 
  */
-#include "pbuilder.h"
+#include "pbuilder4cpp.h"
 
 int main(int argc, char** argv) {
-    pbuilder::PersistenceBuilder pb;
+    pbuilder4cpp::PersistenceBuilder pb;
     return pb.main(argc, argv);
 }
 

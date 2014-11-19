@@ -16,20 +16,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * 
  */
-#include "pbuilder.h"
-#include "pbuilder_render.h"
+#include "pbuilder4cpp.h"
+#include "render.h"
 
-using namespace pbuilder::render::tntdb;
+using namespace pbuilder4cpp::render::tntdb;
 
 log4cxx::LoggerPtr EntityDefinition::logger =
-        log4cxx::Logger::getLogger("pbuilder::render::tntdb::EntityDefinition");
+        log4cxx::Logger::getLogger("pbuilder4cpp::render::tntdb::EntityDefinition");
 
 EntityDefinition::EntityDefinition(Render * render_) : render(render_) {
     LOG4CXX_TRACE(logger, "EntityDefinition -----> begin");
-    render->parent->files[pbuilder::render::Render::FD_ENTITY_CPP]
+    render->parent->files[pbuilder4cpp::render::Render::FD_ENTITY_CPP]
             << "#include \""
             << render_->parent->pbuilder->unit.ns << "_entity.h\"" << std::endl;
-    render->parent->files[pbuilder::render::Render::FD_ENTITY_CPP]
+    render->parent->files[pbuilder4cpp::render::Render::FD_ENTITY_CPP]
             << "using namespace "
             << render_->parent->pbuilder->unit.ns << "::entity;" << std::endl;
 
@@ -38,7 +38,7 @@ EntityDefinition::EntityDefinition(Render * render_) : render(render_) {
 
 void EntityDefinition::notify(void) {
     LOG4CXX_TRACE(logger, "notify -----> begin");
-    for (std::pair<std::string, pbuilder::Table> p : render->parent->pbuilder->model.tables) {
+    for (std::pair<std::string, pbuilder4cpp::Table> p : render->parent->pbuilder->model.tables) {
         constructor(p.second);
         destructor(p.second);
         privateMembers(p.second);
@@ -47,104 +47,104 @@ void EntityDefinition::notify(void) {
     LOG4CXX_TRACE(logger, "notify <----- end");
 }
 
-void EntityDefinition::constructor(const pbuilder::Table & table_) {
+void EntityDefinition::constructor(const pbuilder4cpp::Table & table_) {
     LOG4CXX_TRACE(logger, "constructor -----> begin");
-    render->parent->files[pbuilder::render::Render::FD_ENTITY_CPP]
-            << pbuilder::render::Render::toUpper(table_.name) << "::"
-            << pbuilder::render::Render::toUpper(table_.name) << "() {"
+    render->parent->files[pbuilder4cpp::render::Render::FD_ENTITY_CPP]
+            << pbuilder4cpp::render::Render::toUpper(table_.name) << "::"
+            << pbuilder4cpp::render::Render::toUpper(table_.name) << "() {"
             << std::endl;
-    for (pbuilder::Column column : table_.columns) {
+    for (pbuilder4cpp::Column column : table_.columns) {
         if (column.isNullable) {
-            render->parent->files[pbuilder::render::Render::FD_ENTITY_CPP]
+            render->parent->files[pbuilder4cpp::render::Render::FD_ENTITY_CPP]
                     << std::string(2, ' ')
                     << column.name << " = NULL;"
                     << std::endl;
         } else {
-            render->parent->files[pbuilder::render::Render::FD_ENTITY_CPP]
+            render->parent->files[pbuilder4cpp::render::Render::FD_ENTITY_CPP]
                     << std::string(2, ' ')
                     << column.name << " = "
                     << render->defaultValue(column)
                     << ";" << std::endl;
         }
     }
-    render->parent->files[pbuilder::render::Render::FD_ENTITY_CPP] << "}" << std::endl;
+    render->parent->files[pbuilder4cpp::render::Render::FD_ENTITY_CPP] << "}" << std::endl;
     LOG4CXX_TRACE(logger, "constructor <----- end");
 }
 
-void EntityDefinition::destructor(const pbuilder::Table & table_) {
+void EntityDefinition::destructor(const pbuilder4cpp::Table & table_) {
     LOG4CXX_TRACE(logger, "destructor -----> begin");
-    render->parent->files[pbuilder::render::Render::FD_ENTITY_CPP]
-            << pbuilder::render::Render::toUpper(table_.name) << "::"
-            << "~" << pbuilder::render::Render::toUpper(table_.name) << "() {"
+    render->parent->files[pbuilder4cpp::render::Render::FD_ENTITY_CPP]
+            << pbuilder4cpp::render::Render::toUpper(table_.name) << "::"
+            << "~" << pbuilder4cpp::render::Render::toUpper(table_.name) << "() {"
             << std::endl;
-    for (pbuilder::Column column : table_.columns) {
+    for (pbuilder4cpp::Column column : table_.columns) {
         if (column.isNullable) {
-            render->parent->files[pbuilder::render::Render::FD_ENTITY_CPP]
+            render->parent->files[pbuilder4cpp::render::Render::FD_ENTITY_CPP]
                     << std::string(2, ' ')
                     << "if (" << column.name << " != NULL) {"
                     << std::endl;
-            render->parent->files[pbuilder::render::Render::FD_ENTITY_CPP]
+            render->parent->files[pbuilder4cpp::render::Render::FD_ENTITY_CPP]
                     << std::string(4, ' ')
                     << "delete " << column.name << ";"
                     << std::endl;
-            render->parent->files[pbuilder::render::Render::FD_ENTITY_CPP]
+            render->parent->files[pbuilder4cpp::render::Render::FD_ENTITY_CPP]
                     << std::string(2, ' ')
                     << "}"
                     << std::endl;
         }
     }
-    render->parent->files[pbuilder::render::Render::FD_ENTITY_CPP] << "}" << std::endl;
+    render->parent->files[pbuilder4cpp::render::Render::FD_ENTITY_CPP] << "}" << std::endl;
     LOG4CXX_TRACE(logger, "destructor <----- end");
 }
 
-void EntityDefinition::getter(const pbuilder::Column & column_, const pbuilder::Table & table_) {
+void EntityDefinition::getter(const pbuilder4cpp::Column & column_, const pbuilder4cpp::Table & table_) {
     LOG4CXX_TRACE(logger, "getter -----> begin");
-    render->parent->files[pbuilder::render::Render::FD_ENTITY_CPP]
+    render->parent->files[pbuilder4cpp::render::Render::FD_ENTITY_CPP]
             << render->asText(column_)
-            << " " << pbuilder::render::Render::toUpper(table_.name) << "::"
-            << "get" << pbuilder::render::Render::toUpper(column_.name)
+            << " " << pbuilder4cpp::render::Render::toUpper(table_.name) << "::"
+            << "get" << pbuilder4cpp::render::Render::toUpper(column_.name)
             << "(void) const {"
             << std::endl;
-    render->parent->files[pbuilder::render::Render::FD_ENTITY_CPP]
+    render->parent->files[pbuilder4cpp::render::Render::FD_ENTITY_CPP]
             << std::string(2, ' ')
             << "return ("
             << column_.name << " != NULL ? * " << column_.name
             << " : " << render->defaultValue(column_) << ");"
             << std::endl;
-    render->parent->files[pbuilder::render::Render::FD_ENTITY_CPP]
+    render->parent->files[pbuilder4cpp::render::Render::FD_ENTITY_CPP]
             << "}"
             << std::endl;
     LOG4CXX_TRACE(logger, "getter <----- end");
 }
 
-void EntityDefinition::isNull(const pbuilder::Column & column_, const pbuilder::Table & table_) {
+void EntityDefinition::isNull(const pbuilder4cpp::Column & column_, const pbuilder4cpp::Table & table_) {
     LOG4CXX_TRACE(logger, "isNull -----> begin");
-    render->parent->files[pbuilder::render::Render::FD_ENTITY_CPP]
-            << "bool " << pbuilder::render::Render::toUpper(table_.name) << "::"
-            << "isNull" << pbuilder::render::Render::toUpper(column_.name)
+    render->parent->files[pbuilder4cpp::render::Render::FD_ENTITY_CPP]
+            << "bool " << pbuilder4cpp::render::Render::toUpper(table_.name) << "::"
+            << "isNull" << pbuilder4cpp::render::Render::toUpper(column_.name)
             << "(void) const {"
             << std::endl;
-    render->parent->files[pbuilder::render::Render::FD_ENTITY_CPP]
+    render->parent->files[pbuilder4cpp::render::Render::FD_ENTITY_CPP]
             << std::string(2, ' ')
             << "return (" << column_.name << " == NULL);"
             << std::endl;
-    render->parent->files[pbuilder::render::Render::FD_ENTITY_CPP]
+    render->parent->files[pbuilder4cpp::render::Render::FD_ENTITY_CPP]
             << "}"
             << std::endl;
     LOG4CXX_TRACE(logger, "isNull <----- end");
 }
 
-void EntityDefinition::operatorEquals(const pbuilder::Table & table_) {
+void EntityDefinition::operatorEquals(const pbuilder4cpp::Table & table_) {
     LOG4CXX_TRACE(logger, "operatorEquals -----> begin");
-    render->parent->files[pbuilder::render::Render::FD_ENTITY_CPP]
+    render->parent->files[pbuilder4cpp::render::Render::FD_ENTITY_CPP]
             << "bool "
-            << pbuilder::render::Render::toUpper(table_.name) << "::"
+            << pbuilder4cpp::render::Render::toUpper(table_.name) << "::"
             << "operator == (const "
-            << pbuilder::render::Render::toUpper(table_.name)
+            << pbuilder4cpp::render::Render::toUpper(table_.name)
             << " & other) {"
             << std::endl;
-    for (pbuilder::Column column : table_.columns) {
-        render->parent->files[pbuilder::render::Render::FD_ENTITY_CPP]
+    for (pbuilder4cpp::Column column : table_.columns) {
+        render->parent->files[pbuilder4cpp::render::Render::FD_ENTITY_CPP]
                 << std::string(2, ' ')
                 << "if (this->"
                 << column.name
@@ -153,17 +153,17 @@ void EntityDefinition::operatorEquals(const pbuilder::Table & table_) {
                 << ") return false;"
                 << std::endl;
     }
-    render->parent->files[pbuilder::render::Render::FD_ENTITY_CPP]
+    render->parent->files[pbuilder4cpp::render::Render::FD_ENTITY_CPP]
             << std::string(2, ' ')
             << "return true;"
             << std::endl;
-    render->parent->files[pbuilder::render::Render::FD_ENTITY_CPP] << "}" << std::endl;
+    render->parent->files[pbuilder4cpp::render::Render::FD_ENTITY_CPP] << "}" << std::endl;
     LOG4CXX_TRACE(logger, "operatorEquals <----- end");
 }
 
-void EntityDefinition::privateMembers(const pbuilder::Table & table_) {
+void EntityDefinition::privateMembers(const pbuilder4cpp::Table & table_) {
     LOG4CXX_TRACE(logger, "privateMember -----> begin");
-    for (pbuilder::Column column : table_.columns) {
+    for (pbuilder4cpp::Column column : table_.columns) {
         if (column.isNullable) {
             getter(column, table_);
             setter(column, table_);
@@ -174,61 +174,61 @@ void EntityDefinition::privateMembers(const pbuilder::Table & table_) {
     LOG4CXX_TRACE(logger, "privateMember <----- end");
 }
 
-void EntityDefinition::setter(const pbuilder::Column & column_, const pbuilder::Table & table_) {
+void EntityDefinition::setter(const pbuilder4cpp::Column & column_, const pbuilder4cpp::Table & table_) {
     LOG4CXX_TRACE(logger, "setter -----> begin");
-    render->parent->files[pbuilder::render::Render::FD_ENTITY_CPP]
-            << "void " << pbuilder::render::Render::toUpper(table_.name) << "::"
-            << "set" << pbuilder::render::Render::toUpper(column_.name) << "(const "
+    render->parent->files[pbuilder4cpp::render::Render::FD_ENTITY_CPP]
+            << "void " << pbuilder4cpp::render::Render::toUpper(table_.name) << "::"
+            << "set" << pbuilder4cpp::render::Render::toUpper(column_.name) << "(const "
             << render->asText(column_)
             << " & " << column_.name << "_) {"
             << std::endl;
-    render->parent->files[pbuilder::render::Render::FD_ENTITY_CPP]
+    render->parent->files[pbuilder4cpp::render::Render::FD_ENTITY_CPP]
             << std::string(2, ' ')
             << "if (" << column_.name << " != NULL) {"
             << std::endl;
-    render->parent->files[pbuilder::render::Render::FD_ENTITY_CPP]
+    render->parent->files[pbuilder4cpp::render::Render::FD_ENTITY_CPP]
             << std::string(4, ' ')
             << "delete " << column_.name << ";"
             << std::endl;
-    render->parent->files[pbuilder::render::Render::FD_ENTITY_CPP]
+    render->parent->files[pbuilder4cpp::render::Render::FD_ENTITY_CPP]
             << std::string(2, ' ')
             << "}"
             << std::endl;
-    render->parent->files[pbuilder::render::Render::FD_ENTITY_CPP]
+    render->parent->files[pbuilder4cpp::render::Render::FD_ENTITY_CPP]
             << std::string(2, ' ')
             << column_.name << " = new "
             << render->asText(column_)
             << "(" << column_.name << "_);"
             << std::endl;
-    render->parent->files[pbuilder::render::Render::FD_ENTITY_CPP]
+    render->parent->files[pbuilder4cpp::render::Render::FD_ENTITY_CPP]
             << "}"
             << std::endl;
     LOG4CXX_TRACE(logger, "setter <----- end");
 }
 
-void EntityDefinition::setNull(const pbuilder::Column & column_, const pbuilder::Table & table_) {
+void EntityDefinition::setNull(const pbuilder4cpp::Column & column_, const pbuilder4cpp::Table & table_) {
     LOG4CXX_TRACE(logger, "setNull -----> begin");
-    render->parent->files[pbuilder::render::Render::FD_ENTITY_CPP]
-            << "void " << pbuilder::render::Render::toUpper(table_.name) << "::"
-            << "setNull" << pbuilder::render::Render::toUpper(column_.name)
+    render->parent->files[pbuilder4cpp::render::Render::FD_ENTITY_CPP]
+            << "void " << pbuilder4cpp::render::Render::toUpper(table_.name) << "::"
+            << "setNull" << pbuilder4cpp::render::Render::toUpper(column_.name)
             << "(void) {"
             << std::endl;
-    render->parent->files[pbuilder::render::Render::FD_ENTITY_CPP]
+    render->parent->files[pbuilder4cpp::render::Render::FD_ENTITY_CPP]
             << std::string(2, ' ') << "if ("
             << column_.name << " != NULL) {"
             << std::endl;
-    render->parent->files[pbuilder::render::Render::FD_ENTITY_CPP]
+    render->parent->files[pbuilder4cpp::render::Render::FD_ENTITY_CPP]
             << std::string(4, ' ')
             << "delete " << column_.name << ";"
             << std::endl;
-    render->parent->files[pbuilder::render::Render::FD_ENTITY_CPP]
+    render->parent->files[pbuilder4cpp::render::Render::FD_ENTITY_CPP]
             << std::string(2, ' ') << "}"
             << std::endl;
-    render->parent->files[pbuilder::render::Render::FD_ENTITY_CPP]
+    render->parent->files[pbuilder4cpp::render::Render::FD_ENTITY_CPP]
             << std::string(2, ' ')
             << column_.name << " = NULL;"
             << std::endl;
-    render->parent->files[pbuilder::render::Render::FD_ENTITY_CPP]
+    render->parent->files[pbuilder4cpp::render::Render::FD_ENTITY_CPP]
             << "}"
             << std::endl;
     LOG4CXX_TRACE(logger, "setNull <----- end");

@@ -1,5 +1,5 @@
 /*
- * Persistence Builder (pbuilder)
+ * Persistence Builder (pbuilder4cpp)
  * Copyright (C) 2013..  Saul Correas Subias 
  * 
  * This program is free software: you can redistribute it and/or modify
@@ -31,13 +31,13 @@
 #include <unistd.h>
 #include <boost/property_tree/ptree_fwd.hpp>
 
-#include "pbuilder.h"
-#include "pbuilder_analyzer.h"
-#include "pbuilder_render.h"
+#include "pbuilder4cpp.h"
+#include "analyzer.h"
+#include "render.h"
 
-using namespace pbuilder;
+using namespace pbuilder4cpp;
 
-log4cxx::LoggerPtr PersistenceBuilder::logger = log4cxx::Logger::getLogger("pbuilder::PersistenceBuilder");
+log4cxx::LoggerPtr PersistenceBuilder::logger = log4cxx::Logger::getLogger("pbuilder4cpp::PersistenceBuilder");
 
 int PersistenceBuilder::main(int argc, char** argv) {
 
@@ -64,7 +64,7 @@ int PersistenceBuilder::main(int argc, char** argv) {
 
 void PersistenceBuilder::analyze(void) {
     LOG4CXX_TRACE(logger, "analyze -----> begin");
-    pbuilder::analyzer::Analyzer analyzer(this);
+    pbuilder4cpp::analyzer::Analyzer analyzer(this);
     analyzer.analyze();
     LOG4CXX_TRACE(logger, "analyze <----- end");
 }
@@ -219,7 +219,7 @@ void PersistenceBuilder::evaluateParameters(int argc, char** argv) {
 
 void PersistenceBuilder::render(void) {
     LOG4CXX_TRACE(logger, "render -----> begin");
-    pbuilder::render::Render render(this);
+    pbuilder4cpp::render::Render render(this);
     render.render();
     LOG4CXX_TRACE(logger, "render <----- end");
 }

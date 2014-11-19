@@ -20,9 +20,9 @@
 #define	PBUILDER_ANALYZER_H
 
 #include <tntdb/connection.h>
-#include "pbuilder.h"
+#include "pbuilder4cpp.h"
 
-namespace pbuilder {
+namespace pbuilder4cpp {
     namespace analyzer {
 
         class AbstractAnalyzer {
@@ -30,19 +30,19 @@ namespace pbuilder {
             virtual void notify(void) = 0;
 
         private:
-            virtual pbuilder::MODEL_TYPE getModelType(const std::string &) = 0;
-            virtual bool supportedType(const pbuilder::Column &) = 0;
+            virtual pbuilder4cpp::MODEL_TYPE getModelType(const std::string &) = 0;
+            virtual bool supportedType(const pbuilder4cpp::Column &) = 0;
         };
 
         class Analyzer {
         public:
-            Analyzer(pbuilder::PersistenceBuilder * pbuilder);
+            Analyzer(pbuilder4cpp::PersistenceBuilder * pbuilder);
             ~Analyzer(void);
             void analyze(void);
 
         private:
             static log4cxx::LoggerPtr logger;
-            pbuilder::PersistenceBuilder * pbuilder;
+            pbuilder4cpp::PersistenceBuilder * pbuilder;
             AbstractAnalyzer * implementation;
         };
 
@@ -55,16 +55,16 @@ namespace pbuilder {
         class MysqlAnalyzer : public AbstractAnalyzer, public TNTDBAnalyzer {
         public:
 
-            MysqlAnalyzer(pbuilder::PersistenceBuilder * p) : pbuilder(p) {
+            MysqlAnalyzer(pbuilder4cpp::PersistenceBuilder * p) : pbuilder(p) {
             };
             void notify(void);
 
         private:
             static log4cxx::LoggerPtr logger;
-            pbuilder::PersistenceBuilder * pbuilder;
+            pbuilder4cpp::PersistenceBuilder * pbuilder;
 
-            pbuilder::MODEL_TYPE getModelType(const std::string &);
-            bool supportedType(const pbuilder::Column &);
+            pbuilder4cpp::MODEL_TYPE getModelType(const std::string &);
+            bool supportedType(const pbuilder4cpp::Column &);
         };
 
 

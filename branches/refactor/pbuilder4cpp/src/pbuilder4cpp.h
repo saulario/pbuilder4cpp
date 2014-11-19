@@ -1,5 +1,5 @@
 /*
- * Persistence Builder (pbuilder)
+ * Persistence Builder (pbuilder4cpp)
  * Copyright (C) 2013..  Saul Correas Subias 
  * 
  * This program is free software: you can redistribute it and/or modify
@@ -16,15 +16,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * 
  */
-#ifndef PBUILDER_H
-#define	PBUILDER_H
+#ifndef PBUILDER4CPP_H
+#define	PBUILDER4CPP_H
 
 #include <iostream>
 #include <list>
 #include <log4cxx/logger.h>
 #include <map>
 
-namespace pbuilder {
+namespace pbuilder4cpp {
 
     enum MODEL_TYPE {
         SMALLINT,
@@ -129,4 +129,4 @@ namespace pbuilder {
 
 }
 
-#endif	/* PBUILDER_H */
+#endif	/* PBUILDER4CPP_H */

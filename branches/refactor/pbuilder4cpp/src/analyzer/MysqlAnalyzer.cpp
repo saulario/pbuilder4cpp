@@ -1,5 +1,5 @@
 /*
- * Persistence Builder (pbuilder)
+ * Persistence Builder (pbuilder4cpp)
  * Copyright (C) 2013..  Saul Correas Subias 
  * 
  * This program is free software: you can redistribute it and/or modify
@@ -20,11 +20,11 @@
 #include <tntdb/result.h>
 #include <tntdb/error.h>
 
-#include "pbuilder_analyzer.h"
+#include "analyzer.h"
 
-using namespace pbuilder::analyzer;
+using namespace pbuilder4cpp::analyzer;
 
-log4cxx::LoggerPtr MysqlAnalyzer::logger = log4cxx::Logger::getLogger("pbuilder::analyzer::MysqlAnalyzer");
+log4cxx::LoggerPtr MysqlAnalyzer::logger = log4cxx::Logger::getLogger("pbuilder4cpp::analyzer::MysqlAnalyzer");
 
 void MysqlAnalyzer::notify(void) {
     LOG4CXX_TRACE(logger, "notify -----> begin");
@@ -41,7 +41,7 @@ void MysqlAnalyzer::notify(void) {
             ;
 
     for (tntdb::Row row : tables) {
-        pbuilder::Table table(row.getString("TABLE_NAME"));
+        pbuilder4cpp::Table table(row.getString("TABLE_NAME"));
         
         tntdb::Result columns = connection.prepare("SELECT * FROM COLUMNS WHERE "
                 "     TABLE_SCHEMA = :schema "
@@ -52,7 +52,7 @@ void MysqlAnalyzer::notify(void) {
                 select()
                 ;
         for (tntdb::Row row1 : columns) {
-            pbuilder::Column column;
+            pbuilder4cpp::Column column;
             column.name = row1.getString("COLUMN_NAME");
             column.position = row1.getUnsigned64("ORDINAL_POSITION");
             column.isNullable = (row1.getString("IS_NULLABLE").compare("YES") == 0);
@@ -99,7 +99,7 @@ void MysqlAnalyzer::notify(void) {
                 select()
                 ;
         for (tntdb::Row row1 : pkColumns) {
-            pbuilder::Column column;
+            pbuilder4cpp::Column column;
             column.name = row1.getString("COLUMN_NAME");
             column.position = row1.getUnsigned64("ORDINAL_POSITION");
             column.isNullable = (row1.getString("IS_NULLABLE").compare("YES") == 0);
@@ -127,7 +127,7 @@ void MysqlAnalyzer::notify(void) {
             table.pkColumns.push_back(column);
         }
 
-        pbuilder->model.tables.insert(std::pair<std::string, pbuilder::Table>(table.name, table));
+        pbuilder->model.tables.insert(std::pair<std::string, pbuilder4cpp::Table>(table.name, table));
     }
     
     connection.close();
@@ -135,7 +135,7 @@ void MysqlAnalyzer::notify(void) {
     LOG4CXX_TRACE(logger, "notify <----- end");
 }
 
-pbuilder::MODEL_TYPE MysqlAnalyzer::getModelType(const std::string & ptype) {
+pbuilder4cpp::MODEL_TYPE MysqlAnalyzer::getModelType(const std::string & ptype) {
 
     if (ptype.compare("smallint") == 0) {
         return SMALLINT;
@@ -176,7 +176,7 @@ pbuilder::MODEL_TYPE MysqlAnalyzer::getModelType(const std::string & ptype) {
     return STRING;
 }
 
-bool MysqlAnalyzer::supportedType(const pbuilder::Column & column_) {
+bool MysqlAnalyzer::supportedType(const pbuilder4cpp::Column & column_) {
     if (pbuilder->unit.geometry) {
         return true;
     }
