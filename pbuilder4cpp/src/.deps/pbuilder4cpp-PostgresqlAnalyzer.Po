@@ -1,0 +1,4 @@
+pbuilder4cpp-PostgresqlAnalyzer.o: PostgresqlAnalyzer.cpp \
+ /usr/include/stdc-predef.h
+
+/usr/include/stdc-predef.h:
