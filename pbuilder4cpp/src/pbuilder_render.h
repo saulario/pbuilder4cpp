@@ -122,11 +122,11 @@ namespace pbuilder {
             void privateBlock(const pbuilder::Table &);
             void privateMember(const pbuilder::Column &);
             void privateMembers(const pbuilder::Table &);
-            void publicBlock(const pbuilder::Table &);
+            void publicBlock(const pbuilder::Table &, const bool & = false);
             void publicMember(const pbuilder::Column &);
             void setter(const pbuilder::Column &);
             void setNull(const pbuilder::Column &);
-            void table(const pbuilder::Table &);
+            void table(const pbuilder::Table &, const bool & = false);
             void tableId(const pbuilder::Table &);
         };
 

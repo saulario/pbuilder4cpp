@@ -143,17 +143,19 @@ void TNTDBEntityDeclarationRender::privateMembers(const pbuilder::Table & table_
     LOG4CXX_TRACE(logger, "privateMembers <----- end");
 }
 
-void TNTDBEntityDeclarationRender::publicBlock(const pbuilder::Table & table_) {
+void TNTDBEntityDeclarationRender::publicBlock(const pbuilder::Table & table_, const bool & id_) {
     LOG4CXX_TRACE(logger, "publicBlock -----> begin");
     render->parent->files[Render::FD_ENTITY_H]
             << std::string(4, ' ') << "public:" << std::endl;
     for (pbuilder::Column column : table_.columns) {
         publicMember(column);
     }
-    constructor(table_);
-    destructor(table_);
-    privateMembers(table_);
-    operatorEquals(table_);
+	if (!id_) {
+    	constructor(table_);
+    	destructor(table_);
+    	privateMembers(table_);
+    	operatorEquals(table_);
+	}
     LOG4CXX_TRACE(logger, "publicBlock <----- end");
 }
 
@@ -192,12 +194,14 @@ void TNTDBEntityDeclarationRender::setNull(const pbuilder::Column & column_) {
     LOG4CXX_TRACE(logger, "setNull <----- end");
 }
 
-void TNTDBEntityDeclarationRender::table(const pbuilder::Table & table_) {
+void TNTDBEntityDeclarationRender::table(const pbuilder::Table & table_, const bool & id_) {
     LOG4CXX_TRACE(logger, "table -----> begin");
     render->parent->files[Render::FD_ENTITY_H]
             << std::string(4, ' ') << "struct " << pbuilder::render::Render::toUpper(table_.name) << " {" << std::endl;
-    publicBlock(table_);
-    privateBlock(table_);
+    publicBlock(table_, id_);
+	if (!id_) {
+    	privateBlock(table_);
+	}
     render->parent->files[Render::FD_ENTITY_H]
             << std::string(4, ' ') << "};" << std::endl;
     LOG4CXX_TRACE(logger, "table <----- end");
@@ -211,6 +215,6 @@ void TNTDBEntityDeclarationRender::tableId(const pbuilder::Table & table_) {
     }
     pbuilder::Table t(table_.name + "Id");
     t.columns = table_.pkColumns;
-    table(t);
+    table(t, true);
     LOG4CXX_TRACE(logger, "tableId <----- end");
 }
