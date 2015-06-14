@@ -1,1 +1,8 @@
 /pbuilder4cpp/nbproject/
+
+#
+*.o
+/pbuilder4cpp/src/pbuilder4cpp
+
+#
+*.log
