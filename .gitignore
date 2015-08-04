@@ -4,7 +4,7 @@
 #
 *.o
 /pbuilder4cpp/src/pbuilder4cpp
-/examples/ex1/ex1
+/examples/ex1/src/ex1
 
 #
 *.log

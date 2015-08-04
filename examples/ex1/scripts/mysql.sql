@@ -1,4 +1,5 @@
 
+DROP TABLE IF EXISTS `compound`;
 DROP TABLE IF EXISTS `something`;
 DROP TABLE IF EXISTS `customer`;
 DROP TABLE IF EXISTS `country`;
@@ -33,5 +34,13 @@ CREATE TABLE `something` (
     FOREIGN KEY `fkSomethingCountry` (`countryId`) REFERENCES `country` (`id`)
 ) COMMENT 'Something';
 
+CREATE TABLE `compound` (
+    `customerId`    BIGINT NOT NULL DEFAULT '0'                         COMMENT 'Customer',
+    `countryId`     VARCHAR(2) NOT NULL DEFAULT ''                      COMMENT 'Country',
+    `name`          VARCHAR(80) NOT NULL DEFAULT ''                     COMMENT 'Name',
+    PRIMARY KEY(`customerId`, `countryId`),
+    FOREIGN KEY `fkCompoundCustomer` (`customerId`) REFERENCES `customer` (`id`),
+    FOREIGN KEY `fkCompoundCountry` (`countryId`) REFERENCES `country` (`id`)
+) COMMENT 'Compound key';
 
 

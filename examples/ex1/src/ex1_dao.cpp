@@ -4,7 +4,7 @@
 #include <tntdb/error.h>
 #include "ex1_dao.h"
 using namespace ex1::dao;
-        
+
 void CommonDAO::createQueries(void) {
     insertQuery = "insert into " + table + "(" + columns + ")"
             " values("
@@ -61,37 +61,124 @@ void CommonDAO::createQueries(void) {
         updateQuery += f + "=:" + f + "PK";
     }
 }
+
 std::string CommonDAO::getInsertQuery(void) {
     return insertQuery;
 }
+
 std::string CommonDAO::getReadQuery(void) {
     return readQuery;
 }
+
 std::string CommonDAO::getRemoveQuery(void) {
     return removeQuery;
 }
+
 std::string CommonDAO::getUpdateQuery(void) {
     return updateQuery;
 }
+
 std::string CommonDAO::getColumns(void) {
     return columns;
 }
+
 std::string CommonDAO::getTable(void) {
     return table;
 }
 
-        
+
+CompoundDAO * CompoundDAO::dao = NULL;
+boost::mutex CompoundDAO::mtx;
+
+CompoundDAO::~CompoundDAO() {
+    if (dao != NULL) {
+        delete dao;
+    }
+}
+
+CompoundDAO * CompoundDAO::getInstance(void) {
+    boost::mutex::scoped_lock lock(mtx);
+    if (dao == NULL) {
+        dao = new CompoundDAO();
+        dao->table = "compound";
+        dao->keyColumns = "customerId,countryId";
+        dao->columns = "customerId,countryId,name";
+        dao->createQueries();
+    }
+    return dao;
+}
+
+ex1::entity::Compound * CompoundDAO::insert(tntdb::Connection & con, ex1::entity::Compound * e) {
+    tntdb::Statement stmt = con.prepare(getInsertQuery());
+    setColumns(stmt, e);
+    stmt.execute();
+    return e;
+}
+
+std::list<ex1::entity::Compound *> CompoundDAO::query(tntdb::Connection & con, tntdb::Statement & stmt) {
+    std::list<ex1::entity::Compound *> es;
+    for (tntdb::Statement::const_iterator it = stmt.begin(); it != stmt.end(); ++it) {
+        ex1::entity::Compound * e = new ex1::entity::Compound;
+        tntdb::Row row = *it;
+        loadColumns(row, e);
+        es.push_back(e);
+    }
+    return es;
+}
+
+ex1::entity::Compound * CompoundDAO::read(tntdb::Connection & con, const ex1::entity::CompoundId & id) {
+    tntdb::Statement stmt = con.prepare(getReadQuery());
+    ex1::entity::Compound * e = NULL;
+    try {
+        stmt.set("customerIdPK", id.customerId);
+        stmt.set("countryIdPK", id.countryId);
+        tntdb::Row row = stmt.selectRow();
+        e = new ex1::entity::Compound;
+        loadColumns(row, e);
+    } catch (tntdb::NotFound) {
+    }
+    return e;
+}
+
+tntdb::Statement::size_type CompoundDAO::remove(tntdb::Connection & con, const ex1::entity::CompoundId & id) {
+    tntdb::Statement stmt = con.prepare(getRemoveQuery());
+    stmt.set("customerIdPK", id.customerId);
+    stmt.set("countryIdPK", id.countryId);
+    return stmt.execute();
+}
+
+ex1::entity::Compound * CompoundDAO::update(tntdb::Connection & con, ex1::entity::Compound * e) {
+    tntdb::Statement stmt = con.prepare(getUpdateQuery());
+    setColumns(stmt, e);
+    stmt.set("customerIdPK", e->customerId);
+    stmt.set("countryIdPK", e->countryId);
+    stmt.execute();
+    return e;
+}
+
+void CompoundDAO::loadColumns(tntdb::Row & row, ex1::entity::Compound * e) {
+    int index = 0;
+    e->customerId = row.getInt64(index++);
+    e->countryId = row.getString(index++);
+    e->name = row.getString(index++);
+}
+
+void CompoundDAO::setColumns(tntdb::Statement & stmt, const ex1::entity::Compound * e) {
+    stmt.setInt64("customerId", e->customerId);
+    stmt.setString("countryId", e->countryId);
+    stmt.setString("name", e->name);
+}
+
+
 CountryDAO * CountryDAO::dao = NULL;
 boost::mutex CountryDAO::mtx;
 
-        
 CountryDAO::~CountryDAO() {
     if (dao != NULL) {
         delete dao;
     }
 }
 
-        
 CountryDAO * CountryDAO::getInstance(void) {
     boost::mutex::scoped_lock lock(mtx);
     if (dao == NULL) {
@@ -104,7 +191,6 @@ CountryDAO * CountryDAO::getInstance(void) {
     return dao;
 }
 
-        
 ex1::entity::Country * CountryDAO::insert(tntdb::Connection & con, ex1::entity::Country * e) {
     tntdb::Statement stmt = con.prepare(getInsertQuery());
     setColumns(stmt, e);
@@ -112,7 +198,6 @@ ex1::entity::Country * CountryDAO::insert(tntdb::Connection & con, ex1::entity::
     return e;
 }
 
-        
 std::list<ex1::entity::Country *> CountryDAO::query(tntdb::Connection & con, tntdb::Statement & stmt) {
     std::list<ex1::entity::Country *> es;
     for (tntdb::Statement::const_iterator it = stmt.begin(); it != stmt.end(); ++it) {
@@ -132,13 +217,14 @@ ex1::entity::Country * CountryDAO::read(tntdb::Connection & con, const std::stri
         tntdb::Row row = stmt.selectRow();
         e = new ex1::entity::Country;
         loadColumns(row, e);
-    } catch(tntdb::NotFound) {
+    } catch (tntdb::NotFound) {
     }
     return e;
 }
+
 tntdb::Statement::size_type CountryDAO::remove(tntdb::Connection & con, const std::string & id) {
     tntdb::Statement stmt = con.prepare(getRemoveQuery());
-        stmt.set("idPK", id);
+    stmt.set("idPK", id);
     return stmt.execute();
 }
 
@@ -161,18 +247,16 @@ void CountryDAO::setColumns(tntdb::Statement & stmt, const ex1::entity::Country 
     stmt.setString("name", e->name);
 }
 
-        
+
 CustomerDAO * CustomerDAO::dao = NULL;
 boost::mutex CustomerDAO::mtx;
 
-        
 CustomerDAO::~CustomerDAO() {
     if (dao != NULL) {
         delete dao;
     }
 }
 
-        
 CustomerDAO * CustomerDAO::getInstance(void) {
     boost::mutex::scoped_lock lock(mtx);
     if (dao == NULL) {
@@ -185,7 +269,6 @@ CustomerDAO * CustomerDAO::getInstance(void) {
     return dao;
 }
 
-        
 ex1::entity::Customer * CustomerDAO::insert(tntdb::Connection & con, ex1::entity::Customer * e) {
     tntdb::Statement stmt = con.prepare(getInsertQuery());
     setColumns(stmt, e);
@@ -193,7 +276,6 @@ ex1::entity::Customer * CustomerDAO::insert(tntdb::Connection & con, ex1::entity
     return e;
 }
 
-        
 std::list<ex1::entity::Customer *> CustomerDAO::query(tntdb::Connection & con, tntdb::Statement & stmt) {
     std::list<ex1::entity::Customer *> es;
     for (tntdb::Statement::const_iterator it = stmt.begin(); it != stmt.end(); ++it) {
@@ -213,13 +295,14 @@ ex1::entity::Customer * CustomerDAO::read(tntdb::Connection & con, const long & 
         tntdb::Row row = stmt.selectRow();
         e = new ex1::entity::Customer;
         loadColumns(row, e);
-    } catch(tntdb::NotFound) {
+    } catch (tntdb::NotFound) {
     }
     return e;
 }
+
 tntdb::Statement::size_type CustomerDAO::remove(tntdb::Connection & con, const long & id) {
     tntdb::Statement stmt = con.prepare(getRemoveQuery());
-        stmt.set("idPK", id);
+    stmt.set("idPK", id);
     return stmt.execute();
 }
 
@@ -237,7 +320,7 @@ void CustomerDAO::loadColumns(tntdb::Row & row, ex1::entity::Customer * e) {
     e->name = row.getString(index++);
     try {
         e->setCountryId(row.getString(index++));
-    } catch(tntdb::NullValue) {
+    } catch (tntdb::NullValue) {
         e->setNullCountryId();
     }
     e->creationDate = row.getDate(index++);
@@ -248,24 +331,22 @@ void CustomerDAO::setColumns(tntdb::Statement & stmt, const ex1::entity::Custome
     stmt.setString("name", e->name);
     if (e->isNullCountryId()) {
         stmt.setNull("countryId");
-    } else { 
+    } else {
         stmt.setString("countryId", e->getCountryId());
     }
     stmt.setDate("creationDate", e->creationDate);
 }
 
-        
+
 SomethingDAO * SomethingDAO::dao = NULL;
 boost::mutex SomethingDAO::mtx;
 
-        
 SomethingDAO::~SomethingDAO() {
     if (dao != NULL) {
         delete dao;
     }
 }
 
-        
 SomethingDAO * SomethingDAO::getInstance(void) {
     boost::mutex::scoped_lock lock(mtx);
     if (dao == NULL) {
@@ -278,7 +359,6 @@ SomethingDAO * SomethingDAO::getInstance(void) {
     return dao;
 }
 
-        
 ex1::entity::Something * SomethingDAO::insert(tntdb::Connection & con, ex1::entity::Something * e) {
     tntdb::Statement stmt = con.prepare(getInsertQuery());
     setColumns(stmt, e);
@@ -286,7 +366,6 @@ ex1::entity::Something * SomethingDAO::insert(tntdb::Connection & con, ex1::enti
     return e;
 }
 
-        
 std::list<ex1::entity::Something *> SomethingDAO::query(tntdb::Connection & con, tntdb::Statement & stmt) {
     std::list<ex1::entity::Something *> es;
     for (tntdb::Statement::const_iterator it = stmt.begin(); it != stmt.end(); ++it) {
@@ -306,13 +385,14 @@ ex1::entity::Something * SomethingDAO::read(tntdb::Connection & con, const long 
         tntdb::Row row = stmt.selectRow();
         e = new ex1::entity::Something;
         loadColumns(row, e);
-    } catch(tntdb::NotFound) {
+    } catch (tntdb::NotFound) {
     }
     return e;
 }
+
 tntdb::Statement::size_type SomethingDAO::remove(tntdb::Connection & con, const long & id) {
     tntdb::Statement stmt = con.prepare(getRemoveQuery());
-        stmt.set("idPK", id);
+    stmt.set("idPK", id);
     return stmt.execute();
 }
 

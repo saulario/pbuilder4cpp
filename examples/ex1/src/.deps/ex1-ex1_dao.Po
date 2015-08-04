@@ -25,7 +25,6 @@ ex1-ex1_dao.o: ex1_dao.cpp /usr/include/stdc-predef.h \
  /usr/include/x86_64-linux-gnu/bits/types.h \
  /usr/include/x86_64-linux-gnu/bits/typesizes.h \
  /usr/include/x86_64-linux-gnu/bits/confname.h /usr/include/getopt.h \
- /usr/include/x86_64-linux-gnu/bits/unistd.h \
  /usr/include/boost/config/select_platform_config.hpp \
  /usr/include/boost/config/platform/linux.hpp \
  /usr/include/c++/4.8/cstdlib /usr/include/stdlib.h \
@@ -39,12 +38,9 @@ ex1-ex1_dao.o: ex1_dao.cpp /usr/include/stdc-predef.h \
  /usr/include/x86_64-linux-gnu/bits/select.h \
  /usr/include/x86_64-linux-gnu/bits/sigset.h \
  /usr/include/x86_64-linux-gnu/bits/time.h \
- /usr/include/x86_64-linux-gnu/bits/select2.h \
  /usr/include/x86_64-linux-gnu/sys/sysmacros.h \
  /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h /usr/include/alloca.h \
- /usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h \
  /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
- /usr/include/x86_64-linux-gnu/bits/stdlib.h \
  /usr/include/boost/config/posix_features.hpp \
  /usr/include/boost/config/suffix.hpp \
  /usr/include/boost/detail/workaround.hpp \
@@ -80,19 +76,15 @@ ex1-ex1_dao.o: ex1_dao.cpp /usr/include/stdc-predef.h \
  /usr/include/x86_64-linux-gnu/bits/nan.h \
  /usr/include/x86_64-linux-gnu/bits/mathdef.h \
  /usr/include/x86_64-linux-gnu/bits/mathcalls.h \
- /usr/include/x86_64-linux-gnu/bits/mathinline.h \
  /usr/include/c++/4.8/cstdio /usr/include/stdio.h /usr/include/libio.h \
  /usr/include/_G_config.h /usr/include/wchar.h \
  /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdarg.h \
  /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
  /usr/include/x86_64-linux-gnu/bits/sys_errlist.h \
- /usr/include/x86_64-linux-gnu/bits/stdio.h \
- /usr/include/x86_64-linux-gnu/bits/stdio2.h /usr/include/c++/4.8/string \
- /usr/include/c++/4.8/bits/stringfwd.h \
+ /usr/include/c++/4.8/string /usr/include/c++/4.8/bits/stringfwd.h \
  /usr/include/c++/4.8/bits/char_traits.h \
  /usr/include/c++/4.8/bits/postypes.h /usr/include/c++/4.8/cwchar \
- /usr/include/x86_64-linux-gnu/bits/wchar.h \
- /usr/include/x86_64-linux-gnu/bits/wchar2.h /usr/include/c++/4.8/cstdint \
+ /usr/include/x86_64-linux-gnu/bits/wchar.h /usr/include/c++/4.8/cstdint \
  /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdint.h /usr/include/stdint.h \
  /usr/include/c++/4.8/bits/allocator.h \
  /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++allocator.h \
@@ -388,7 +380,6 @@ ex1-ex1_dao.o: ex1_dao.cpp /usr/include/stdc-predef.h \
  /usr/include/boost/range/detail/implementation_help.hpp \
  /usr/include/boost/range/detail/common.hpp \
  /usr/include/boost/range/detail/sfinae.hpp /usr/include/string.h \
- /usr/include/x86_64-linux-gnu/bits/string3.h \
  /usr/include/boost/range/size.hpp /usr/include/boost/range/size_type.hpp \
  /usr/include/boost/range/difference_type.hpp \
  /usr/include/boost/type_traits/make_unsigned.hpp \
@@ -784,8 +775,6 @@ ex1-ex1_dao.o: ex1_dao.cpp /usr/include/stdc-predef.h \
 
 /usr/include/getopt.h:
 
-/usr/include/x86_64-linux-gnu/bits/unistd.h:
-
 /usr/include/boost/config/select_platform_config.hpp:
 
 /usr/include/boost/config/platform/linux.hpp:
@@ -820,19 +809,13 @@ ex1-ex1_dao.o: ex1_dao.cpp /usr/include/stdc-predef.h \
 
 /usr/include/x86_64-linux-gnu/bits/time.h:
 
-/usr/include/x86_64-linux-gnu/bits/select2.h:
-
 /usr/include/x86_64-linux-gnu/sys/sysmacros.h:
 
 /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h:
 
 /usr/include/alloca.h:
 
-/usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h:
-
 /usr/include/x86_64-linux-gnu/bits/stdlib-float.h:
-
-/usr/include/x86_64-linux-gnu/bits/stdlib.h:
 
 /usr/include/boost/config/posix_features.hpp:
 
@@ -912,8 +895,6 @@ ex1-ex1_dao.o: ex1_dao.cpp /usr/include/stdc-predef.h \
 
 /usr/include/x86_64-linux-gnu/bits/mathcalls.h:
 
-/usr/include/x86_64-linux-gnu/bits/mathinline.h:
-
 /usr/include/c++/4.8/cstdio:
 
 /usr/include/stdio.h:
@@ -930,10 +911,6 @@ ex1-ex1_dao.o: ex1_dao.cpp /usr/include/stdc-predef.h \
 
 /usr/include/x86_64-linux-gnu/bits/sys_errlist.h:
 
-/usr/include/x86_64-linux-gnu/bits/stdio.h:
-
-/usr/include/x86_64-linux-gnu/bits/stdio2.h:
-
 /usr/include/c++/4.8/string:
 
 /usr/include/c++/4.8/bits/stringfwd.h:
@@ -945,8 +922,6 @@ ex1-ex1_dao.o: ex1_dao.cpp /usr/include/stdc-predef.h \
 /usr/include/c++/4.8/cwchar:
 
 /usr/include/x86_64-linux-gnu/bits/wchar.h:
-
-/usr/include/x86_64-linux-gnu/bits/wchar2.h:
 
 /usr/include/c++/4.8/cstdint:
 
@@ -1603,8 +1578,6 @@ ex1-ex1_dao.o: ex1_dao.cpp /usr/include/stdc-predef.h \
 /usr/include/boost/range/detail/sfinae.hpp:
 
 /usr/include/string.h:
-
-/usr/include/x86_64-linux-gnu/bits/string3.h:
 
 /usr/include/boost/range/size.hpp:
 
