@@ -83,17 +83,22 @@ void workingWithRows(tntdb::Connection & con) {
 
 }
 
-int main(int argc, char ** argv) {
-
-    tntdb::Connection con = tntdb::connect("mysql:db=ex1;user=user;password=passwd");
-
+void mysql(void) {
+    tntdb::Connection con = tntdb::connect("mysql:db=ex1;user=ex1user;password=passwd");
     typeDefinition(con);
     workingWithRows(con);
-
-
-
-
     con.close();
+}
 
+void postgresql(void) {
+    tntdb::Connection con = tntdb::connect("postgresql: dbname=ex1 user=ex1user password=passwd");
+    typeDefinition(con);
+    workingWithRows(con);
+    con.close();
+}
+
+int main(int argc, char ** argv) {
+    mysql();
+    postgresql();
     return EXIT_SUCCESS;
 }
