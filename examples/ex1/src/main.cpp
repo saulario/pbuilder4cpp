@@ -49,6 +49,7 @@ void typeDefinition(tntdb::Connection & con) {
 void workingWithRows(tntdb::Connection & con) {
 
     con.beginTransaction();
+    con.prepare("delete from compound").execute();
     con.prepare("delete from something").execute();
     con.prepare("delete from customer").execute();
     con.commitTransaction();
@@ -79,6 +80,22 @@ void workingWithRows(tntdb::Connection & con) {
         }
         delete customer;
     }
+    ex1::entity::Compound * c1 = new ex1::entity::Compound();
+    c1->customerId = 1;
+    c1->countryId = "FR";
+    c1->name = "Something in french";
+    ex1::dao::CompoundDAO::getInstance()->insert(con, c1);
+    ex1::entity::CompoundId compoundId;
+    compoundId.customerId = 1;
+    compoundId.countryId = "FR";
+    ex1::entity::Compound * c2 = ex1::dao::CompoundDAO::getInstance()->read(con, compoundId);
+    if (*c1 == *c2) {
+        std::cerr << "It's all right" << std::endl;
+    } else {
+        std::cerr << "Uh, uh!" << std::endl;
+    }
+    delete c1, c2;
+    
     con.commitTransaction();
 
 }
@@ -91,7 +108,7 @@ void mysql(void) {
 }
 
 void postgresql(void) {
-    tntdb::Connection con = tntdb::connect("postgresql: dbname=ex1 user=ex1user password=passwd");
+    tntdb::Connection con = tntdb::connect("postgresql: host=localhost dbname=ex1 user=ex1user password=passwd");
     typeDefinition(con);
     workingWithRows(con);
     con.close();
