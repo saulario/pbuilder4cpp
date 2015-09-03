@@ -59,10 +59,10 @@ am__make_running_with_option = \
   test $$has_opt = yes
 am__make_dryrun = (target_option=n; $(am__make_running_with_option))
 am__make_keepgoing = (target_option=k; $(am__make_running_with_option))
-pkgdatadir = $(datadir)/pbuilder4cpp
-pkgincludedir = $(includedir)/pbuilder4cpp
-pkglibdir = $(libdir)/pbuilder4cpp
-pkglibexecdir = $(libexecdir)/pbuilder4cpp
+pkgdatadir = $(datadir)/ex1
+pkgincludedir = $(includedir)/ex1
+pkglibdir = $(libdir)/ex1
+pkglibexecdir = $(libexecdir)/ex1
 am__cd = CDPATH="$${ZSH_VERSION+.}$(PATH_SEPARATOR)" && cd
 install_sh_DATA = $(install_sh) -c -m 644
 install_sh_PROGRAM = $(install_sh) -c
@@ -78,7 +78,8 @@ POST_UNINSTALL = :
 subdir = .
 DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
 	$(top_srcdir)/configure $(am__configure_deps) \
-	$(srcdir)/config.h.in compile depcomp install-sh missing
+	$(srcdir)/config.h.in AUTHORS README compile depcomp \
+	install-sh missing
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
@@ -188,21 +189,21 @@ distuninstallcheck_listfiles = find . -type f -print
 am__distuninstallcheck_listfiles = $(distuninstallcheck_listfiles) \
   | sed 's|^\./|$(prefix)/|' | grep -v '$(infodir)/dir$$'
 distcleancheck_listfiles = find . -type f -print
-ACLOCAL = aclocal-1.14
+ACLOCAL = ${SHELL} /home/saulario/cpp/pbuilder4cpp/examples/ex1/missing aclocal-1.14
 AMTAR = $${TAR-tar}
 AM_DEFAULT_VERBOSITY = 1
-AUTOCONF = autoconf
-AUTOHEADER = autoheader
-AUTOMAKE = automake-1.14
-AWK = mawk
-CC = gcc
+AUTOCONF = ${SHELL} /home/saulario/cpp/pbuilder4cpp/examples/ex1/missing autoconf
+AUTOHEADER = ${SHELL} /home/saulario/cpp/pbuilder4cpp/examples/ex1/missing autoheader
+AUTOMAKE = ${SHELL} /home/saulario/cpp/pbuilder4cpp/examples/ex1/missing automake-1.14
+AWK = gawk
+CC = /usr/bin/gcc
 CCDEPMODE = depmode=gcc3
-CFLAGS = -g -O2
-CPP = gcc -E
+CFLAGS = -g3 -gdwarf-2
+CPP = /usr/bin/gcc -E
 CPPFLAGS = 
-CXX = g++
+CXX = /usr/bin/g++
 CXXDEPMODE = depmode=gcc3
-CXXFLAGS = -g -O2
+CXXFLAGS = -g3 -gdwarf-2
 CYGPATH_W = echo
 DEFS = -DHAVE_CONFIG_H
 DEPDIR = .deps
@@ -221,14 +222,14 @@ LDFLAGS =
 LIBOBJS = 
 LIBS = 
 LTLIBOBJS = 
-MAKEINFO = makeinfo
+MAKEINFO = ${SHELL} /home/saulario/cpp/pbuilder4cpp/examples/ex1/missing makeinfo
 MKDIR_P = /bin/mkdir -p
 OBJEXT = o
-PACKAGE = pbuilder4cpp
+PACKAGE = ex1
 PACKAGE_BUGREPORT = Saul Correas <saul.correas@gmail.com>
-PACKAGE_NAME = pbuilder4cpp
-PACKAGE_STRING = pbuilder4cpp 1406
-PACKAGE_TARNAME = pbuilder4cpp
+PACKAGE_NAME = ex1
+PACKAGE_STRING = ex1 1406
+PACKAGE_TARNAME = ex1
 PACKAGE_URL = 
 PACKAGE_VERSION = 1406
 PATH_SEPARATOR = :
@@ -236,12 +237,12 @@ SET_MAKE =
 SHELL = /bin/bash
 STRIP = 
 VERSION = 1406
-abs_builddir = /home/saulario/cpp/pbuilder4cpp/pbuilder4cpp
-abs_srcdir = /home/saulario/cpp/pbuilder4cpp/pbuilder4cpp
-abs_top_builddir = /home/saulario/cpp/pbuilder4cpp/pbuilder4cpp
-abs_top_srcdir = /home/saulario/cpp/pbuilder4cpp/pbuilder4cpp
-ac_ct_CC = gcc
-ac_ct_CXX = g++
+abs_builddir = /home/saulario/cpp/pbuilder4cpp/examples/ex1
+abs_srcdir = /home/saulario/cpp/pbuilder4cpp/examples/ex1
+abs_top_builddir = /home/saulario/cpp/pbuilder4cpp/examples/ex1
+abs_top_srcdir = /home/saulario/cpp/pbuilder4cpp/examples/ex1
+ac_ct_CC = /usr/bin/gcc
+ac_ct_CXX = 
 am__include = include
 am__leading_dot = .
 am__quote = 
@@ -259,7 +260,7 @@ host_alias =
 htmldir = ${docdir}
 includedir = ${prefix}/include
 infodir = ${datarootdir}/info
-install_sh = ${SHELL} /home/saulario/cpp/pbuilder4cpp/pbuilder4cpp/install-sh
+install_sh = ${SHELL} /home/saulario/cpp/pbuilder4cpp/examples/ex1/install-sh
 libdir = ${exec_prefix}/lib
 libexecdir = ${exec_prefix}/libexec
 localedir = ${datarootdir}/locale

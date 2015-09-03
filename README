@@ -1,0 +1,25 @@
+pbuilder4cpp
+------------
+
+pbuilder4cpp analyzes a database catalog and generates code to perform CRUD operations. Based 
+on TNTDB library http://www.tntnet.org/tntdb.html, supports POSTGRESQL, SQLITE, MYSQL and ORACLE.
+
+pbuilder4cpp desing rules are
+
+  * lean layer,
+  * not exclusive -you may access directly with tntdb-
+  * thread safe,
+  * intuitive and
+  * efficient managing a large amount of data. 
+
+pbuilder4cpp's philosophy is based on Unix Philosophy described by Eric S. Raymond in The Art of Unix Programming.
+
+Production users
+----------------
+
+If you find pbuilder4cpp useful we’d love to include you as user. Please, send an e-mail to saul dot correas at gmail dot com 
+and your project and/or company will be included in following list.
+
+  * COMET-TMS, COMET is a transport management system developed in Java and C++. pbuilder4cpp is used 
+    to regenerate database access layer, and generated code is applied in large statistic calculations 
+    and optimization processes. 

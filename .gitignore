@@ -1,0 +1,10 @@
+/pbuilder4cpp/nbproject/
+/examples/ex1/nbproject/
+
+#
+*.o
+/pbuilder4cpp/src/pbuilder4cpp
+/examples/ex1/src/ex1
+
+#
+*.log
