@@ -101,8 +101,8 @@ CompoundDAO * CompoundDAO::getInstance(void) {
     if (dao == NULL) {
         dao = new CompoundDAO();
         dao->table = "compound";
-        dao->keyColumns = "customerId,countryId";
-        dao->columns = "customerId,countryId,name";
+        dao->keyColumns = "customer_id,country_id";
+        dao->columns = "customer_id,country_id,name";
         dao->createQueries();
     }
     return dao;
@@ -130,8 +130,8 @@ ex1::entity::Compound * CompoundDAO::read(tntdb::Connection & con, const ex1::en
     tntdb::Statement stmt = con.prepare(getReadQuery());
     ex1::entity::Compound * e = NULL;
     try {
-        stmt.set("customerIdPK", id.customerId);
-        stmt.set("countryIdPK", id.countryId);
+        stmt.set("customer_idPK", id.customer_id);
+        stmt.set("country_idPK", id.country_id);
         tntdb::Row row = stmt.selectRow();
         e = new ex1::entity::Compound;
         loadColumns(row, e);
@@ -142,30 +142,30 @@ ex1::entity::Compound * CompoundDAO::read(tntdb::Connection & con, const ex1::en
 
 tntdb::Statement::size_type CompoundDAO::remove(tntdb::Connection & con, const ex1::entity::CompoundId & id) {
     tntdb::Statement stmt = con.prepare(getRemoveQuery());
-    stmt.set("customerIdPK", id.customerId);
-    stmt.set("countryIdPK", id.countryId);
+    stmt.set("customer_idPK", id.customer_id);
+    stmt.set("country_idPK", id.country_id);
     return stmt.execute();
 }
 
 ex1::entity::Compound * CompoundDAO::update(tntdb::Connection & con, ex1::entity::Compound * e) {
     tntdb::Statement stmt = con.prepare(getUpdateQuery());
     setColumns(stmt, e);
-    stmt.set("customerIdPK", e->customerId);
-    stmt.set("countryIdPK", e->countryId);
+    stmt.set("customer_idPK", e->customer_id);
+    stmt.set("country_idPK", e->country_id);
     stmt.execute();
     return e;
 }
 
 void CompoundDAO::loadColumns(tntdb::Row & row, ex1::entity::Compound * e) {
     int index = 0;
-    e->customerId = row.getInt64(index++);
-    e->countryId = row.getString(index++);
+    e->customer_id = row.getInt64(index++);
+    e->country_id = row.getString(index++);
     e->name = row.getString(index++);
 }
 
 void CompoundDAO::setColumns(tntdb::Statement & stmt, const ex1::entity::Compound * e) {
-    stmt.setInt64("customerId", e->customerId);
-    stmt.setString("countryId", e->countryId);
+    stmt.setInt64("customer_id", e->customer_id);
+    stmt.setString("country_id", e->country_id);
     stmt.setString("name", e->name);
 }
 
@@ -263,7 +263,7 @@ CustomerDAO * CustomerDAO::getInstance(void) {
         dao = new CustomerDAO();
         dao->table = "customer";
         dao->keyColumns = "id";
-        dao->columns = "id,name,countryId,creationDate";
+        dao->columns = "id,name,country_id,creation_date";
         dao->createQueries();
     }
     return dao;
@@ -319,22 +319,22 @@ void CustomerDAO::loadColumns(tntdb::Row & row, ex1::entity::Customer * e) {
     e->id = row.getInt64(index++);
     e->name = row.getString(index++);
     try {
-        e->setCountryId(row.getString(index++));
+        e->setCountry_id(row.getString(index++));
     } catch (tntdb::NullValue) {
-        e->setNullCountryId();
+        e->setNullCountry_id();
     }
-    e->creationDate = row.getDate(index++);
+    e->creation_date = row.getDate(index++);
 }
 
 void CustomerDAO::setColumns(tntdb::Statement & stmt, const ex1::entity::Customer * e) {
     stmt.setInt64("id", e->id);
     stmt.setString("name", e->name);
-    if (e->isNullCountryId()) {
-        stmt.setNull("countryId");
+    if (e->isNullCountry_id()) {
+        stmt.setNull("country_id");
     } else {
-        stmt.setString("countryId", e->getCountryId());
+        stmt.setString("country_id", e->getCountry_id());
     }
-    stmt.setDate("creationDate", e->creationDate);
+    stmt.setDate("creation_date", e->creation_date);
 }
 
 
@@ -353,7 +353,7 @@ SomethingDAO * SomethingDAO::getInstance(void) {
         dao = new SomethingDAO();
         dao->table = "something";
         dao->keyColumns = "id";
-        dao->columns = "id,name,customerId,countryId";
+        dao->columns = "id,name,customer_id,country_id";
         dao->createQueries();
     }
     return dao;
@@ -408,14 +408,14 @@ void SomethingDAO::loadColumns(tntdb::Row & row, ex1::entity::Something * e) {
     int index = 0;
     e->id = row.getInt64(index++);
     e->name = row.getString(index++);
-    e->customerId = row.getInt64(index++);
-    e->countryId = row.getString(index++);
+    e->customer_id = row.getInt64(index++);
+    e->country_id = row.getString(index++);
 }
 
 void SomethingDAO::setColumns(tntdb::Statement & stmt, const ex1::entity::Something * e) {
     stmt.setInt64("id", e->id);
     stmt.setString("name", e->name);
-    stmt.setInt64("customerId", e->customerId);
-    stmt.setString("countryId", e->countryId);
+    stmt.setInt64("customer_id", e->customer_id);
+    stmt.setString("country_id", e->country_id);
 }
 

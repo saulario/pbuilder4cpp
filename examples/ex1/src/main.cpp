@@ -60,20 +60,20 @@ void workingWithRows(tntdb::Connection & con) {
         ex1::entity::Customer * customer = new ex1::entity::Customer();
         customer->id = i;
         customer->name = "Customer #" + boost::lexical_cast<std::string, unsigned int>(i);
-        customer->creationDate = tntdb::Date::localtime();
+        customer->creation_date = tntdb::Date::localtime();
         if ((i % 3) == 0) {
-            customer->setCountryId("ES");
+            customer->setCountry_id("ES");
         } else if ((i % 7) == 0) {
-            customer->setCountryId("UK");
+            customer->setCountry_id("UK");
         }
         ex1::dao::CustomerDAO::getInstance()->insert(con, customer);
         if ((i % 3) == 0) {
             for (int j = 0; j <= 10; j++) {
                 ex1::entity::Something * something = new ex1::entity::Something();
                 something->id = ++somethingId;
-                something->customerId = customer->id;
+                something->customer_id = customer->id;
                 something->name = "Something #" + boost::lexical_cast<std::string, unsigned int>(somethingId);
-                something->countryId = customer->getCountryId();
+                something->country_id = customer->getCountry_id();
                 ex1::dao::SomethingDAO::getInstance()->insert(con, something);
                 delete something;
             }
@@ -81,13 +81,13 @@ void workingWithRows(tntdb::Connection & con) {
         delete customer;
     }
     ex1::entity::Compound * c1 = new ex1::entity::Compound();
-    c1->customerId = 1;
-    c1->countryId = "FR";
+    c1->customer_id = 1;
+    c1->country_id = "FR";
     c1->name = "Something in french";
     ex1::dao::CompoundDAO::getInstance()->insert(con, c1);
     ex1::entity::CompoundId compoundId;
-    compoundId.customerId = 1;
-    compoundId.countryId = "FR";
+    compoundId.customer_id = 1;
+    compoundId.country_id = "FR";
     ex1::entity::Compound * c2 = ex1::dao::CompoundDAO::getInstance()->read(con, compoundId);
     if (*c1 == *c2) {
         std::cerr << "It's all right" << std::endl;

@@ -9,8 +9,8 @@ namespace ex1 {
 
         struct Compound {
         public:
-            long customerId; /* Customer */
-            std::string countryId; /* Country */
+            long customer_id; /* Customer */
+            std::string country_id; /* Country */
             std::string name; /* Name */
             Compound();
             ~Compound();
@@ -20,8 +20,8 @@ namespace ex1 {
 
         struct CompoundId {
         public:
-            long customerId; /* Customer */
-            std::string countryId; /* Country */
+            long customer_id; /* Customer */
+            std::string country_id; /* Country */
         };
 
         struct Country {
@@ -38,24 +38,24 @@ namespace ex1 {
         public:
             long id; /* Id */
             std::string name; /* Name */
-            tntdb::Date creationDate; /* Creation date */
+            tntdb::Date creation_date; /* Creation date */
             Customer();
             ~Customer();
-            std::string getCountryId(void) const;
-            void setCountryId(const std::string & countryId);
-            bool isNullCountryId(void) const;
-            void setNullCountryId(void);
+            std::string getCountry_id(void) const;
+            void setCountry_id(const std::string & country_id);
+            bool isNullCountry_id(void) const;
+            void setNullCountry_id(void);
             bool operator==(const Customer &);
         private:
-            std::string * countryId; /* Country */
+            std::string * country_id; /* Country */
         };
 
         struct Something {
         public:
             long id; /* Id */
             std::string name; /* Name */
-            long customerId; /* Customer */
-            std::string countryId; /* Country */
+            long customer_id; /* Customer */
+            std::string country_id; /* Country */
             Something();
             ~Something();
             bool operator==(const Something &);

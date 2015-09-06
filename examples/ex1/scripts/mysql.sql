@@ -18,29 +18,29 @@ INSERT INTO `country` VALUES('US', 'United States of America');
 CREATE TABLE `customer` (
     `id`            BIGINT NOT NULL DEFAULT '0'                         COMMENT 'Id',
     `name`          VARCHAR(80) NOT NULL DEFAULT ''                     COMMENT 'Name',
-    `countryId`     VARCHAR(2)                                          COMMENT 'Country',
-    `creationDate`  DATE NOT NULL                                       COMMENT 'Creation date',
+    `country_id`    VARCHAR(2)                                          COMMENT 'Country',
+    `creation_date` DATE NOT NULL                                       COMMENT 'Creation date',
     PRIMARY KEY(`id`),
-    FOREIGN KEY `fkCustomerCountry` (`countryId`) REFERENCES `country` (`id`)
+    FOREIGN KEY `fkCustomerCountry` (`country_id`) REFERENCES `country` (`id`)
 ) COMMENT 'Customer';
 
 CREATE TABLE `something` (
     `id`            BIGINT NOT NULL DEFAULT '0'                         COMMENT 'Id',
     `name`          VARCHAR(80) NOT NULL DEFAULT ''                     COMMENT 'Name',
-    `customerId`    BIGINT NOT NULL DEFAULT '0'                         COMMENT 'Customer',
-    `countryId`     VARCHAR(2) NOT NULL DEFAULT ''                      COMMENT 'Country',
+    `customer_id`   BIGINT NOT NULL DEFAULT '0'                         COMMENT 'Customer',
+    `country_id`    VARCHAR(2) NOT NULL DEFAULT ''                      COMMENT 'Country',
     PRIMARY KEY(`id`),
-    FOREIGN KEY `fkSomethingCustomer` (`customerId`) REFERENCES `customer` (`id`),
-    FOREIGN KEY `fkSomethingCountry` (`countryId`) REFERENCES `country` (`id`)
+    FOREIGN KEY `fkSomethingCustomer` (`customer_id`) REFERENCES `customer` (`id`),
+    FOREIGN KEY `fkSomethingCountry` (`country_id`) REFERENCES `country` (`id`)
 ) COMMENT 'Something';
 
 CREATE TABLE `compound` (
-    `customerId`    BIGINT NOT NULL DEFAULT '0'                         COMMENT 'Customer',
-    `countryId`     VARCHAR(2) NOT NULL DEFAULT ''                      COMMENT 'Country',
+    `customer_id`   BIGINT NOT NULL DEFAULT '0'                         COMMENT 'Customer',
+    `country_id`    VARCHAR(2) NOT NULL DEFAULT ''                      COMMENT 'Country',
     `name`          VARCHAR(80) NOT NULL DEFAULT ''                     COMMENT 'Name',
-    PRIMARY KEY(`customerId`, `countryId`),
-    FOREIGN KEY `fkCompoundCustomer` (`customerId`) REFERENCES `customer` (`id`),
-    FOREIGN KEY `fkCompoundCountry` (`countryId`) REFERENCES `country` (`id`)
+    PRIMARY KEY(`customer_id`, `country_id`),
+    FOREIGN KEY `fkCompoundCustomer` (`customer_id`) REFERENCES `customer` (`id`),
+    FOREIGN KEY `fkCompoundCountry` (`country_id`) REFERENCES `country` (`id`)
 ) COMMENT 'Compound key';
 
 

@@ -2,8 +2,8 @@
 using namespace ex1::entity;
 
 Compound::Compound() {
-    customerId = 0L;
-    countryId = "";
+    customer_id = 0L;
+    country_id = "";
     name = "";
 }
 
@@ -11,8 +11,8 @@ Compound::~Compound() {
 }
 
 bool Compound::operator==(const Compound & other) {
-    if (this->customerId != other.customerId) return false;
-    if (this->countryId != other.countryId) return false;
+    if (this->customer_id != other.customer_id) return false;
+    if (this->country_id != other.country_id) return false;
     if (this->name != other.name) return false;
     return true;
 }
@@ -34,51 +34,51 @@ bool Country::operator==(const Country & other) {
 Customer::Customer() {
     id = 0L;
     name = "";
-    countryId = NULL;
-    creationDate = tntdb::Date();
+    country_id = NULL;
+    creation_date = tntdb::Date();
 }
 
 Customer::~Customer() {
-    if (countryId != NULL) {
-        delete countryId;
+    if (country_id != NULL) {
+        delete country_id;
     }
 }
 
-std::string Customer::getCountryId(void) const {
-    return (countryId != NULL ? * countryId : "");
+std::string Customer::getCountry_id(void) const {
+    return (country_id != NULL ? * country_id : "");
 }
 
-void Customer::setCountryId(const std::string & countryId_) {
-    if (countryId != NULL) {
-        delete countryId;
+void Customer::setCountry_id(const std::string & country_id_) {
+    if (country_id != NULL) {
+        delete country_id;
     }
-    countryId = new std::string(countryId_);
+    country_id = new std::string(country_id_);
 }
 
-bool Customer::isNullCountryId(void) const {
-    return (countryId == NULL);
+bool Customer::isNullCountry_id(void) const {
+    return (country_id == NULL);
 }
 
-void Customer::setNullCountryId(void) {
-    if (countryId != NULL) {
-        delete countryId;
+void Customer::setNullCountry_id(void) {
+    if (country_id != NULL) {
+        delete country_id;
     }
-    countryId = NULL;
+    country_id = NULL;
 }
 
 bool Customer::operator==(const Customer & other) {
     if (this->id != other.id) return false;
     if (this->name != other.name) return false;
-    if (this->countryId != other.countryId) return false;
-    if (this->creationDate != other.creationDate) return false;
+    if (this->country_id != other.country_id) return false;
+    if (this->creation_date != other.creation_date) return false;
     return true;
 }
 
 Something::Something() {
     id = 0L;
     name = "";
-    customerId = 0L;
-    countryId = "";
+    customer_id = 0L;
+    country_id = "";
 }
 
 Something::~Something() {
@@ -87,7 +87,7 @@ Something::~Something() {
 bool Something::operator==(const Something & other) {
     if (this->id != other.id) return false;
     if (this->name != other.name) return false;
-    if (this->customerId != other.customerId) return false;
-    if (this->countryId != other.countryId) return false;
+    if (this->customer_id != other.customer_id) return false;
+    if (this->country_id != other.country_id) return false;
     return true;
 }
