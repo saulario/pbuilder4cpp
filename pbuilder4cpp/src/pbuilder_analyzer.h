@@ -39,7 +39,6 @@ namespace pbuilder {
             Analyzer(pbuilder::PersistenceBuilder * pbuilder);
             ~Analyzer(void);
             void analyze(void);
-            static std::string toCamelCase(const std::string & str_);
 
         private:
             static log4cxx::LoggerPtr logger;

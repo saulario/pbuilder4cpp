@@ -98,7 +98,7 @@ public:
     NAMESPACE::TABLE * insert(tntdb::Connection &, NAMESPACE::TABLE *);
     std::list<NAMESPACE::TABLE *> query(tntdb::Connection &, tntdb::Statement &);)";
     std::string str = cdn;
-    boost::replace_all(str, "TABLE", pbuilder::render::Render::toUpper(table_.name));
+    boost::replace_all(str, "TABLE", pbuilder::StringUtils::toUpper(table_.name));
     boost::replace_all(str, "NAMESPACE", render->parent->pbuilder->unit.ns + "::entity");
     render->parent->files[Render::FD_ARTIFACT_H]
             << str
@@ -122,11 +122,11 @@ void TNTDBArtifactDeclarationRender::tableExtended(const pbuilder::Table & table
     tntdb::Statement::size_type remove(tntdb::Connection &, const KEYTYPE &);
     NAMESPACE::TABLE * update(tntdb::Connection &, NAMESPACE::TABLE *);)";
     std::string str = cdn;
-    boost::replace_all(str, "TABLE", pbuilder::render::Render::toUpper(table_.name));
+    boost::replace_all(str, "TABLE", pbuilder::StringUtils::toUpper(table_.name));
     boost::replace_all(str, "NAMESPACE", render->parent->pbuilder->unit.ns + "::entity");
     std::string keytype = "UNDEFINED";
     if (table_.pkColumns.size() > 1) {
-        keytype = render->parent->pbuilder->unit.ns + "::entity::" + render->parent->toUpper(table_.name) + "Id";
+        keytype = render->parent->pbuilder->unit.ns + "::entity::" + pbuilder::StringUtils::toUpper(table_.name) + "Id";
     } else if (table_.pkColumns.size() == 1) {
         keytype = render->asText(table_.pkColumns.front());
     }

@@ -7,6 +7,7 @@ pbuilder4cpp_SOURCES = main.cpp \
 	PostgresqlAnalyzer.cpp \
 	Render.cpp \
 	SqliteAnalyzer.cpp \
+	StringUtils.cpp \
 	TNTDBArtifactDeclarationRender.cpp \
 	TNTDBArtifactDefinitionRender.cpp \
 	TNTDBEntityDeclarationRender.cpp \

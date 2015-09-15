@@ -284,7 +284,7 @@ std::string TNTDBRender::stmtSet(const pbuilder::Column & column_, const bool & 
     if (!nullable_) {
         value += "(\"" + column_.name + "\", e->" + column_.name + suffix + ");";
     } else {
-        value += "(\"" + column_.name + "\", e->get" + parent->toUpper(column_.name) + "());";
+        value += "(\"" + column_.name + "\", e->get" + pbuilder::StringUtils::toUpper(column_.name) + "());";
     }
 
     LOG4CXX_TRACE(logger, "stmtSet <----- end");

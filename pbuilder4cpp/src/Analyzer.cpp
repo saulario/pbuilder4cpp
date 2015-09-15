@@ -17,7 +17,6 @@
  * 
  */
 #include <cstdlib>
-#include <boost/algorithm/string.hpp>
 #include <iostream>
 #include <stdexcept>
 #include "pbuilder_analyzer.h"
@@ -60,29 +59,4 @@ void Analyzer::analyze(void) {
     LOG4CXX_TRACE(logger, "analyze -----> begin");
     implementation->notify();
     LOG4CXX_TRACE(logger, "analyze <----- end");
-}
-
-std::string Analyzer::toCamelCase(const std::string & str_) {
-    LOG4CXX_TRACE(logger, "toCamelCase -----> begin");
-
-    std::stringstream ss;
-    std::vector<std::string> strs;
-    boost::split(strs, str_, boost::is_any_of("\t_ "));
-
-    bool firstOne = true;
-    for (auto & s1 : strs) {
-        if (s1.empty()) {
-            continue;
-        }
-        if (firstOne) {
-            s1[0] = tolower(s1[0]);
-            firstOne = false;
-        } else {
-            s1[0] = toupper(s1[0]);
-        }
-        ss << s1;
-    }
-
-    LOG4CXX_TRACE(logger, "toCamelCase <----- end");
-    return ss.str();    
 }

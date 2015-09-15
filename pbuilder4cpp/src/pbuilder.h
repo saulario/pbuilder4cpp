@@ -48,6 +48,15 @@ namespace pbuilder {
         CIRCLE
     };
 
+    class StringUtils {
+    private:
+        static log4cxx::LoggerPtr logger;
+
+    public:
+        static std::string toCamelCase(const std::string & str_);
+        static std::string toUpper(const std::string & str_);
+    };
+
     struct Unit {
     public:
         std::string name;
@@ -68,6 +77,7 @@ namespace pbuilder {
     struct Column {
     public:
         std::string name;
+        std::string applicationName;
         int position;
         bool isNullable;
         std::string schemaType;
@@ -82,16 +92,19 @@ namespace pbuilder {
         Column() : name(""), position(0), isNullable(false), schemaType("")
         , type(STRING), charMaxLength(0L), numericPrecision(0L), numericScale(0L)
         , isUnsigned(false), defaultValue(""), comment("") {
+            applicationName = StringUtils::toCamelCase(name);
         };
     };
 
     struct Table {
     public:
         std::string name;
+        std::string applicationName;
         std::list<Column> columns;
         std::list<Column> pkColumns;
 
         Table(const std::string & pname) : name(pname) {
+            applicationName = StringUtils::toCamelCase(name);
         }
 
     };
