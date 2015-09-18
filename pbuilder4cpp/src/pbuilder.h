@@ -89,7 +89,7 @@ namespace pbuilder {
         std::string defaultValue;
         std::string comment;
 
-        Column() : name(""), position(0), isNullable(false), schemaType("")
+        Column(const std::string & name_) : name(name_), position(0), isNullable(false), schemaType("")
         , type(STRING), charMaxLength(0L), numericPrecision(0L), numericScale(0L)
         , isUnsigned(false), defaultValue(""), comment("") {
             applicationName = StringUtils::toCamelCase(name);
@@ -103,7 +103,7 @@ namespace pbuilder {
         std::list<Column> columns;
         std::list<Column> pkColumns;
 
-        Table(const std::string & pname) : name(pname) {
+        Table(const std::string & name_) : name(name_) {
             applicationName = StringUtils::toCamelCase(name);
         }
 

@@ -282,9 +282,9 @@ std::string TNTDBRender::stmtSet(const pbuilder::Column & column_, const bool & 
             value = "String";
     }
     if (!nullable_) {
-        value += "(\"" + column_.name + "\", e->" + column_.name + suffix + ");";
+        value += "(\"" + column_.name + "\", e->" + column_.applicationName + suffix + ");";
     } else {
-        value += "(\"" + column_.name + "\", e->get" + pbuilder::StringUtils::toUpper(column_.name) + "());";
+        value += "(\"" + column_.name + "\", e->get" + pbuilder::StringUtils::toUpper(column_.applicationName) + "());";
     }
 
     LOG4CXX_TRACE(logger, "stmtSet <----- end");

@@ -61,7 +61,7 @@ void TNTDBEntityDeclarationRender::constructor(const pbuilder::Table & table_) {
     LOG4CXX_TRACE(logger, "constructor -----> begin");
     render->parent->files[Render::FD_ENTITY_H]
             << std::string(6, ' ')
-            << pbuilder::StringUtils::toUpper(table_.name) << "();"
+            << pbuilder::StringUtils::toUpper(table_.applicationName) << "();"
             << std::endl;
     LOG4CXX_TRACE(logger, "constructor <----- end");
 }
@@ -70,7 +70,7 @@ void TNTDBEntityDeclarationRender::destructor(const pbuilder::Table & table_) {
     LOG4CXX_TRACE(logger, "destructor -----> begin");
     render->parent->files[Render::FD_ENTITY_H]
             << std::string(6, ' ')
-            << "~" << pbuilder::StringUtils::toUpper(table_.name) << "();"
+            << "~" << pbuilder::StringUtils::toUpper(table_.applicationName) << "();"
             << std::endl;
     LOG4CXX_TRACE(logger, "destructor <----- end");
 }
@@ -79,7 +79,7 @@ void TNTDBEntityDeclarationRender::getter(const pbuilder::Column & column_) {
     LOG4CXX_TRACE(logger, "getter -----> begin");
     render->parent->files[Render::FD_ENTITY_H]
             << std::string(6, ' ') << render->asText(column_)
-            << " get" << pbuilder::StringUtils::toUpper(column_.name)
+            << " get" << pbuilder::StringUtils::toUpper(column_.applicationName)
             << "(void) const;"
             << std::endl;
     LOG4CXX_TRACE(logger, "getter <----- end");
@@ -90,7 +90,7 @@ void TNTDBEntityDeclarationRender::operatorEquals(const pbuilder::Table & table_
     render->parent->files[Render::FD_ENTITY_H]
             << std::string(6, ' ')
             << "bool operator == (const "
-            << pbuilder::StringUtils::toUpper(table_.name)
+            << pbuilder::StringUtils::toUpper(table_.applicationName)
             << " &);"
             << std::endl;
     LOG4CXX_TRACE(logger, "operatorEquals <----- end");
@@ -100,7 +100,7 @@ void TNTDBEntityDeclarationRender::isNull(const pbuilder::Column & column_) {
     LOG4CXX_TRACE(logger, "isNull -----> begin");
     render->parent->files[Render::FD_ENTITY_H]
             << std::string(6, ' ')
-            << "bool isNull" << pbuilder::StringUtils::toUpper(column_.name)
+            << "bool isNull" << pbuilder::StringUtils::toUpper(column_.applicationName)
             << "(void) const;"
             << std::endl;
     LOG4CXX_TRACE(logger, "isNull <----- end");
@@ -124,7 +124,7 @@ void TNTDBEntityDeclarationRender::privateMember(const pbuilder::Column & column
     }
     render->parent->files[Render::FD_ENTITY_H]
             << std::string(6, ' ') << render->asText(column_)
-            << " * " << column_.name << ";"
+            << " * " << column_.applicationName << ";"
             << " /* " << column_.comment << " */"
             << std::endl;
     LOG4CXX_TRACE(logger, "privateMember <----- end");
@@ -167,7 +167,7 @@ void TNTDBEntityDeclarationRender::publicMember(const pbuilder::Column & column_
     }
     render->parent->files[Render::FD_ENTITY_H]
             << std::string(6, ' ') << render->asText(column_)
-            << " " << column_.name << ";"
+            << " " << column_.applicationName << ";"
             << " /* " << column_.comment << " */"
             << std::endl;
     LOG4CXX_TRACE(logger, "publicMember <----- end");
@@ -177,7 +177,7 @@ void TNTDBEntityDeclarationRender::setter(const pbuilder::Column & column_) {
     LOG4CXX_TRACE(logger, "setter -----> begin");
     render->parent->files[Render::FD_ENTITY_H]
             << std::string(6, ' ') << "void set"
-            << pbuilder::StringUtils::toUpper(column_.name) << "(const "
+            << pbuilder::StringUtils::toUpper(column_.applicationName) << "(const "
             << render->asText(column_)
             << " & " << column_.name << ");"
             << std::endl;
@@ -188,7 +188,7 @@ void TNTDBEntityDeclarationRender::setNull(const pbuilder::Column & column_) {
     LOG4CXX_TRACE(logger, "setNull -----> begin");
     render->parent->files[Render::FD_ENTITY_H]
             << std::string(6, ' ')
-            << "void setNull" << pbuilder::StringUtils::toUpper(column_.name)
+            << "void setNull" << pbuilder::StringUtils::toUpper(column_.applicationName)
             << "(void);"
             << std::endl;
     LOG4CXX_TRACE(logger, "setNull <----- end");
@@ -197,7 +197,7 @@ void TNTDBEntityDeclarationRender::setNull(const pbuilder::Column & column_) {
 void TNTDBEntityDeclarationRender::table(const pbuilder::Table & table_, const bool & id_) {
     LOG4CXX_TRACE(logger, "table -----> begin");
     render->parent->files[Render::FD_ENTITY_H]
-            << std::string(4, ' ') << "struct " << pbuilder::StringUtils::toUpper(table_.name) << " {" << std::endl;
+            << std::string(4, ' ') << "struct " << pbuilder::StringUtils::toUpper(table_.applicationName) << " {" << std::endl;
     publicBlock(table_, id_);
     if (!id_) {
         privateBlock(table_);
