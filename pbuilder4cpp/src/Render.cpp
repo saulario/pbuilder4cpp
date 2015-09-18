@@ -57,17 +57,3 @@ void Render::render(void) {
     LOG4CXX_TRACE(logger, "render <----- end");
 }
 
-std::string Render::toUpper(const std::string & str_) {
-    LOG4CXX_TRACE(logger, "toUpper -----> begin");
-    std::string str = "";
-    
-    if (!str_.empty()) {
-        str = boost::algorithm::to_upper_copy(str_.substr(0, 1));
-        if (str_.length() > 1) {
-            str += str_.substr(1);
-        }
-    }
-    
-    LOG4CXX_TRACE(logger, "toUpper <----- end");
-    return str;
-}

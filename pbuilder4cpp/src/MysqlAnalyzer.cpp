@@ -52,8 +52,7 @@ void MysqlAnalyzer::notify(void) {
                 select()
                 ;
         for (tntdb::Row row1 : columns) {
-            pbuilder::Column column;
-            column.name = row1.getString("COLUMN_NAME");
+            pbuilder::Column column(row1.getString("COLUMN_NAME"));
             column.position = row1.getUnsigned64("ORDINAL_POSITION");
             column.isNullable = (row1.getString("IS_NULLABLE").compare("YES") == 0);
             column.schemaType = row1.getString("DATA_TYPE");
@@ -99,8 +98,7 @@ void MysqlAnalyzer::notify(void) {
                 select()
                 ;
         for (tntdb::Row row1 : pkColumns) {
-            pbuilder::Column column;
-            column.name = row1.getString("COLUMN_NAME");
+            pbuilder::Column column(row1.getString("COLUMN_NAME"));
             column.position = row1.getUnsigned64("ORDINAL_POSITION");
             column.isNullable = (row1.getString("IS_NULLABLE").compare("YES") == 0);
             column.schemaType = row1.getString("DATA_TYPE");

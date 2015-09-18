@@ -98,6 +98,7 @@ am_pbuilder4cpp_OBJECTS = pbuilder4cpp-main.$(OBJEXT) \
 	pbuilder4cpp-PostgresqlAnalyzer.$(OBJEXT) \
 	pbuilder4cpp-Render.$(OBJEXT) \
 	pbuilder4cpp-SqliteAnalyzer.$(OBJEXT) \
+	pbuilder4cpp-StringUtils.$(OBJEXT) \
 	pbuilder4cpp-TNTDBArtifactDeclarationRender.$(OBJEXT) \
 	pbuilder4cpp-TNTDBArtifactDefinitionRender.$(OBJEXT) \
 	pbuilder4cpp-TNTDBEntityDeclarationRender.$(OBJEXT) \
@@ -173,7 +174,7 @@ AM_DEFAULT_VERBOSITY = 1
 AUTOCONF = autoconf
 AUTOHEADER = autoheader
 AUTOMAKE = automake-1.14
-AWK = mawk
+AWK = gawk
 CC = gcc
 CCDEPMODE = depmode=gcc3
 CFLAGS = -g -O2
@@ -266,6 +267,7 @@ pbuilder4cpp_SOURCES = main.cpp \
 	PostgresqlAnalyzer.cpp \
 	Render.cpp \
 	SqliteAnalyzer.cpp \
+	StringUtils.cpp \
 	TNTDBArtifactDeclarationRender.cpp \
 	TNTDBArtifactDefinitionRender.cpp \
 	TNTDBEntityDeclarationRender.cpp \
@@ -368,6 +370,7 @@ include ./$(DEPDIR)/pbuilder4cpp-PersistenceBuilder.Po
 include ./$(DEPDIR)/pbuilder4cpp-PostgresqlAnalyzer.Po
 include ./$(DEPDIR)/pbuilder4cpp-Render.Po
 include ./$(DEPDIR)/pbuilder4cpp-SqliteAnalyzer.Po
+include ./$(DEPDIR)/pbuilder4cpp-StringUtils.Po
 include ./$(DEPDIR)/pbuilder4cpp-TNTDBArtifactDeclarationRender.Po
 include ./$(DEPDIR)/pbuilder4cpp-TNTDBArtifactDefinitionRender.Po
 include ./$(DEPDIR)/pbuilder4cpp-TNTDBEntityDeclarationRender.Po
@@ -500,6 +503,20 @@ pbuilder4cpp-SqliteAnalyzer.obj: SqliteAnalyzer.cpp
 #	$(AM_V_CXX)source='SqliteAnalyzer.cpp' object='pbuilder4cpp-SqliteAnalyzer.obj' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
 #	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -c -o pbuilder4cpp-SqliteAnalyzer.obj `if test -f 'SqliteAnalyzer.cpp'; then $(CYGPATH_W) 'SqliteAnalyzer.cpp'; else $(CYGPATH_W) '$(srcdir)/SqliteAnalyzer.cpp'; fi`
+
+pbuilder4cpp-StringUtils.o: StringUtils.cpp
+	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -MT pbuilder4cpp-StringUtils.o -MD -MP -MF $(DEPDIR)/pbuilder4cpp-StringUtils.Tpo -c -o pbuilder4cpp-StringUtils.o `test -f 'StringUtils.cpp' || echo '$(srcdir)/'`StringUtils.cpp
+	$(AM_V_at)$(am__mv) $(DEPDIR)/pbuilder4cpp-StringUtils.Tpo $(DEPDIR)/pbuilder4cpp-StringUtils.Po
+#	$(AM_V_CXX)source='StringUtils.cpp' object='pbuilder4cpp-StringUtils.o' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -c -o pbuilder4cpp-StringUtils.o `test -f 'StringUtils.cpp' || echo '$(srcdir)/'`StringUtils.cpp
+
+pbuilder4cpp-StringUtils.obj: StringUtils.cpp
+	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -MT pbuilder4cpp-StringUtils.obj -MD -MP -MF $(DEPDIR)/pbuilder4cpp-StringUtils.Tpo -c -o pbuilder4cpp-StringUtils.obj `if test -f 'StringUtils.cpp'; then $(CYGPATH_W) 'StringUtils.cpp'; else $(CYGPATH_W) '$(srcdir)/StringUtils.cpp'; fi`
+	$(AM_V_at)$(am__mv) $(DEPDIR)/pbuilder4cpp-StringUtils.Tpo $(DEPDIR)/pbuilder4cpp-StringUtils.Po
+#	$(AM_V_CXX)source='StringUtils.cpp' object='pbuilder4cpp-StringUtils.obj' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -c -o pbuilder4cpp-StringUtils.obj `if test -f 'StringUtils.cpp'; then $(CYGPATH_W) 'StringUtils.cpp'; else $(CYGPATH_W) '$(srcdir)/StringUtils.cpp'; fi`
 
 pbuilder4cpp-TNTDBArtifactDeclarationRender.o: TNTDBArtifactDeclarationRender.cpp
 	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbuilder4cpp_CXXFLAGS) $(CXXFLAGS) -MT pbuilder4cpp-TNTDBArtifactDeclarationRender.o -MD -MP -MF $(DEPDIR)/pbuilder4cpp-TNTDBArtifactDeclarationRender.Tpo -c -o pbuilder4cpp-TNTDBArtifactDeclarationRender.o `test -f 'TNTDBArtifactDeclarationRender.cpp' || echo '$(srcdir)/'`TNTDBArtifactDeclarationRender.cpp
