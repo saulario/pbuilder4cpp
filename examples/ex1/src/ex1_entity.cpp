@@ -1,93 +1,77 @@
 #include "ex1_entity.h"
 using namespace ex1::entity;
-
-Compound::Compound() {
-    customerId = 0L;
-    countryId = "";
-    name = "";
-}
-
-Compound::~Compound() {
-}
-
-bool Compound::operator==(const Compound & other) {
-    if (this->customerId != other.customerId) return false;
-    if (this->countryId != other.countryId) return false;
-    if (this->name != other.name) return false;
-    return true;
-}
-
 Country::Country() {
-    id = "";
-    name = "";
+  id = "";
+  name = "";
 }
-
 Country::~Country() {
 }
-
-bool Country::operator==(const Country & other) {
-    if (this->id != other.id) return false;
-    if (this->name != other.name) return false;
-    return true;
+bool Country::operator == (const Country & other) {
+  if (this->id != other.id) return false;
+  if (this->name != other.name) return false;
+  return true;
 }
-
-Customer::Customer() {
-    id = 0L;
-    name = "";
-    countryId = NULL;
-    creationDate = tntdb::Date();
+MyCompound::MyCompound() {
+  myCustomerId = 0L;
+  countryId = "";
+  name = "";
 }
-
-Customer::~Customer() {
-    if (countryId != NULL) {
-        delete countryId;
-    }
+MyCompound::~MyCompound() {
 }
-
-std::string Customer::getCountryId(void) const {
-    return (countryId != NULL ? * countryId : "");
+bool MyCompound::operator == (const MyCompound & other) {
+  if (this->myCustomerId != other.myCustomerId) return false;
+  if (this->countryId != other.countryId) return false;
+  if (this->name != other.name) return false;
+  return true;
 }
-
-void Customer::setCountryId(const std::string & countryId_) {
-    if (countryId != NULL) {
-        delete countryId;
-    }
-    countryId = new std::string(countryId_);
+MyCustomer::MyCustomer() {
+  id = 0L;
+  name = "";
+  countryId = NULL;
+  creationDate = tntdb::Date();
 }
-
-bool Customer::isNullCountryId(void) const {
-    return (countryId == NULL);
+MyCustomer::~MyCustomer() {
+  if (countryId != NULL) {
+    delete countryId;
+  }
 }
-
-void Customer::setNullCountryId(void) {
-    if (countryId != NULL) {
-        delete countryId;
-    }
-    countryId = NULL;
+std::string MyCustomer::getCountryId(void) const {
+  return (countryId != NULL ? * countryId : "");
 }
-
-bool Customer::operator==(const Customer & other) {
-    if (this->id != other.id) return false;
-    if (this->name != other.name) return false;
-    if (this->countryId != other.countryId) return false;
-    if (this->creationDate != other.creationDate) return false;
-    return true;
+void MyCustomer::setCountryId(const std::string & countryId_) {
+  if (countryId != NULL) {
+    delete countryId;
+  }
+  countryId = new std::string(countryId_);
 }
-
+bool MyCustomer::isNullCountryId(void) const {
+  return (countryId == NULL);
+}
+void MyCustomer::setNullCountryId(void) {
+  if (countryId != NULL) {
+    delete countryId;
+  }
+  countryId = NULL;
+}
+bool MyCustomer::operator == (const MyCustomer & other) {
+  if (this->id != other.id) return false;
+  if (this->name != other.name) return false;
+  if (this->countryId != other.countryId) return false;
+  if (this->creationDate != other.creationDate) return false;
+  return true;
+}
 Something::Something() {
-    id = 0L;
-    name = "";
-    customerId = 0L;
-    countryId = "";
+  id = 0L;
+  name = "";
+  myCustomerId = 0L;
+  countryId = "";
 }
-
 Something::~Something() {
 }
-
-bool Something::operator==(const Something & other) {
-    if (this->id != other.id) return false;
-    if (this->name != other.name) return false;
-    if (this->customerId != other.customerId) return false;
-    if (this->countryId != other.countryId) return false;
-    return true;
+bool Something::operator == (const Something & other) {
+  if (this->id != other.id) return false;
+  if (this->name != other.name) return false;
+  if (this->myCustomerId != other.myCustomerId) return false;
+  if (this->countryId != other.countryId) return false;
+  return true;
 }

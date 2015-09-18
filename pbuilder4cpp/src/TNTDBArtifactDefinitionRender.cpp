@@ -158,7 +158,7 @@ OBJECT::~OBJECT() {
 }
 )DELIM";
     std::string str = cdn;
-    boost::replace_all(str, "OBJECT", pbuilder::render::Render::toUpper(table_.name) + "DAO");
+    boost::replace_all(str, "OBJECT", pbuilder::StringUtils::toUpper(table_.applicationName) + "DAO");
     render->parent->files[Render::FD_ARTIFACT_CPP]
             << str
             << std::endl;
@@ -181,7 +181,7 @@ OBJECT * OBJECT::getInstance(void) {
 }
 )DELIM";
     std::string str = cdn;
-    boost::replace_all(str, "OBJECT", pbuilder::render::Render::toUpper(table_.name) + "DAO");
+    boost::replace_all(str, "OBJECT", pbuilder::StringUtils::toUpper(table_.applicationName) + "DAO");
     boost::replace_all(str, "TABLE", table_.name);
     std::string cols = "";
     bool first = true;
@@ -221,12 +221,12 @@ void TNTDBArtifactDefinitionRender::keyInMethodSignature(const pbuilder::Table &
     if (table_.pkColumns.size() == 1) {
         render->parent->files[Render::FD_ARTIFACT_CPP]
                 << " " << render->asText(table_.pkColumns.front())
-                << " & " << table_.pkColumns.front().name;
+                << " & " << table_.pkColumns.front().applicationName;
     } else {
         render->parent->files[Render::FD_ARTIFACT_CPP]
                 << " " << render->parent->pbuilder->unit.ns
                 << "::entity::"
-                << render->parent->toUpper(table_.name) << "Id & id";
+                << pbuilder::StringUtils::toUpper(table_.applicationName) << "Id & id";
     }
     LOG4CXX_TRACE(logger, "keyInMethodSignature <----- end");
 }
@@ -238,7 +238,7 @@ void TNTDBArtifactDefinitionRender::keyInStatement(const pbuilder::Table & table
         render->parent->files[Render::FD_ARTIFACT_CPP]
                 << std::string(8, ' ')
                 << "stmt.set(\"" << c.name << "PK\", "
-                << prefix << c.name << ");"
+                << prefix << c.applicationName << ");"
                 << std::endl;
     }
     LOG4CXX_TRACE(logger, "keyInStatement <----- end");
@@ -250,7 +250,7 @@ void TNTDBArtifactDefinitionRender::keyInUpdateStatement(const pbuilder::Table &
         render->parent->files[Render::FD_ARTIFACT_CPP]
                 << std::string(4, ' ')
                 << "stmt.set(\"" << c.name << "PK\", "
-                << "e->" << c.name << ");"
+                << "e->" << c.applicationName << ");"
                 << std::endl;
     }
     LOG4CXX_TRACE(logger, "keyInStatement <----- end");
@@ -268,8 +268,8 @@ ENTITY * OBJECT::insert(tntdb::Connection & con, ENTITY * e) {
 )DELIM";
     std::string str = cdn;
     boost::replace_all(str, "ENTITY", render->parent->pbuilder->unit.ns + "::entity::"
-            + pbuilder::render::Render::toUpper(table_.name));
-    boost::replace_all(str, "OBJECT", pbuilder::render::Render::toUpper(table_.name) + "DAO");
+            + pbuilder::StringUtils::toUpper(table_.applicationName));
+    boost::replace_all(str, "OBJECT", pbuilder::StringUtils::toUpper(table_.applicationName) + "DAO");
     render->parent->files[Render::FD_ARTIFACT_CPP]
             << str
             << std::endl;
@@ -282,18 +282,18 @@ void TNTDBArtifactDefinitionRender::loadColumn(const pbuilder::Table & table_, c
         render->parent->files[Render::FD_ARTIFACT_CPP]
                 << std::string(4, ' ') << "try {" << std::endl
                 << std::string(8, ' ')
-                << "e->set" << render->parent->toUpper(column_.name) << "("
+                << "e->set" << pbuilder::StringUtils::toUpper(column_.applicationName) << "("
                 << render->rowGet(column_)
                 << ");" << std::endl
                 << std::string(4, ' ') << "} catch(tntdb::NullValue) {" << std::endl
                 << std::string(8, ' ')
-                << "e->setNull" << render->parent->toUpper(column_.name) << "();" << std::endl
+                << "e->setNull" << pbuilder::StringUtils::toUpper(column_.applicationName) << "();" << std::endl
                 << std::string(4, ' ') << "}"
                 << std::endl;
     } else {
         render->parent->files[Render::FD_ARTIFACT_CPP]
                 << std::string(4, ' ')
-                << "e->" << column_.name << " = " << render->rowGet(column_) << ";"
+                << "e->" << column_.applicationName << " = " << render->rowGet(column_) << ";"
                 << std::endl;
     }
     LOG4CXX_TRACE(logger, "loadColumn <----- end");
@@ -302,10 +302,10 @@ void TNTDBArtifactDefinitionRender::loadColumn(const pbuilder::Table & table_, c
 void TNTDBArtifactDefinitionRender::loadColumns(const pbuilder::Table & table_) {
     LOG4CXX_TRACE(logger, "loadColumns-----> begin");
     render->parent->files[Render::FD_ARTIFACT_CPP]
-            << "void " << pbuilder::render::Render::toUpper(table_.name) << "DAO"
+            << "void " << pbuilder::StringUtils::toUpper(table_.applicationName) << "DAO"
             << "::loadColumns(tntdb::Row & row, "
             << render->parent->pbuilder->unit.ns << "::entity::"
-            << pbuilder::render::Render::toUpper(table_.name)
+            << pbuilder::StringUtils::toUpper(table_.applicationName)
             << " * e) {"
             << std::endl;
     render->parent->files[Render::FD_ARTIFACT_CPP]
@@ -337,8 +337,8 @@ std::list<ENTITY *> OBJECT::query(tntdb::Connection & con, tntdb::Statement & st
 )DELIM";
     std::string str = cdn;
     boost::replace_all(str, "ENTITY", render->parent->pbuilder->unit.ns + "::entity::"
-            + pbuilder::render::Render::toUpper(table_.name));
-    boost::replace_all(str, "OBJECT", pbuilder::render::Render::toUpper(table_.name) + "DAO");
+            + pbuilder::StringUtils::toUpper(table_.applicationName));
+    boost::replace_all(str, "OBJECT", pbuilder::StringUtils::toUpper(table_.applicationName) + "DAO");
     render->parent->files[Render::FD_ARTIFACT_CPP]
             << str
             << std::endl;
@@ -349,8 +349,8 @@ void TNTDBArtifactDefinitionRender::read(const pbuilder::Table & table_) {
     LOG4CXX_TRACE(logger, "read -----> begin");
     render->parent->files[Render::FD_ARTIFACT_CPP]
             << render->parent->pbuilder->unit.ns << "::entity::"
-            << pbuilder::render::Render::toUpper(table_.name)
-            << " * " << pbuilder::render::Render::toUpper(table_.name) << "DAO"
+            << pbuilder::StringUtils::toUpper(table_.applicationName)
+            << " * " << pbuilder::StringUtils::toUpper(table_.applicationName) << "DAO"
             << "::read(tntdb::Connection & con, const";
     keyInMethodSignature(table_);
     render->parent->files[Render::FD_ARTIFACT_CPP]
@@ -358,7 +358,7 @@ void TNTDBArtifactDefinitionRender::read(const pbuilder::Table & table_) {
             << std::string(4, ' ') << "tntdb::Statement stmt = con.prepare(getReadQuery());" << std::endl
             << std::string(4, ' ')
             << render->parent->pbuilder->unit.ns << "::entity::"
-            << pbuilder::render::Render::toUpper(table_.name)
+            << pbuilder::StringUtils::toUpper(table_.applicationName)
             << " * e = NULL;" << std::endl
             << std::string(4, ' ') << "try {" << std::endl;
     keyInStatement(table_);
@@ -368,7 +368,7 @@ void TNTDBArtifactDefinitionRender::read(const pbuilder::Table & table_) {
             << std::string(8, ' ')
             << "e = new "
             << render->parent->pbuilder->unit.ns << "::entity::"
-            << pbuilder::render::Render::toUpper(table_.name) << ";"
+            << pbuilder::StringUtils::toUpper(table_.applicationName) << ";"
             << std::endl
             << std::string(8, ' ') << "loadColumns(row, e);" << std::endl
             << std::string(4, ' ') << "} catch(tntdb::NotFound) {" << std::endl
@@ -383,7 +383,7 @@ void TNTDBArtifactDefinitionRender::remove(const pbuilder::Table & table_) {
     LOG4CXX_TRACE(logger, "remove -----> begin");
     render->parent->files[Render::FD_ARTIFACT_CPP]
             << "tntdb::Statement::size_type "
-            << pbuilder::render::Render::toUpper(table_.name) << "DAO"
+            << pbuilder::StringUtils::toUpper(table_.applicationName) << "DAO"
             << "::remove(tntdb::Connection & con, const";
     keyInMethodSignature(table_);
     render->parent->files[Render::FD_ARTIFACT_CPP]
@@ -401,11 +401,11 @@ void TNTDBArtifactDefinitionRender::update(const pbuilder::Table & table_) {
     LOG4CXX_TRACE(logger, "update-----> begin");
     render->parent->files[Render::FD_ARTIFACT_CPP]
             << render->parent->pbuilder->unit.ns << "::entity::"
-            << pbuilder::render::Render::toUpper(table_.name)
-            << " * " << pbuilder::render::Render::toUpper(table_.name) << "DAO"
+            << pbuilder::StringUtils::toUpper(table_.applicationName)
+            << " * " << pbuilder::StringUtils::toUpper(table_.applicationName) << "DAO"
             << "::update(tntdb::Connection & con, "
             << render->parent->pbuilder->unit.ns << "::entity::"
-            << pbuilder::render::Render::toUpper(table_.name)
+            << pbuilder::StringUtils::toUpper(table_.applicationName)
             << " * e) {"
             << std::endl;
     render->parent->files[Render::FD_ARTIFACT_CPP]
@@ -426,7 +426,7 @@ void TNTDBArtifactDefinitionRender::setColumn(const pbuilder::Table & table_, co
         render->parent->files[Render::FD_ARTIFACT_CPP]
                 << std::string(4, ' ')
                 << "if (e->isNull"
-                << render->parent->toUpper(column_.name)
+                << pbuilder::StringUtils::toUpper(column_.applicationName)
                 << "()) {"
                 << std::endl
                 << std::string(8, ' ')
@@ -452,10 +452,10 @@ void TNTDBArtifactDefinitionRender::setColumn(const pbuilder::Table & table_, co
 void TNTDBArtifactDefinitionRender::setColumns(const pbuilder::Table & table_) {
     LOG4CXX_TRACE(logger, "setColumns-----> begin");
     render->parent->files[Render::FD_ARTIFACT_CPP]
-            << "void " << pbuilder::render::Render::toUpper(table_.name) << "DAO"
+            << "void " << pbuilder::StringUtils::toUpper(table_.applicationName) << "DAO"
             << "::setColumns(tntdb::Statement & stmt, const "
             << render->parent->pbuilder->unit.ns << "::entity::"
-            << pbuilder::render::Render::toUpper(table_.name)
+            << pbuilder::StringUtils::toUpper(table_.applicationName)
             << " * e) {"
             << std::endl;
     for (pbuilder::Column c : table_.columns) {
@@ -474,7 +474,7 @@ OBJECT * OBJECT::dao = NULL;
 boost::mutex OBJECT::mtx;
 )DELIM";
     std::string str = cdn;
-    boost::replace_all(str, "OBJECT", pbuilder::render::Render::toUpper(table_.name) + "DAO");
+    boost::replace_all(str, "OBJECT", pbuilder::StringUtils::toUpper(table_.applicationName) + "DAO");
     render->parent->files[Render::FD_ARTIFACT_CPP]
             << str
             << std::endl;

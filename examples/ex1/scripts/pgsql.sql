@@ -1,67 +1,59 @@
 
-DROP TABLE IF EXISTS compound;
-DROP TABLE IF EXISTS something;
-DROP TABLE IF EXISTS customer;
-DROP TABLE IF EXISTS country;
+drop table IF exists my_compound;
+drop table IF exists something;
+drop table IF exists my_customer;
+drop table IF exists country;
 
-CREATE TABLE country (
-    id            VARCHAR(2) NOT NULL DEFAULT '',
-    name          VARCHAR(80) NOT NULL DEFAULT '',
-    PRIMARY KEY(id)
+create table country (
+    id            varchar(2) not NULL default '' primary key,
+    name          varchar(80) not NULL default ''
 );
 
-COMMENT ON TABLE country IS 'Country';
-COMMENT ON COLUMN country.id IS 'Id';
-COMMENT ON COLUMN country.name IS 'Name';
+comment on table country is 'Country';
+comment on column country.id is 'Id';
+comment on column country.name is 'Name';
 
-INSERT INTO country VALUES('ES', 'Spain');
-INSERT INTO country VALUES('FR', 'France');
-INSERT INTO country VALUES('UK', 'United Kingdom');
-INSERT INTO country VALUES('US', 'United States of America');
+insert into country values('ES', 'Spain');
+insert into country values('FR', 'France');
+insert into country values('UK', 'United Kingdom');
+insert into country values('US', 'United States of America');
 
-CREATE TABLE customer (
-    id            BIGINT NOT NULL DEFAULT '0',
-    name          VARCHAR(80) NOT NULL DEFAULT '',
-    countryId     VARCHAR(2),
-    creationDate  DATE NOT NULL,
-    PRIMARY KEY(id),
-    FOREIGN KEY (countryId) REFERENCES country (id)
+create table my_customer (
+    id            bigint not NULL default '0' primary key,
+    name          varchar(80) not NULL default '',
+    country_id    varchar(2) references country,
+    creation_date DATE not NULL
 );
 
-COMMENT ON TABLE customer IS 'Customer';
-COMMENT ON COLUMN customer.id IS 'Id';
-COMMENT ON COLUMN customer.name IS 'Name';
-COMMENT ON COLUMN customer.countryId IS 'Country';
-COMMENT ON COLUMN customer.creationDate IS 'Creation date';
+comment on table my_customer is 'my_customer';
+comment on column my_customer.id is 'Id';
+comment on column my_customer.name is 'Name';
+comment on column my_customer.country_id is 'Country';
+comment on column my_customer.creation_date is 'Creation date';
 
-CREATE TABLE something (
-    id            BIGINT NOT NULL DEFAULT '0',
-    name          VARCHAR(80) NOT NULL DEFAULT '',
-    customerId    BIGINT NOT NULL DEFAULT '0',
-    countryId     VARCHAR(2) NOT NULL DEFAULT '',
-    PRIMARY KEY(id),
-    CONSTRAINT fkSomethingCustomer FOREIGN KEY (customerId) REFERENCES customer (id),
-    CONSTRAINT fkSomethingCountry FOREIGN KEY (countryId) REFERENCES country (id)
+create table something (
+    id            bigint not NULL default '0' primary key,
+    name          varchar(80) not NULL default '',
+    my_customer_id   bigint not NULL default '0' references my_customer,
+    country_id    varchar(2) not NULL default '' references country
 );
 
-COMMENT ON TABLE something IS 'Something';
-COMMENT ON COLUMN something.id IS 'Id';
-COMMENT ON COLUMN something.name IS 'Name';
-COMMENT ON COLUMN something.customerId IS 'Customer id';
-COMMENT ON COLUMN something.countryId IS 'Country id';
+comment on table something is 'Something';
+comment on column something.id is 'Id';
+comment on column something.name is 'Name';
+comment on column something.my_customer_id is 'my_customer id';
+comment on column something.country_id is 'Country id';
 
 
-CREATE TABLE compound (
-    customerId    BIGINT NOT NULL DEFAULT '0',
-    countryId     VARCHAR(2) NOT NULL DEFAULT '',
-    name          VARCHAR(80) NOT NULL DEFAULT '',
-    PRIMARY KEY(customerId, countryId),
-    CONSTRAINT fkCompoundCustomer FOREIGN KEY (customerId) REFERENCES customer (id),
-    CONSTRAINT fkCompoundCountry FOREIGN KEY (countryId) REFERENCES country (id)
+create table my_compound (
+    my_customer_id   bigint not NULL default '0' references my_customer,
+    country_id    varchar(2) not NULL default '' references country,
+    name          varchar(80) not NULL default '',
+    PRIMARY KEY(my_customer_id, country_id)
 );
 
-COMMENT ON TABLE compound IS 'Compound';
-COMMENT ON COLUMN compound.customerId IS 'Customer id';
-COMMENT ON COLUMN compound.countryId IS 'Country id';
-COMMENT ON COLUMN compound.name IS 'Name';
+comment on table my_compound is 'my_compound';
+comment on column my_compound.my_customer_id is 'my_customer id';
+comment on column my_compound.country_id is 'Country id';
+comment on column my_compound.name is 'Name';
 
