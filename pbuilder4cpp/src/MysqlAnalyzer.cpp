@@ -31,7 +31,9 @@ void MysqlAnalyzer::notify(void) {
 
     connection = tntdb::connect(pbuilder->unit.url);
 
-    tntdb::Result tables = connection.prepare("SELECT * FROM TABLES WHERE "
+    tntdb::Result tables = connection.prepare("SELECT * FROM "
+            "       INFORMATION_SCHEMA.TABLES"
+            "   WHERE "
             "     TABLE_SCHEMA = :schema"
             " AND TABLE_NAME LIKE :table"
             " ORDER BY TABLE_NAME").
@@ -43,7 +45,9 @@ void MysqlAnalyzer::notify(void) {
     for (tntdb::Row row : tables) {
         pbuilder::Table table(row.getString("TABLE_NAME"));
         
-        tntdb::Result columns = connection.prepare("SELECT * FROM COLUMNS WHERE "
+        tntdb::Result columns = connection.prepare("SELECT * FROM "
+                "       INFORMATION_SCHEMA.COLUMNS "
+                "   WHERE "
                 "     TABLE_SCHEMA = :schema "
                 " AND TABLE_NAME = :table"
                 " ORDER BY ORDINAL_POSITION").
@@ -84,7 +88,10 @@ void MysqlAnalyzer::notify(void) {
 
         tntdb::Result pkColumns = connection.prepare(
                 "SELECT KCU.ORDINAL_POSITION, COL.* "
-                " FROM COLUMNS COL, KEY_COLUMN_USAGE KCU  WHERE "
+                " FROM "
+                "     INFORMATION_SCHEMA.COLUMNS COL"
+                "   , INFORMATION_SCHEMA.KEY_COLUMN_USAGE KCU "
+                " WHERE "
                 "     COL.TABLE_SCHEMA = :schema "
                 " AND COL.TABLE_NAME = :table "
                 " AND KCU.CONSTRAINT_NAME = :name "
