@@ -1,5 +1,5 @@
 /*
- * Persistence Builder (pbuilder)
+ * Persistence Builder (pbuilder4cpp)
  * Copyright (C) 2013..  Saul Correas Subias 
  * 
  * This program is free software: you can redistribute it and/or modify
@@ -65,7 +65,7 @@ int PersistenceBuilder::main(int argc, char** argv) {
 void PersistenceBuilder::analyze(void) {
     LOG4CXX_TRACE(logger, "analyze -----> begin");
     pbuilder::analyzer::Analyzer analyzer(this);
-    analyzer.analyze();
+    analyzer.notify();
     LOG4CXX_TRACE(logger, "analyze <----- end");
 }
 
@@ -123,7 +123,7 @@ void PersistenceBuilder::checkConfiguration(void) {
                 << "\t\t<unit>\n"
                 << "\t\t\t<name>test</name>\n"
                 << "\t\t\t<database>test</database>\n"
-                << "\t\t\t<url>mysql:db=information_schema</url>\n"
+                << "\t\t\t<url>mysql:db=test</url>\n"
                 << "\t\t\t<namespace>test</namespace>\n"
                 << "\t\t\t<geometry>false</geometry>\n"
                 << "\t\t</unit>\n"
@@ -220,6 +220,6 @@ void PersistenceBuilder::evaluateParameters(int argc, char** argv) {
 void PersistenceBuilder::render(void) {
     LOG4CXX_TRACE(logger, "render -----> begin");
     pbuilder::render::Render render(this);
-    render.render();
+    render.notify();
     LOG4CXX_TRACE(logger, "render <----- end");
 }
