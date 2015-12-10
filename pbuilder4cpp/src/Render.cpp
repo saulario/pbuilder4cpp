@@ -1,5 +1,5 @@
 /*
- * Persistence Builder (pbuilder)
+ * Persistence Builder (pbuilder4cpp)
  * Copyright (C) 2013..  Saul Correas Subias 
  * 
  * This program is free software: you can redistribute it and/or modify
@@ -35,7 +35,7 @@ Render::~Render() {
     LOG4CXX_TRACE(logger, "~Render <----- end");
 }
 
-void Render::render(void) {
+void Render::notify(void) {
     LOG4CXX_TRACE(logger, "render -----> begin");
 
     std::string basename(getenv("HOME"));
