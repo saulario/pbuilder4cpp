@@ -40,6 +40,7 @@ namespace pbuilder {
         DATETIME,
         TIMESTAMP,
         BIT,
+        BOOLEAN,
         BLOB,
         POINT,
         LINE,

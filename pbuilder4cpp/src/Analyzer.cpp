@@ -36,8 +36,8 @@ Analyzer::Analyzer(pbuilder::PersistenceBuilder * pb) : pbuilder(pb), implementa
     std::string driver = pbuilder->unit.url.substr(0, n);
     if (driver.compare("mysql") == 0) {
         implementation = static_cast<AbstractAnalyzer *> (new MysqlAnalyzer(pbuilder));
-        //    } else if (driver.compare("postgresql")) {
-        //        implementation = static_cast<AbstractAnalyzer *> (new PostgresqlAnalyzer(pbuilder));
+    } else if (driver.compare("postgresql") == 0) {
+        implementation = static_cast<AbstractAnalyzer *> (new PostgresqlAnalyzer(pbuilder));
         //    } else if (driver.compare("oracle")) {
         //        implementation = static_cast<AbstractAnalyzer *> (new OracleAnalyzer(pbuilder));
         //    } else if (driver.compare("sqlite")) {
@@ -55,7 +55,7 @@ Analyzer::~Analyzer() {
     LOG4CXX_TRACE(logger, "~Analyzer <----- end");
 }
 
-void Analyzer::analyze(void) {
+void Analyzer::notify(void) {
     LOG4CXX_TRACE(logger, "analyze -----> begin");
     implementation->notify();
     LOG4CXX_TRACE(logger, "analyze <----- end");

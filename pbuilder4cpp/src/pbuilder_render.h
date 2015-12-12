@@ -1,5 +1,5 @@
 /*
- * Persistence Builder (pbuilder)
+ * Persistence Builder (pbuilder4cpp)
  * Copyright (C) 2013..  Saul Correas Subias 
  * 
  * This program is free software: you can redistribute it and/or modify
@@ -40,7 +40,7 @@ namespace pbuilder {
             static const unsigned int FD_ARTIFACT_CPP = 3;
             Render(pbuilder::PersistenceBuilder * pbuilder_);
             ~Render();
-            void render(void);
+            void notify(void);
             std::ofstream files[4];
             pbuilder::PersistenceBuilder * pbuilder;
         private:

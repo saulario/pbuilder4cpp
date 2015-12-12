@@ -1,5 +1,5 @@
 /*
- * Persistence Builder (pbuilder)
+ * Persistence Builder (pbuilder4cpp)
  * Copyright (C) 2013..  Saul Correas Subias 
  * 
  * This program is free software: you can redistribute it and/or modify
@@ -36,9 +36,9 @@ namespace pbuilder {
 
         class Analyzer {
         public:
-            Analyzer(pbuilder::PersistenceBuilder * pbuilder);
+            Analyzer(pbuilder::PersistenceBuilder *);
             ~Analyzer(void);
-            void analyze(void);
+            void notify(void);
 
         private:
             static log4cxx::LoggerPtr logger;
@@ -67,6 +67,20 @@ namespace pbuilder {
             bool supportedType(const pbuilder::Column &);
         };
 
+        class PostgresqlAnalyzer : public AbstractAnalyzer, public TNTDBAnalyzer {
+        public:
+
+            PostgresqlAnalyzer(pbuilder::PersistenceBuilder * p) : pbuilder(p) {
+            };
+            void notify(void);
+
+        private:
+            static log4cxx::LoggerPtr logger;
+            pbuilder::PersistenceBuilder * pbuilder;
+
+            pbuilder::MODEL_TYPE getModelType(const std::string &);
+            bool supportedType(const pbuilder::Column &);
+        };
 
     }
 }
