@@ -437,11 +437,11 @@ Copyright (C) 2012 Free Software Foundation, Inc.
 This config.status script is free software; the Free Software Foundation
 gives unlimited permission to copy, distribute and modify it."
 
-ac_pwd='/home/saulario/cpp/pbuilder4cpp/pbuilder4cpp'
+ac_pwd='/home/saulario/src/pbuilder4cpp/pbuilder4cpp'
 srcdir='.'
 INSTALL='/usr/bin/install -c'
 MKDIR_P='/bin/mkdir -p'
-AWK='gawk'
+AWK='mawk'
 test -n "$AWK" || AWK=awk
 # The default lists apply if the user does not specify any file.
 ac_need_defaults=:
@@ -654,17 +654,17 @@ S["am__tar"]="$${TAR-tar} chof - \"$$tardir\""
 S["AMTAR"]="$${TAR-tar}"
 S["am__leading_dot"]="."
 S["SET_MAKE"]=""
-S["AWK"]="gawk"
+S["AWK"]="mawk"
 S["mkdir_p"]="$(MKDIR_P)"
 S["MKDIR_P"]="/bin/mkdir -p"
 S["INSTALL_STRIP_PROGRAM"]="$(install_sh) -c -s"
 S["STRIP"]=""
-S["install_sh"]="${SHELL} /home/saulario/cpp/pbuilder4cpp/pbuilder4cpp/install-sh"
+S["install_sh"]="${SHELL} /home/saulario/src/pbuilder4cpp/pbuilder4cpp/install-sh"
 S["MAKEINFO"]="makeinfo"
 S["AUTOHEADER"]="autoheader"
-S["AUTOMAKE"]="automake-1.14"
+S["AUTOMAKE"]="automake-1.15"
 S["AUTOCONF"]="autoconf"
-S["ACLOCAL"]="aclocal-1.14"
+S["ACLOCAL"]="aclocal-1.15"
 S["VERSION"]="1406"
 S["PACKAGE"]="pbuilder4cpp"
 S["CYGPATH_W"]="echo"
@@ -691,6 +691,7 @@ S["infodir"]="${datarootdir}/info"
 S["docdir"]="${datarootdir}/doc/${PACKAGE_TARNAME}"
 S["oldincludedir"]="/usr/include"
 S["includedir"]="${prefix}/include"
+S["runstatedir"]="${localstatedir}/run"
 S["localstatedir"]="${prefix}/var"
 S["sharedstatedir"]="${prefix}/com"
 S["sysconfdir"]="${prefix}/etc"
