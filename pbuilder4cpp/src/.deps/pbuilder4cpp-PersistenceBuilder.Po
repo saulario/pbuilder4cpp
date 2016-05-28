@@ -1082,7 +1082,7 @@ pbuilder4cpp-PersistenceBuilder.o: PersistenceBuilder.cpp \
  /usr/include/boost/property_tree/detail/xml_parser_error.hpp \
  /usr/include/boost/property_tree/detail/file_parser_error.hpp \
  /usr/include/boost/property_tree/detail/xml_parser_writer_settings.hpp \
- /usr/include/c++/5/iomanip \
+ /usr/include/c++/5/iomanip /usr/include/c++/5/bits/quoted_string.h \
  /usr/include/boost/property_tree/detail/xml_parser_flags.hpp \
  /usr/include/boost/property_tree/detail/xml_parser_read_rapidxml.hpp \
  /usr/include/boost/property_tree/detail/rapidxml.hpp \
@@ -3535,6 +3535,8 @@ pbuilder4cpp-PersistenceBuilder.o: PersistenceBuilder.cpp \
 /usr/include/boost/property_tree/detail/xml_parser_writer_settings.hpp:
 
 /usr/include/c++/5/iomanip:
+
+/usr/include/c++/5/bits/quoted_string.h:
 
 /usr/include/boost/property_tree/detail/xml_parser_flags.hpp:
 
