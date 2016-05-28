@@ -92,7 +92,7 @@ void MysqlAnalyzer::notify(void) {
                 " AND KCU.TABLE_NAME = COL.TABLE_NAME "
                 " AND KCU.COLUMN_NAME = COL.COLUMN_NAME "
                 " ORDER BY KCU.ORDINAL_POSITION").
-                setString("schema", pbuilder->unit.name).
+                setString("schema", pbuilder->unit.database).
                 setString("table", table.name).
                 setString("name", "PRIMARY").
                 select()
