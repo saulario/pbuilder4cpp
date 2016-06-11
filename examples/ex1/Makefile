@@ -205,7 +205,7 @@ AM_DEFAULT_VERBOSITY = 1
 AUTOCONF = ${SHELL} /home/saulario/src/pbuilder4cpp/examples/ex1/missing autoconf
 AUTOHEADER = ${SHELL} /home/saulario/src/pbuilder4cpp/examples/ex1/missing autoheader
 AUTOMAKE = ${SHELL} /home/saulario/src/pbuilder4cpp/examples/ex1/missing automake-1.15
-AWK = mawk
+AWK = gawk
 CC = gcc
 CCDEPMODE = depmode=gcc3
 CFLAGS = -g -O2
