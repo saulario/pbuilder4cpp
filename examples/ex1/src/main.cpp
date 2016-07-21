@@ -114,8 +114,19 @@ void postgresql(void) {
     con.close();
 }
 
+/**
+ * You must be placed in src directory or set the correct path
+ */
+void sqlite(void) {
+    tntdb::Connection con = tntdb::connect("sqlite:../data/ex1.sqlite");
+    typeDefinition(con);
+    workingWithRows(con);
+    con.close();
+}
+
 int main(int argc, char ** argv) {
     mysql();
     postgresql();
+    sqlite();
     return EXIT_SUCCESS;
 }
