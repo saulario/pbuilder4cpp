@@ -8,3 +8,10 @@
 
 #
 *.log
+examples/ex2/ConsoleApplication1/.vs/ConsoleApplication1/v15/
+examples/ex2/ConsoleApplication1/ConsoleApplication1/Debug/
+examples/ex2/ConsoleApplication1/ConsoleApplication1/x64/
+examples/ex2/ConsoleApplication1/Debug/
+examples/ex2/ConsoleApplication1/testpu/Debug/
+examples/ex2/ConsoleApplication1/testpu/x64/
+examples/ex2/ConsoleApplication1/x64/
