@@ -16,7 +16,6 @@ int main(int argc, char **argv)
 	PGconn * con = NULL;
 
 	try {
-		//con = PQconnectdb("postgresql://postgres:SureStore@localhost/test");
 		con = PQconnectdb("postgresql://myrole:myrole123@localhost/mytest?client_encoding=WIN1252");
 		ConnStatusType status = PQstatus(con);
 		if (status != CONNECTION_OK) {
@@ -24,6 +23,25 @@ int main(int argc, char **argv)
 		}
 
 		auto cli = CliDAO::read(con, 1);
+		if (cli) {
+			std::cerr
+				<< cli->clicod << " "
+				<< (*cli->cliraz).c_str() << " "
+				<< *cli->cli_smallint << " "
+				<< *cli->cli_integer << " "
+				<< *cli->cli_bigint << " "
+				<< *cli->cli_numeric << " "
+				<< *cli->cli_numeric_134 << " "
+				<< *cli->cli_real << " "
+				<< *cli->cli_double << " "
+				<< std::endl;
+
+
+
+			std::cerr << "aqui estoy" << std::endl;
+
+		}
+
 
 
 
@@ -31,6 +49,9 @@ int main(int argc, char **argv)
 	catch (ConnStatusType t) {
 		std::cerr << "Error abriendo base de datos " << t << std::endl;
 	}
+
+
+
 
 	PQfinish(con);
 	return EXIT_SUCCESS;

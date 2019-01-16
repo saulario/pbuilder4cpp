@@ -2,11 +2,5 @@
 
 using namespace test::entity;
 
-Test::Test() {
 
-}
-
-Test::~Test() {
-
-}
 

@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ConsoleApplication1", "Cons
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testpu", "testpu\testpu.vcxproj", "{3608FD6B-1A6F-4B02-899D-4CC081739306}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Pruebas", "Pruebas\Pruebas.vcxproj", "{489A3942-2673-444F-B22C-E2D4B2479456}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -31,6 +33,14 @@ Global
 		{3608FD6B-1A6F-4B02-899D-4CC081739306}.Release|x64.Build.0 = Release|x64
 		{3608FD6B-1A6F-4B02-899D-4CC081739306}.Release|x86.ActiveCfg = Release|Win32
 		{3608FD6B-1A6F-4B02-899D-4CC081739306}.Release|x86.Build.0 = Release|Win32
+		{489A3942-2673-444F-B22C-E2D4B2479456}.Debug|x64.ActiveCfg = Debug|x64
+		{489A3942-2673-444F-B22C-E2D4B2479456}.Debug|x64.Build.0 = Debug|x64
+		{489A3942-2673-444F-B22C-E2D4B2479456}.Debug|x86.ActiveCfg = Debug|Win32
+		{489A3942-2673-444F-B22C-E2D4B2479456}.Debug|x86.Build.0 = Debug|Win32
+		{489A3942-2673-444F-B22C-E2D4B2479456}.Release|x64.ActiveCfg = Release|x64
+		{489A3942-2673-444F-B22C-E2D4B2479456}.Release|x64.Build.0 = Release|x64
+		{489A3942-2673-444F-B22C-E2D4B2479456}.Release|x86.ActiveCfg = Release|Win32
+		{489A3942-2673-444F-B22C-E2D4B2479456}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
