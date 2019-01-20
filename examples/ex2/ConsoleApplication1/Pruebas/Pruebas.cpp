@@ -118,19 +118,24 @@ void test4(PGconn *con) {
 
 void test51(PGconn *con, int pclicod, std::shared_ptr<std::string> pcliraz) {
 
-
-	int index = 0;
-	const char *pv[2] = { NULL, NULL };
-
 	auto clicod = to_param(pclicod);
 	auto cliraz = to_param(pcliraz);
 
-	pv[index++] = clicod.c_str();
-	pv[index++] = cliraz.c_str();
+	int index = 0;
+	const char **pv = (const char **)malloc(sizeof(char *) * 2);
+	pv[0] = clicod.c_str();
+	pv[1] = cliraz.c_str();
 
+	std::cerr << "0: " << pv[0] << std::endl;
+	std::cerr << "1: " << pv[1] << std::endl;
 
+	std::string query = "select * from cli where clicod = $1 or cliraz like $2";
+	PGresult *res = PQexecParams(con, query.c_str(), 2, NULL, pv, NULL, NULL, 0);
 
-	std::cerr << index << std::endl;
+	std::cerr << "Filas: " << PQntuples(res) << std::endl;
+
+	free(pv);
+	PQclear(res);
 }
 
 void test5(PGconn *con) {
@@ -140,9 +145,9 @@ void test5(PGconn *con) {
 	std::shared_ptr<std::string> cliraz = std::make_shared<std::string>("ESTE NO ES NULO");
 	test51(con, clicod, cliraz);
 
-	clicod = 3;
-	cliraz.reset();
-	test51(con, clicod, cliraz);
+	//clicod = 3;
+	//cliraz.reset();
+	//test51(con, clicod, cliraz);
 }
 
 int main(int argc, char **argv) {
@@ -161,7 +166,6 @@ int main(int argc, char **argv) {
 		//test3(con);
 		//test4(con);
 		test5(con);
-
 
 
 

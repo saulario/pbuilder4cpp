@@ -9,6 +9,8 @@
 namespace test {
 	namespace dao {
 
+		bool is_error(PGresult *);
+
 		class Parameter {
 		public:
 
@@ -37,7 +39,7 @@ namespace test {
 		public:
 			static test::entity::Cli_ptr insert(PGconn *, test::entity::Cli_ptr);
 			static test::entity::Cli_ptr read(PGconn *, int);
-			static int remove(PGconn *, test::entity::Cli_ptr);
+			static void remove(PGconn *, int);
 			static test::entity::Cli_ptr update(PGconn *, test::entity::Cli_ptr);
 
 		private:

@@ -8,6 +8,11 @@
 
 using namespace test::dao;
 
+bool test::dao::is_error(PGresult * result) {
+	ExecStatusType status = PQresultStatus(result);
+	return (status != PGRES_COMMAND_OK && status != PGRES_TUPLES_OK);
+}
+
 template <typename P> Parameter test::dao::to_param(P p) {
 	std::stringstream ss;
 	ss << p;
@@ -25,12 +30,11 @@ template <typename P> Parameter test::dao::to_param(std::shared_ptr<P> p) {
 
 const char * CliDAO::insert_query = "insert into cli values (clicod, cliraz, cli_smallint, cli_integer, cli_bigint, cli_numeric, cli_numeric_134, cli_real, cli_double, cli_timestamp1, cli_timestamp2, cli_date, cli_time1, cli_time2, cli_interval, cli_boolean, cli_char100, cli_text, cli_point, cli_line, cli_lseg, cli_box, cli_path, cli_polygon, cli_circle, cli_cidr, cli_inet, cli_macaddr, cli_macaddr8, cli_bit10, cli_bitv10, cli_uuid, cli_xml, cli_json, cli_jsonb)";
 const char * CliDAO::read_query = "select clicod, cliraz, cli_smallint, cli_integer, cli_bigint, cli_numeric, cli_numeric_134, cli_real, cli_double, cli_timestamp1, cli_timestamp2, cli_date, cli_time1, cli_time2, cli_interval, cli_boolean, cli_char100, cli_text, cli_point, cli_line, cli_lseg, cli_box, cli_path, cli_polygon, cli_circle, cli_cidr, cli_inet, cli_macaddr, cli_macaddr8, cli_bit10, cli_bitv10, cli_uuid, cli_xml, cli_json, cli_jsonb from cli where clicod = $1";
-const char * CliDAO::remove_query = "delete from cli where clicod = $1:int";
+const char * CliDAO::remove_query = "delete from cli where clicod = $1::int";
 //const char * CliDAO::update_query = "update cli set clicod, cliraz, cli_smallint, cli_integer, cli_bigint, cli_numeric, cli_numeric_134, cli_real, cli_double, cli_timestamp1, cli_timestamp2, cli_date, cli_time1, cli_time2, cli_interval, cli_boolean, cli_char100, cli_text, cli_point, cli_line, cli_lseg, cli_box, cli_path, cli_polygon, cli_circle, cli_cidr, cli_inet, cli_macaddr, cli_macaddr8, cli_bit10, cli_bitv10, cli_uuid, cli_xml, cli_json, cli_jsonb where clicod = $1";
 const char * CliDAO::update_query = "update cli set clicod = $1, cliraz = $2 where clicod = $3";
 
 test::entity::Cli_ptr CliDAO::insert(PGconn *con, test::entity::Cli_ptr cli) {
-
 	return cli;
 }
 
@@ -38,15 +42,14 @@ test::entity::Cli_ptr CliDAO::read(PGconn * con, int clicod)
 {
 	test::entity::Cli_ptr retval;
 
-	Oid *pt = NULL;
 	const char *pv[1];
-	int *pl = NULL;
-	int pf[1] = { 0 };
-
 	auto p1 = to_param(clicod);
 	pv[0] = p1.c_str();
 
-	PGresult * result = PQexecParams(con, read_query, 1, pt, pv, pl, pf, 0);
+	PGresult * result = PQexecParams(con, read_query, 1, NULL, pv, NULL, NULL, 0);
+	if (is_error(result)) {
+		throw std::runtime_error(PQresultErrorMessage(result));
+	}
 	if (PQntuples(result)) {
 		retval = load_columns(result);
 	}
@@ -55,10 +58,18 @@ test::entity::Cli_ptr CliDAO::read(PGconn * con, int clicod)
 	return retval;
 }
 
-int CliDAO::remove(PGconn *con, test::entity::Cli_ptr cli) {
-	int result = 0;
+void CliDAO::remove(PGconn *con, int clicod) {
 
-	return result;
+	const char *pv[1];
+	auto p1 = to_param(clicod);
+	pv[0] = p1.c_str();
+
+	PGresult * result = PQexecParams(con, remove_query, 1, NULL, pv, NULL, NULL, 0);
+	if (is_error(result)) {
+		throw std::runtime_error(PQresultErrorMessage(result));
+	}
+
+	PQclear(result);
 }
 
 test::entity::Cli_ptr CliDAO::update(PGconn *con, test::entity::Cli_ptr cli) {

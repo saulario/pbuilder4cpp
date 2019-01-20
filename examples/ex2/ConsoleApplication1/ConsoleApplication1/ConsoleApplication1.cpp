@@ -2,6 +2,7 @@
 
 //#include "pch.h"
 #include <cstdlib>
+#include <exception>
 #include <iostream>
 #include <memory>
 
@@ -40,6 +41,8 @@ int main(int argc, char **argv)
 
 			std::cerr << "aqui estoy" << std::endl;
 
+			test::dao::CliDAO::remove(con, 2);
+
 		}
 
 
@@ -48,6 +51,9 @@ int main(int argc, char **argv)
 	}
 	catch (ConnStatusType t) {
 		std::cerr << "Error abriendo base de datos " << t << std::endl;
+	}
+	catch (std::exception e) {
+		std::cerr << e.what() << std::endl;
 	}
 
 
