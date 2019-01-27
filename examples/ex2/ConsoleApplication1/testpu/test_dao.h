@@ -1,6 +1,7 @@
 #ifndef TEST_DAO_H
 #define TEST_DAO_H
 
+#include <list>
 #include <memory>
 
 #include "libpq-fe.h"
@@ -32,6 +33,10 @@ namespace test {
 			std::string buffer;
 		};
 
+		typedef std::list<Parameter> Param_list;
+		char **to_param_values(const Param_list &);
+		void free_param_values(char **, size_t);
+
 		template <typename P> Parameter to_param(P p);
 		template <typename P> Parameter to_param(std::shared_ptr<P> p);
 
@@ -39,11 +44,12 @@ namespace test {
 		public:
 			static test::entity::Cli_ptr insert(PGconn *, test::entity::Cli_ptr);
 			static test::entity::Cli_ptr read(PGconn *, int);
-			static void remove(PGconn *, int);
+			static test::entity::Cli_list query(PGconn *, const std::string &, const Param_list &);
+			static int remove(PGconn *, int);
 			static test::entity::Cli_ptr update(PGconn *, test::entity::Cli_ptr);
 
 		private:
-			static test::entity::Cli_ptr load_columns(PGresult *);
+			static test::entity::Cli_ptr load_columns(PGresult *, int = 0);
 			static const char * insert_query;
 			static const char * read_query;
 			static const char * remove_query;
