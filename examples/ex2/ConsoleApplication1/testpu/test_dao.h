@@ -46,10 +46,11 @@ namespace test {
 			static test::entity::Cli_ptr read(PGconn *, int);
 			static test::entity::Cli_list query(PGconn *, const std::string &, const Param_list &);
 			static int remove(PGconn *, int);
-			static test::entity::Cli_ptr update(PGconn *, test::entity::Cli_ptr);
+			static int update(PGconn *, test::entity::Cli_ptr);
 
 		private:
 			static test::entity::Cli_ptr load_columns(PGresult *, int = 0);
+			static Param_list to_param_list(const test::entity::Cli_ptr &);
 			static const char * insert_query;
 			static const char * read_query;
 			static const char * remove_query;
