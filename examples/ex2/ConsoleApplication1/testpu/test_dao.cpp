@@ -175,8 +175,224 @@ test::entity::Cli_ptr CliDAO::load_columns(PGresult * result, int row_number) {
 		cli->cli_integer = std::make_shared<int>(std::atoi(PQgetvalue(result, row_number, index)));
 	}
 	index++;
+	if (PQgetisnull(result, row_number, index)) {
+		cli->cli_bigint.reset();
+	}
+	else {
+		cli->cli_bigint = std::make_shared<long>(std::atoi(PQgetvalue(result, row_number, index)));
+	}
+	index++;
+	if (PQgetisnull(result, row_number, index)) {
+		cli->cli_numeric.reset();
+	}
+	else {
+		cli->cli_numeric = std::make_shared<double>(std::atof(PQgetvalue(result, row_number, index)));
+	}
+	index++;
+	if (PQgetisnull(result, row_number, index)) {
+		cli->cli_numeric_134.reset();
+	}
+	else {
+		cli->cli_numeric_134 = std::make_shared<double>(std::atof(PQgetvalue(result, row_number, index)));
+	}
+	index++;
+	if (PQgetisnull(result, row_number, index)) {
+		cli->cli_real.reset();
+	}
+	else {
+		cli->cli_real= std::make_shared<double>(std::atof(PQgetvalue(result, row_number, index)));
+	}
+	index++;
+	if (PQgetisnull(result, row_number, index)) {
+		cli->cli_double.reset();
+	}
+	else {
+		cli->cli_double = std::make_shared<double>(std::atof(PQgetvalue(result, row_number, index)));
+	}
+	index++;
+	if (PQgetisnull(result, row_number, index)) {
+		cli->cli_timestamp1.reset();
+	}
+	else {
+		cli->cli_timestamp1 = std::make_shared<std::string>(PQgetvalue(result, row_number, index));
+	}
+	index++;
+	if (PQgetisnull(result, row_number, index)) {
+		cli->cli_timestamp2.reset();
+	}
+	else {
+		cli->cli_timestamp2 = std::make_shared<std::string>(PQgetvalue(result, row_number, index));
+	}
+	index++;
+	if (PQgetisnull(result, row_number, index)) {
+		cli->cli_date.reset();
+	}
+	else {
+		cli->cli_date = std::make_shared<std::string>(PQgetvalue(result, row_number, index));
+	}
+	index++;
+	if (PQgetisnull(result, row_number, index)) {
+		cli->cli_time1.reset();
+	}
+	else {
+		cli->cli_time1 = std::make_shared<std::string>(PQgetvalue(result, row_number, index));
+	}
+	index++;
+	if (PQgetisnull(result, row_number, index)) {
+		cli->cli_time2.reset();
+	}
+	else {
+		cli->cli_time2 = std::make_shared<std::string>(PQgetvalue(result, row_number, index));
+	}
+	index++;
 
-
+	if (PQgetisnull(result, row_number, index)) {
+		cli->cli_interval.reset();
+	}
+	else {
+		cli->cli_interval = std::make_shared<std::string>(PQgetvalue(result, row_number, index));
+	}
+	index++;
+	if (PQgetisnull(result, row_number, index)) {
+		cli->cli_boolean.reset();
+	}
+	else {
+		cli->cli_boolean = std::make_shared<std::string>(PQgetvalue(result, row_number, index));
+	}
+	index++;
+	if (PQgetisnull(result, row_number, index)) {
+		cli->cli_char100.reset();
+	}
+	else {
+		cli->cli_char100 = std::make_shared<std::string>(PQgetvalue(result, row_number, index));
+	}
+	index++;
+	if (PQgetisnull(result, row_number, index)) {
+		cli->cli_text.reset();
+	}
+	else {
+		cli->cli_text = std::make_shared<std::string>(PQgetvalue(result, row_number, index));
+	}
+	index++;
+	if (PQgetisnull(result, row_number, index)) {
+		cli->cli_point.reset();
+	}
+	else {
+		cli->cli_point = std::make_shared<std::string>(PQgetvalue(result, row_number, index));
+	}
+	index++;
+	if (PQgetisnull(result, row_number, index)) {
+		cli->cli_line.reset();
+	}
+	else {
+		cli->cli_line = std::make_shared<std::string>(PQgetvalue(result, row_number, index));
+	}
+	index++;
+	if (PQgetisnull(result, row_number, index)) {
+		cli->cli_lseg.reset();
+	}
+	else {
+		cli->cli_lseg = std::make_shared<std::string>(PQgetvalue(result, row_number, index));
+	}
+	index++;
+	if (PQgetisnull(result, row_number, index)) {
+		cli->cli_box.reset();
+	}
+	else {
+		cli->cli_box = std::make_shared<std::string>(PQgetvalue(result, row_number, index));
+	}
+	index++;
+	if (PQgetisnull(result, row_number, index)) {
+		cli->cli_path.reset();
+	}
+	else {
+		cli->cli_path = std::make_shared<std::string>(PQgetvalue(result, row_number, index));
+	}
+	index++;
+	if (PQgetisnull(result, row_number, index)) {
+		cli->cli_polygon.reset();
+	}
+	else {
+		cli->cli_polygon = std::make_shared<std::string>(PQgetvalue(result, row_number, index));
+	}
+	index++;
+	if (PQgetisnull(result, row_number, index)) {
+		cli->cli_circle.reset();
+	}
+	else {
+		cli->cli_circle = std::make_shared<std::string>(PQgetvalue(result, row_number, index));
+	}
+	index++;
+	if (PQgetisnull(result, row_number, index)) {
+		cli->cli_cidr.reset();
+	}
+	else {
+		cli->cli_cidr = std::make_shared<std::string>(PQgetvalue(result, row_number, index));
+	}
+	index++;
+	if (PQgetisnull(result, row_number, index)) {
+		cli->cli_inet.reset();
+	}
+	else {
+		cli->cli_inet = std::make_shared<std::string>(PQgetvalue(result, row_number, index));
+	}
+	index++;
+	if (PQgetisnull(result, row_number, index)) {
+		cli->cli_macaddr.reset();
+	}
+	else {
+		cli->cli_macaddr = std::make_shared<std::string>(PQgetvalue(result, row_number, index));
+	}
+	index++;
+	if (PQgetisnull(result, row_number, index)) {
+		cli->cli_macaddr8.reset();
+	}
+	else {
+		cli->cli_macaddr8 = std::make_shared<std::string>(PQgetvalue(result, row_number, index));
+	}
+	index++;
+	if (PQgetisnull(result, row_number, index)) {
+		cli->cli_bit10.reset();
+	}
+	else {
+		cli->cli_bit10 = std::make_shared<std::string>(PQgetvalue(result, row_number, index));
+	}
+	index++;
+	if (PQgetisnull(result, row_number, index)) {
+		cli->cli_bitv10.reset();
+	}
+	else {
+		cli->cli_bitv10 = std::make_shared<std::string>(PQgetvalue(result, row_number, index));
+	}
+	index++;
+	if (PQgetisnull(result, row_number, index)) {
+		cli->cli_uuid.reset();
+	}
+	else {
+		cli->cli_uuid = std::make_shared<std::string>(PQgetvalue(result, row_number, index));
+	}
+	index++;
+	if (PQgetisnull(result, row_number, index)) {
+		cli->cli_xml.reset();
+	}
+	else {
+		cli->cli_xml = std::make_shared<std::string>(PQgetvalue(result, row_number, index));
+	}
+	index++;
+	if (PQgetisnull(result, row_number, index)) {
+		cli->cli_json.reset();
+	}
+	else {
+		cli->cli_json = std::make_shared<std::string>(PQgetvalue(result, row_number, index));
+	}
+	index++;
+	if (PQgetisnull(result, row_number, index)) {
+		cli->cli_jsonb.reset();
+	}
+	else {
+		cli->cli_jsonb = std::make_shared<std::string>(PQgetvalue(result, row_number, index));
+	}
+	index++;
 	return cli;
 }
 

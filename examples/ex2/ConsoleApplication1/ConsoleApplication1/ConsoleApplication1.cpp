@@ -29,6 +29,40 @@ int main(int argc, char **argv)
 				<< cli->clicod << " "
 				<< (*cli->cliraz).c_str() << " "
 				<< *cli->cli_smallint << " "
+				<< *cli->cli_integer << " "
+				<< *cli->cli_bigint << " "
+				<< *cli->cli_numeric << " "
+				<< *cli->cli_numeric_134 << " "
+				<< *cli->cli_real << " "
+				<< *cli->cli_double << " "
+				<< (cli->cli_timestamp1 ? (*cli->cli_timestamp1).c_str() : " ") << " "
+				<< (cli->cli_timestamp2 ? (*cli->cli_timestamp2).c_str() : " ") << " "
+				<< (cli->cli_date ? (*cli->cli_date).c_str() : " ") << " "
+				<< (cli->cli_time1 ? (*cli->cli_time1).c_str() : " ") << " "
+				<< (cli->cli_time2 ? (*cli->cli_time2).c_str() : " ") << " "
+				<< (cli->cli_interval ? (*cli->cli_interval).c_str() : " ") << " "
+				<< (cli->cli_boolean ? (*cli->cli_boolean).c_str() : " ") << " "
+				<< (cli->cli_char100 ? (*cli->cli_char100).c_str() : " ") << " "
+				<< (cli->cli_text ? (*cli->cli_text).c_str() : " ") << " "
+				<< (cli->cli_point ? (*cli->cli_point).c_str() : " ") << " "
+				<< (cli->cli_line ? (*cli->cli_line).c_str() : " ") << " "
+				<< (cli->cli_boolean ? (*cli->cli_boolean).c_str() : " ") << " "
+				<< (cli->cli_lseg ? (*cli->cli_lseg).c_str() : " ") << " "
+				<< (cli->cli_box ? (*cli->cli_box).c_str() : " ") << " "
+				<< (cli->cli_path ? (*cli->cli_path).c_str() : " ") << " "
+				<< (cli->cli_polygon ? (*cli->cli_polygon).c_str() : " ") << " "
+				<< (cli->cli_circle ? (*cli->cli_circle).c_str() : " ") << " "
+				<< (cli->cli_cidr ? (*cli->cli_cidr).c_str() : " ") << " "
+				<< (cli->cli_inet ? (*cli->cli_inet).c_str() : " ") << " "	
+				<< (cli->cli_macaddr ? (*cli->cli_macaddr).c_str() : " ") << " "
+				<< (cli->cli_macaddr8 ? (*cli->cli_macaddr8).c_str() : " ") << " "
+				<< (cli->cli_boolean ? (*cli->cli_boolean).c_str() : " ") << " "
+				<< (cli->cli_bit10 ? (*cli->cli_bit10).c_str() : " ") << " "
+				<< (cli->cli_bitv10 ? (*cli->cli_bitv10).c_str() : " ") << " "
+				<< (cli->cli_uuid ? (*cli->cli_uuid).c_str() : " ") << " "
+				<< (cli->cli_xml ? (*cli->cli_xml).c_str() : " ") << " "
+				<< (cli->cli_json ? (*cli->cli_json).c_str() : " ") << " "
+				<< (cli->cli_jsonb ? (*cli->cli_jsonb).c_str() : " ") << " "
 				<< std::endl;
 
 			std::cerr << test::dao::CliDAO::remove(con, 2) << std::endl;
@@ -53,9 +87,18 @@ int main(int argc, char **argv)
 		test::dao::CliDAO::insert(con, cli1);
 		PQexec(con, "COMMIT");
 
-
+		PQexec(con, "BEGIN TRANSACTION");
 		cli1->cli_smallint = std::make_shared<short>(3);
 		test::dao::CliDAO::update(con, cli1);
+		PQexec(con, "COMMIT");
+
+		PQexec(con, "BEGIN TRANSACTION");
+		cli->clicod = 10;
+		test::dao::CliDAO::insert(con, cli);
+		PQexec(con, "COMMIT");
+
+		PQexec(con, "BEGIN TRANSACTION");
+		test::dao::CliDAO::remove(con, 10);
 		PQexec(con, "COMMIT");
 	}
 	catch (ConnStatusType t) {
