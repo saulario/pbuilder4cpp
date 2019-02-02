@@ -55,12 +55,40 @@ template <typename P> Parameter test::dao::to_param(std::shared_ptr<P> p) {
 	}
 }
 
-//const char * CliDAO::insert_query = "insert into cli values (clicod, cliraz, cli_smallint, cli_integer, cli_bigint, cli_numeric, cli_numeric_134, cli_real, cli_double, cli_timestamp1, cli_timestamp2, cli_date, cli_time1, cli_time2, cli_interval, cli_boolean, cli_char100, cli_text, cli_point, cli_line, cli_lseg, cli_box, cli_path, cli_polygon, cli_circle, cli_cidr, cli_inet, cli_macaddr, cli_macaddr8, cli_bit10, cli_bitv10, cli_uuid, cli_xml, cli_json, cli_jsonb)";
-const char * CliDAO::insert_query = "insert into cli(clicod, cliraz, cli_smallint, cli_integer) values($1, $2, $3, $4)";
-const char * CliDAO::read_query = "select clicod, cliraz, cli_smallint, cli_integer, cli_bigint, cli_numeric, cli_numeric_134, cli_real, cli_double, cli_timestamp1, cli_timestamp2, cli_date, cli_time1, cli_time2, cli_interval, cli_boolean, cli_char100, cli_text, cli_point, cli_line, cli_lseg, cli_box, cli_path, cli_polygon, cli_circle, cli_cidr, cli_inet, cli_macaddr, cli_macaddr8, cli_bit10, cli_bitv10, cli_uuid, cli_xml, cli_json, cli_jsonb from cli where clicod = $1";
+const char * CliDAO::insert_query = "insert into cli("
+	" clicod, cliraz, cli_smallint, cli_integer, cli_bigint "
+	", cli_numeric, cli_numeric_134, cli_real, cli_double, cli_timestamp1 "
+	", cli_timestamp2, cli_date, cli_time1, cli_time2, cli_interval "
+	", cli_boolean, cli_char100, cli_text, cli_point, cli_line"
+	", cli_lseg, cli_box, cli_path, cli_polygon, cli_circle"
+	", cli_cidr, cli_inet, cli_macaddr, cli_macaddr8, cli_bit10"
+	", cli_bitv10, cli_uuid, cli_xml, cli_json, cli_jsonb"
+	") values ("
+	" $1,$2,$3,$4,$5,$6,$7,$8,$9,$10"
+	",$11,$12,$13,$14,$15,$16,$17,$18,$19,$20"
+	",$21,$22,$23,$24,$25,$26,$27,$28,$29,$30"
+	",$31,$32,$33,$34,$35"
+	")";
+const char * CliDAO::read_query = "select "
+	" clicod, cliraz, cli_smallint, cli_integer, cli_bigint"
+	", cli_numeric, cli_numeric_134, cli_real, cli_double, cli_timestamp1"
+	", cli_timestamp2, cli_date, cli_time1, cli_time2, cli_interval"
+	", cli_boolean, cli_char100, cli_text, cli_point, cli_line"
+	", cli_lseg, cli_box, cli_path, cli_polygon, cli_circle"
+	", cli_cidr, cli_inet, cli_macaddr, cli_macaddr8, cli_bit10"
+	", cli_bitv10, cli_uuid, cli_xml, cli_json, cli_jsonb"
+	" from cli where "
+	" clicod = $1";
 const char * CliDAO::remove_query = "delete from cli where clicod = $1";
-//const char * CliDAO::update_query = "update cli set clicod, cliraz, cli_smallint, cli_integer, cli_bigint, cli_numeric, cli_numeric_134, cli_real, cli_double, cli_timestamp1, cli_timestamp2, cli_date, cli_time1, cli_time2, cli_interval, cli_boolean, cli_char100, cli_text, cli_point, cli_line, cli_lseg, cli_box, cli_path, cli_polygon, cli_circle, cli_cidr, cli_inet, cli_macaddr, cli_macaddr8, cli_bit10, cli_bitv10, cli_uuid, cli_xml, cli_json, cli_jsonb where clicod = $1";
-const char * CliDAO::update_query = "update cli set clicod = $1, cliraz = $2, cli_smallint = $3, cli_integer = $4 where clicod = $5";
+const char * CliDAO::update_query = "update cli set "
+	" clicod=$1, cliraz=$2, cli_smallint=$3, cli_integer=$4, cli_bigint=$5 "
+	", cli_numeric=$6, cli_numeric_134=$7, cli_real=$8, cli_double=$9, cli_timestamp1=$10"
+	", cli_timestamp2=$11, cli_date=$12, cli_time1=$13, cli_time2=$14, cli_interval=$15 "
+	", cli_boolean=$16, cli_char100=$17, cli_text=$18, cli_point=$19, cli_line=$20 "
+	", cli_lseg=$21, cli_box=$22, cli_path=$23, cli_polygon=$24, cli_circle=$25 "
+	", cli_cidr=$26, cli_inet=$27, cli_macaddr=$28, cli_macaddr8=$29, cli_bit10=$30 "
+	", cli_bitv10=$31, cli_uuid=$32, cli_xml=$33, cli_json=$34, cli_jsonb=$35 "
+	" where clicod = $36";
 
 test::entity::Cli_ptr CliDAO::insert(PGconn *con, test::entity::Cli_ptr cli) {
 	Param_list pl = to_param_list (cli);
@@ -402,20 +430,36 @@ Param_list CliDAO::to_param_list(const test::entity::Cli_ptr & cli) {
 	pl.push_back(to_param(cli->cliraz));
 	pl.push_back(to_param(cli->cli_smallint));
 	pl.push_back(to_param(cli->cli_integer));
+	pl.push_back(to_param(cli->cli_bigint));
+	pl.push_back(to_param(cli->cli_numeric));
+	pl.push_back(to_param(cli->cli_numeric_134));
+	pl.push_back(to_param(cli->cli_real));
+	pl.push_back(to_param(cli->cli_double));
+	pl.push_back(to_param(cli->cli_timestamp1));
+	pl.push_back(to_param(cli->cli_timestamp2));
+	pl.push_back(to_param(cli->cli_date));
+	pl.push_back(to_param(cli->cli_time1));
+	pl.push_back(to_param(cli->cli_time2));
+	pl.push_back(to_param(cli->cli_interval));
+	pl.push_back(to_param(cli->cli_boolean));
+	pl.push_back(to_param(cli->cli_char100));
+	pl.push_back(to_param(cli->cli_text));
+	pl.push_back(to_param(cli->cli_point));
+	pl.push_back(to_param(cli->cli_line));
+	pl.push_back(to_param(cli->cli_lseg));
+	pl.push_back(to_param(cli->cli_box));
+	pl.push_back(to_param(cli->cli_path));
+	pl.push_back(to_param(cli->cli_polygon));
+	pl.push_back(to_param(cli->cli_circle));
+	pl.push_back(to_param(cli->cli_cidr));
+	pl.push_back(to_param(cli->cli_inet));
+	pl.push_back(to_param(cli->cli_macaddr));
+	pl.push_back(to_param(cli->cli_macaddr8));
+	pl.push_back(to_param(cli->cli_bit10));
+	pl.push_back(to_param(cli->cli_bitv10));
+	pl.push_back(to_param(cli->cli_uuid));
+	pl.push_back(to_param(cli->cli_xml));
+	pl.push_back(to_param(cli->cli_json));
+	pl.push_back(to_param(cli->cli_jsonb));
 	return pl;
 }
-
-//test::entity::Cli_ptr CliDAO::load_columns(PGresult * result) {
-//	test::entity::Cli_ptr cli = std::make_unique<test::entity::Cli>();
-//	int index = 0;
-//	cli->clicod = std::atoi(PQgetvalue(result, 0, index++));
-//	cli->cliraz = PQgetisnull(result, 0, index) ? NULL : std::make_unique<std::string>(std::string(PQgetvalue(result, 0, index++)));
-//	cli->cli_smallint = PQgetisnull(result, 0, index) ? NULL : std::make_unique<short>(std::atoi(PQgetvalue(result, 0, index++)));
-//	cli->cli_integer = PQgetisnull(result, 0, index) ? NULL : std::make_unique<int>(std::atoi(PQgetvalue(result, 0, index++)));
-//	cli->cli_bigint = PQgetisnull(result, 0, index) ? NULL : std::make_unique<long>(std::atol(PQgetvalue(result, 0, index++)));
-//	cli->cli_numeric = PQgetisnull(result, 0, index) ? NULL : std::make_unique<double>(std::atof(PQgetvalue(result, 0, index++)));
-//	cli->cli_numeric_134 = PQgetisnull(result, 0, index) ? NULL : std::make_unique<double>(std::atof(PQgetvalue(result, 0, index++)));
-//	cli->cli_real = PQgetisnull(result, 0, index) ? NULL : std::make_unique<double>(std::atof(PQgetvalue(result, 0, index++)));
-//	cli->cli_double = PQgetisnull(result, 0, index) ? NULL : std::make_unique<double>(std::atof(PQgetvalue(result, 0, index++)));
-//	return cli;
-//}

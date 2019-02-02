@@ -8,8 +8,6 @@
 #include <test_dao.h>
 #include <test_entity.h>
 
-//using namespace test::dao;
-
 int main(int argc, char **argv)
 {
 	PGconn * con = NULL;
