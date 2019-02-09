@@ -1,5 +1,7 @@
+#include <cstdio>
 #include <cstdlib>
 #include <iostream>
+#include <sstream>
 
 #include "libpq-fe.h"
 

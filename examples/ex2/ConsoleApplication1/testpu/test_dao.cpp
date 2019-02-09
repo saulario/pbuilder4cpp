@@ -2,6 +2,7 @@
 #include <iostream>
 #include <memory>
 #include <sstream>
+#include <string>
 
 #include "libpq-fe.h"
 #include "test_dao.h"
@@ -40,11 +41,13 @@ void test::dao::free_param_values(char **param_values, size_t size) {
 
 template <typename P> Parameter test::dao::to_param(P p) {
 	std::stringstream ss;
+	ss.setf(std::ios::fixed, std::ios::floatfield);
+	ss.precision(10);
 	ss << p;
 	return Parameter(ss.str());
 }
 
-template Parameter test::dao::to_param(char const *);
+template Parameter test::dao::to_param(const char * s);
 
 template <typename P> Parameter test::dao::to_param(std::shared_ptr<P> p) {
 	if (p) {
@@ -73,7 +76,7 @@ const char * CliDAO::read_query = "select "
 	" clicod, cliraz, cli_smallint, cli_integer, cli_bigint"
 	", cli_numeric, cli_numeric_134, cli_real, cli_double, cli_timestamp1"
 	", cli_timestamp2, cli_date, cli_time1, cli_time2, cli_interval"
-	", cli_boolean, cli_char100, cli_text, cli_point, cli_line"
+	", cli_boolean::integer, cli_char100, cli_text, cli_point, cli_line"
 	", cli_lseg, cli_box, cli_path, cli_polygon, cli_circle"
 	", cli_cidr, cli_inet, cli_macaddr, cli_macaddr8, cli_bit10"
 	", cli_bitv10, cli_uuid, cli_xml, cli_json, cli_jsonb"
@@ -181,7 +184,7 @@ int CliDAO::update(PGconn *con, test::entity::Cli_ptr cli) {
 test::entity::Cli_ptr CliDAO::load_columns(PGresult * result, int row_number) {
 	test::entity::Cli_ptr cli = std::make_shared<test::entity::Cli>();
 	int index = 0;
-	cli->clicod = std::atoi(PQgetvalue(result, row_number, index++));
+	cli->clicod = atoi(PQgetvalue(result, row_number, index++));
 	if (PQgetisnull(result, row_number, index)) {
 		cli->cliraz.reset();
 	}
@@ -193,49 +196,49 @@ test::entity::Cli_ptr CliDAO::load_columns(PGresult * result, int row_number) {
 		cli->cli_smallint.reset();
 	}
 	else {
-		cli->cli_smallint = std::make_shared<short>(std::atoi(PQgetvalue(result, row_number, index)));
+		cli->cli_smallint = std::make_shared<short>(atoi(PQgetvalue(result, row_number, index)));
 	}
 	index++;
 	if (PQgetisnull(result, row_number, index)) {
 		cli->cli_integer.reset();
 	}
 	else {
-		cli->cli_integer = std::make_shared<int>(std::atoi(PQgetvalue(result, row_number, index)));
+		cli->cli_integer = std::make_shared<int>(atoi(PQgetvalue(result, row_number, index)));
 	}
 	index++;
 	if (PQgetisnull(result, row_number, index)) {
 		cli->cli_bigint.reset();
 	}
 	else {
-		cli->cli_bigint = std::make_shared<long>(std::atoi(PQgetvalue(result, row_number, index)));
+		cli->cli_bigint = std::make_shared<long>(strtol(PQgetvalue(result, row_number, index), NULL, 10));
 	}
 	index++;
 	if (PQgetisnull(result, row_number, index)) {
 		cli->cli_numeric.reset();
 	}
 	else {
-		cli->cli_numeric = std::make_shared<double>(std::atof(PQgetvalue(result, row_number, index)));
+		cli->cli_numeric = std::make_shared<double>(strtod(PQgetvalue(result, row_number, index), NULL));
 	}
 	index++;
 	if (PQgetisnull(result, row_number, index)) {
 		cli->cli_numeric_134.reset();
 	}
 	else {
-		cli->cli_numeric_134 = std::make_shared<double>(std::atof(PQgetvalue(result, row_number, index)));
+		cli->cli_numeric_134 = std::make_shared<double>(strtod(PQgetvalue(result, row_number, index), NULL));
 	}
 	index++;
 	if (PQgetisnull(result, row_number, index)) {
 		cli->cli_real.reset();
 	}
 	else {
-		cli->cli_real= std::make_shared<double>(std::atof(PQgetvalue(result, row_number, index)));
+		cli->cli_real= std::make_shared<double>(strtod(PQgetvalue(result, row_number, index), NULL));
 	}
 	index++;
 	if (PQgetisnull(result, row_number, index)) {
 		cli->cli_double.reset();
 	}
 	else {
-		cli->cli_double = std::make_shared<double>(std::atof(PQgetvalue(result, row_number, index)));
+		cli->cli_double = std::make_shared<double>(strtod(PQgetvalue(result, row_number, index), NULL));
 	}
 	index++;
 	if (PQgetisnull(result, row_number, index)) {
@@ -285,7 +288,7 @@ test::entity::Cli_ptr CliDAO::load_columns(PGresult * result, int row_number) {
 		cli->cli_boolean.reset();
 	}
 	else {
-		cli->cli_boolean = std::make_shared<std::string>(PQgetvalue(result, row_number, index));
+		cli->cli_boolean = std::make_shared<bool>(atoi(PQgetvalue(result, row_number, index)));
 	}
 	index++;
 	if (PQgetisnull(result, row_number, index)) {

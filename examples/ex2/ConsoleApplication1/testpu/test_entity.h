@@ -24,7 +24,7 @@ namespace test {
 			std::shared_ptr<std::string> cli_time1;
 			std::shared_ptr<std::string> cli_time2;
 			std::shared_ptr<std::string> cli_interval;
-			std::shared_ptr<std::string> cli_boolean;
+			std::shared_ptr<bool> cli_boolean;
 			std::shared_ptr<std::string> cli_char100;
 			std::shared_ptr<std::string> cli_text;
 			std::shared_ptr<std::string> cli_point;
